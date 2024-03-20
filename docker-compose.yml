@@ -11,6 +11,7 @@ services:
       - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+      - ./esportsfantasy/esportsfantasydb/data:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: <pass>
       MYSQL_DATABASE: eSportsFantasyDB
@@ -48,12 +49,21 @@ services:
       esportsfantasy:
         ipv4_address: 10.10.10.4
 
+  db_init:
+    image: esportsfantasydb
+    container_name: db_init
+    volumes:
+      - ./esportsfantasy/esportsfantasydb/creationdbScript.sql:/docker-entrypoint-initdb.d/init.sql
+    depends_on:
+      - esportsfantasydb
+    command: ["sh", "-c", "sleep 10 && mysql -h esportsfantasydb -u root -p<pass> < /docker-entrypoint-initdb.d/init.sql"]
+
 networks:
   esportsfantasy:
     driver: bridge
     ipam:
       config:
         - subnet: 10.10.10.0/24
-    
+
 volumes:
   mariadb_data:
