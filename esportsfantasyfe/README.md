@@ -1,33 +1,27 @@
+# Esportsfantasyfe
 
-# eSportsFantasy Frontend
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
 
-eSportsFantasy is a web and mobile application that implements a "fantasy" style game model in the world of electronic sports.
+## Development server
 
-This is also my final degree project for the degree in Computer Engineering at the University of Granada.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-In this repository you can find the frontend system of the application.
+## Code scaffolding
 
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Deployment
+## Running unit tests
 
-To deploy this project, you can do it in two different ways
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### All containers in the same server
-//TODO
+## Running end-to-end tests
 
-### Each container separately
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-To deploy the frontend part of the project, clone the repository
+## Further help
 
-```bash
-  git clone https://github.com/RedRiotTank/esportsfantasyfe.git
-```
-
-create the docker image and run it:
-
-```bash
-docker build -t esportsfantasyfe .
-docker run -d --name be -p 80:4000 fe
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

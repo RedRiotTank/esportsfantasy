@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    margin: 0;
+}
+
+$mobilepx: 768px; //if change this, change it in utils.service too.
+
+.button {
+    
+ 
+ 
+}
+
+.esf-sbutton{
+  border-radius: 20px; 
+  line-height: 24px;
+  letter-spacing: .02em; 
+  border: none; 
+  position: relative; 
+  cursor: pointer; 
+  color: #000;
+  background: #EF996A;
+  padding: 2px 0.6em;
+  font-size: 14px; 
+
+}
+
+
+.esf-buttonhover{
+  background: #e55000;
+}
+
+.esf-ibutton{
+    border-radius: 20px; 
+    line-height: 24px;
+    letter-spacing: .02em; 
+    border: none; 
+    position: relative; 
+    cursor: pointer; 
+    color: #fff;
+    background: #FF5900;
+    padding: 10px 5em;
+    font-weight: bolder;
+    font-size: 16px; 
+  }
+
+  .esf-ibutton-followedH{
+    margin-left: 50px;
+  }
+
+  .esf-followedV{
+    margin-top: 15px;
+  }
+
+  .esf-buttonhover{
+    background: #e55000;
+  }

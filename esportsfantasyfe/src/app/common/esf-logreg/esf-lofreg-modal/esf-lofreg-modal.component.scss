@@ -1,0 +1,133 @@
+
+
+.modal-container{
+    display: flex;
+}
+
+.container1{
+    flex: 40%;
+    background-color: gray;
+}
+
+.logreg{
+    flex:60%;
+}
+
+//texto
+
+.logreg-text{
+    padding-top: 8%;
+    padding-bottom: 4%;
+}
+
+.title{
+    font-size: 5000%;
+}
+
+.logreg-text{
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.logreg-text h1 {
+    font-size: 300%;
+    font-weight: 800;
+  }
+  
+  // form
+
+.logreg-form input{
+    display: block;
+    background-color: #D2D5DB;
+    
+    border-radius: 4px;
+    
+    width: 70%;
+    margin: 0 auto;
+
+    margin-bottom: 4%;
+
+    padding-right: 20%;
+    padding-top: 4%;
+    color: black;
+    font-size: 190%;
+    font-weight: 100;
+    font-family: "Montserrat", sans-serif;
+
+   
+}
+
+.logreg-form input::placeholder{
+    color: black;
+}
+
+.logreg-form input::-moz-focus-outer{
+    outline: none;
+}
+
+
+
+.logreg-form-buttons {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    
+    .google-button{
+        padding-top: 3.5%;
+    }
+  }
+
+  .google-login{
+    padding: 12px 2em;
+    width: 45%;
+    border-radius: 15px;
+    background-color: white;
+    font-weight: bold;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    
+  }
+
+.google-login img {
+    width: 10%;
+     height: auto;
+  }
+
+
+.signup-text{
+    text-align: center;
+    font-size: 120%;
+    font-family: 'Open Sans', sans-serif;
+   
+}
+
+.signup-text span{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error-box p{
+    color: red;
+    text-align: center;
+}
+
+.error-input{
+    border: solid;
+    border-color: red;
+}
+
+.no-error-input{
+    border: none;
+}
+
+
+@import '../../../../styles.scss';
+
+@media(max-width: $mobilepx) {
+    .modal-container{
+        .container1{
+            display: none;
+        }
+    }
+}

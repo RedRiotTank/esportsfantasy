@@ -1,0 +1,112 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo{
+    max-width: 30rem;
+    padding-left: 3%;
+   
+  }
+
+  .ham{
+    display: none;
+  }
+
+  .navegation-menu{
+    display: flex;
+    align-items: center;
+    padding-top: 2.25%;
+    padding-right: 3%;
+
+    .ham-close{
+      display: none;
+    }
+
+    .nav-list{
+      display: flex;
+      list-style-type: none;
+      gap: 1rem;
+    }
+
+    
+  }
+
+}
+
+
+@import '../../../styles.scss';
+
+@media(max-width: $mobilepx) {
+
+  header{
+
+    padding-top: 2%;
+    padding-bottom: 2%;
+    
+    
+    .navegation-menu{
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .ham, .ham-close{
+      display: block;
+      border: 0;
+      background-color: transparent;
+      
+    }
+
+    .ham{
+      padding-right: 2%;
+    }
+
+    .ham-close{
+      color: whitesmoke;
+    }
+    
+  .navegation-menu.visible{
+    opacity: 1;
+    visibility: visible;
+  }
+  .navegation-menu{
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #1c1c1c;    //color x determinar
+    padding: 2rem;
+    bottom: 0;
+
+    box-shadow: 0 0 0 100vmax rgb(0, 0, 0, .5);
+
+    .ham-close{
+      display: block;
+    }
+
+    .nav-list{
+      flex-direction: column;
+      align-items: center;
+      padding-left: 0;
+      gap: 1rem;
+
+        li{
+          .esf-ibutton{
+            padding: 5px 2.5em;
+          }
+        }
+      
+    }
+  }
+
+
+  
+  
+  
+  }
+
+}

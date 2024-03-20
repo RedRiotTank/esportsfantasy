@@ -1,0 +1,25 @@
+<header>
+ 
+  <img class="logo" src="../../assets/logo.png" alt="Logo"> 
+
+  <button class="ham" (click)="toggleHam()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+  </svg></button>
+
+  <nav class="navegation-menu" [ngClass]="{'visible': openHam}">
+    <button class="ham-close" (click)="toggleHam()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg></button>
+
+    <ul class="nav-list">
+      <li> <button class="esf-sbutton">HOME</button></li>
+      <li> <button class="esf-sbutton">MATCHS</button></li>
+      <li> <button class="esf-sbutton">MARKET</button></li>
+      <li> <button class="esf-sbutton">CONTACT</button></li>
+      <li><button class="esf-ibutton centeredV" (click)="openLoginModal()">LOGIN</button></li>
+    </ul>
+
+    
+  </nav>
+</header>
+ 

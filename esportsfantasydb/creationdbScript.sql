@@ -1,0 +1,7 @@
+CREATE TABLE `user` (
+    uuid BINARY(16) PRIMARY KEY,
+    mail VARCHAR(75) NOT NULL,
+    pass VARCHAR(255) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    admin BOOLEAN DEFAULT FALSE NOT NULL
+);
