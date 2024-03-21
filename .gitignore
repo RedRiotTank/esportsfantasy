@@ -1,5 +1,11 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+esportsfantasydb/data/*
+
+esportsfantasyfe/node_modules
+esportsfantasyfe/.angular
+esportsfantasyfe/dist
+
 # Compiled output
 /dist
 /tmp

@@ -2,51 +2,20 @@ version: '3.8'
 
 services:
   esportsfantasydb:
-    build:
-      context: ./esportsfantasydb
-      dockerfile: Dockerfile
-    image: esportsfantasydb
+    image: mariadb:11.2-rc-jammy
     container_name: esportsfantasydb
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - ./esportsfantasydb/data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: <pass>
-      MYSQL_DATABASE: eSportsFantasyDB
-      MYSQL_USER: eSportsFantasy
-      MYSQL_PASSWORD: <pass>
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: esportsfantasydb
+      MYSQL_USER: eadmin
+      MYSQL_PASSWORD: password
     networks:
       esportsfantasy:
         ipv4_address: 10.10.10.2
-
-  esportsfantasybe:
-    build:
-      context: ./esportsfantasybe
-      dockerfile: Dockerfile
-    image: esportsfantasybe
-    container_name: esportsfantasybe
-    ports:
-      - "8080:8080"
-    depends_on:
-      - esportsfantasydb
-    networks:
-      esportsfantasy:
-        ipv4_address: 10.10.10.3
-
-  esportsfantasyfe:
-    build:
-      context: ./esportsfantasyfe
-      dockerfile: Dockerfile
-    image: esportsfantasyfe
-    container_name: esportsfantasyfe
-    ports:
-      - "80:4000"
-    depends_on:
-      - esportsfantasybe
-    networks:
-      esportsfantasy:
-        ipv4_address: 10.10.10.4
 
 networks:
   esportsfantasy:
