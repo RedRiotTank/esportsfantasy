@@ -23,6 +23,6 @@ networks:
     ipam:
       config:
         - subnet: 10.10.10.0/24
-    
+
 volumes:
   mariadb_data:
