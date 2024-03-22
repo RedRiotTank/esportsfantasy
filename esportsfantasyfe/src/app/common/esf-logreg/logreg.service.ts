@@ -4,6 +4,13 @@ import { logregResponse } from '../API/logregResponse';
 import { Observable } from 'rxjs';
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
+/**
+ * This service is responsible for managing the login and register of the application.
+ * It provides the methods to login and register.
+ * It also provides the methods to validate the email and password.
+ * It also provides the methods to login with Google.
+ * @author Alberto Plaza Montes.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +26,12 @@ export class LogregService {
     ) { }
 
 
-
+  /**
+   * This method sends a login request to the server.
+   * @param mail user mail.
+   * @param pass user password.
+   * @returns Obeservable to subscribe.
+   */
   login(mail: string, pass: string) :Observable<logregResponse> {
 
     const data = {
@@ -31,6 +43,12 @@ export class LogregService {
 
   }
 
+  /**
+   * This method sends a register request to the server.
+   * @param mail mail of the user.
+   * @param pass password of the user.
+   * @returns observable to subscribe.
+   */
   register(mail: string, pass: string) :Observable<logregResponse> {
 
     const data = {
@@ -42,15 +60,30 @@ export class LogregService {
 
   }
 
+  /**
+   * This method sends a logout request to the server.
+   * @returns true if the mail is valid, false otherwise.
+   */
   validateMail(email: string): boolean {
     const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
 
+  /**
+   * This method 
+   * @param pass 
+   * @param passConfirm 
+   * @returns true if the password was correct, false otherwise.
+   */
   validatePasswordConfirmation(pass: string, passConfirm: string){
     return pass == passConfirm;
   }
 
+  /**
+   * This method validates the password.
+   * @param password the password to validate.
+   * @returns null if the password is correct, a string with the error otherwise.
+   */
   validatePassword(password: string): string | null {
     if (!/[A-Z]/.test(password)) {
       return "Password must contain at least one uppercase letter.";
@@ -77,6 +110,9 @@ export class LogregService {
 
   // ---- Social ----
 
+  /**
+   * This method initializes the social login.
+   */
   initSocial(){
     if(!this.social_started){
       this.socialAuthService.authState.subscribe((user) => {
@@ -89,6 +125,9 @@ export class LogregService {
     this.social_started = true;
   }
 
+  /**
+   * This method send a login request to the server with the social user.
+   */
   loginSocial(){
 
     console.log("social: ", this.social_user);

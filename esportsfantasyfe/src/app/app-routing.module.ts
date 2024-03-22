@@ -14,6 +14,10 @@ const routes: Routes = [
 
 ];
 
+/**
+ * This module is responsible for managing the application routes.
+ * @author Alberto Plaza Montes
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

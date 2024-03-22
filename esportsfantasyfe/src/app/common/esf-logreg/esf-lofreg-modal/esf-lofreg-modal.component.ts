@@ -6,6 +6,11 @@ import { Router } from '@angular/router';
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 
+/**
+ * This component is responsible for managing the login and register modal.
+ * It provides the methods to login and register.
+ * @author Alberto Plaza Montes.
+ */
 @Component({
   selector: 'app-esf-lofreg-modal',
   templateUrl: './esf-lofreg-modal.component.html',
@@ -36,18 +41,28 @@ export class EsfLofregModalComponent implements OnInit {
       this.logregService.initSocial();
   }
 
+  /**
+   * This method changes the modal type between login and register.
+   */
   changeModalType(){
     this.isRegister = !this.isRegister;
     this.cleanFormSelections();
     this.cleanFormInputs();
   }
 
+
+  /**
+   * This method cleans the form inputs.
+   */
   cleanFormInputs(){
     this.emailInput = '';
     this.passwordInput = '';
     this.passwordConfirmInput = '';
   }
 
+  /**
+   * This method cleans the form selections.
+   */
   cleanFormSelections(){
     this.errorMessage = ' ';
     this.unvalidEmail = false;
@@ -56,6 +71,9 @@ export class EsfLofregModalComponent implements OnInit {
     
   }
 
+  /**
+   * This method logs the user in or registers the user.
+   */
   logreg(){
     this.errorMessage = ' ';
     this.unvalidEmail = false;
