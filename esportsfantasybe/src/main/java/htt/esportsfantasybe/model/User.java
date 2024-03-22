@@ -10,21 +10,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.UUID;
 
-
+/**
+ * User model class. Links to the user table in the database.
+ * @author Alberto Plaza Montes
+ */
 @Setter
 @Getter
 @Entity
-/**
- * Breve descripción de la clase.
- *
- * Descripción más detallada de la clase, su propósito y funcionalidad.
- * Puedes incluir detalles como los campos de la clase, los métodos, etc.
- */
 public class User implements UserDetails {
 
-    /**
-     * Descripción del campo.
-     */
     @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.AUTO)
     private UUID uuid;
@@ -34,9 +28,16 @@ public class User implements UserDetails {
     private String username;
     private boolean admin;
 
+    /**
+     * Constructor for the User class.
+     */
     public User() {
 
     }
+    /**
+     * Constructor for the User class with a UserDTO object.
+     * @param newUserDTO UserDTO object with the information of the new user.
+     */
     public User(UserDTO newUserDTO){
         this.mail = newUserDTO.getMail();
         this.pass = newUserDTO.getPass();
@@ -45,6 +46,8 @@ public class User implements UserDetails {
 
     }
 
+
+    // TODO: check Userdetails overrides.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

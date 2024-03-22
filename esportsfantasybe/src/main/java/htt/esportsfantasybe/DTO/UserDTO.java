@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Data Transfer Object for User.
+ * @author Alberto Plaza Montes
+ */
 @Setter
 @Getter
 public class UserDTO {
@@ -14,7 +18,11 @@ public class UserDTO {
     private String username;
     private boolean admin;
 
-
+    /**
+     * Constructor for UserDTO.
+     * @param mail mail of the user.
+     * @param pass password of the user.
+     */
     public UserDTO(String mail, String pass) {
         this.mail = mail;
         this.pass = pass;
@@ -22,6 +30,10 @@ public class UserDTO {
         this.admin = false;
     }
 
+    /**
+     * Constructor for UserDTO.
+     * @param socialUserDTO socialUserDTO to convert to UserDTO.
+     */
     public UserDTO(SocialUserDTO socialUserDTO){
         this.mail = socialUserDTO.getMail();
         this.pass = null;

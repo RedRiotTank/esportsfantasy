@@ -11,7 +11,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+/**
+ * SecurityConfig for JWT authentication.
+ * @Author: Alberto Plaza Montes.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -20,6 +23,12 @@ public class SecurityConfig {
     private final JwtAutheticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * SecurityFilterChain configuration.
+     * @param http HttpSecurity object.
+     * @return SecurityFilterChain object.
+     * @throws Exception Exception.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

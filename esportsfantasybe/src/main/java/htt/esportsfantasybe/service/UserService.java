@@ -14,6 +14,11 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is a service class that handles the business logic of the User entity.
+ * It is used to interact with the User repository.
+ * @author Alberto Plaza Montes
+ */
 @Service
 public class UserService {
     @Autowired
@@ -21,6 +26,12 @@ public class UserService {
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    /**
+     * This method is used to sign up a new user.
+     * It validates the mail and password of the user.
+     * It also checks if the mail is already in use.
+     * @param newUserDTO The user to be signed up.
+     */
     public void signup(UserDTO newUserDTO){
 
         if(!validateMail(newUserDTO.getMail())){
@@ -43,6 +54,12 @@ public class UserService {
         userRepository.save(newUser);
     }
 
+    /**
+     * This method is used to log in a user.
+     * It checks if the user exists and if the password is correct.
+     * @param newUserDTO The user to be logged in.
+     * @return The JWT token of the user.
+     */
     public String login(UserDTO newUserDTO){
         String credentialMail = newUserDTO.getMail();
         String credentialPass = newUserDTO.getPass();
@@ -56,6 +73,14 @@ public class UserService {
         return JwtService.generateToken(newUserDTO);
     }
 
+    /**
+     * This method is used to log in a user with Google.
+     * It checks if the Google token is valid.
+     * If the user does not exist, it creates a new user.
+     * If the user exists and has a password, it throws an exception.
+     * @param newSocialUserDTO The user to be logged in.
+     * @return The JWT token of the user.
+     */
     public String googleLogin(SocialUserDTO newSocialUserDTO){
         String credentialMail = newSocialUserDTO.getMail();
         String credentialToken = newSocialUserDTO.getIdToken();
@@ -73,13 +98,22 @@ public class UserService {
         return JwtService.generateToken(newSocialUserDTO);
     }
 
+    /**
+     * This method generates a random username.
+     * @return The generated username.
+     */
     public static String generaetUsername() {
         Random random = new Random();
         String randNums = String.format("%04d", random.nextInt(10000));
-        String username = "username" + randNums;
-        return username;
+        return "username" + randNums;
+
     }
 
+    /**
+     * This method is used to validate the mail of a user.
+     * @param mail The mail to be validated.
+     * @return True if the mail is valid, false otherwise.
+     */
     public boolean validateMail(String mail){
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
@@ -88,10 +122,20 @@ public class UserService {
         return matcher.matches();
     }
 
+    /**
+     * This method is used to check if a mail is already in use.
+     * @param mail The mail to be checked.
+     * @return True if the mail is in use, false otherwise.
+     */
     public boolean inUseMail(String mail){
         return userRepository.existsUserByMail(mail);
     }
 
+    /**
+     * This method is used to validate the password of a user.
+     * @param pass The password to be validated.
+     * @return True if the password is valid, false otherwise.
+     */
     public static boolean validatePass(String pass){
         String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(passwordRegex);
