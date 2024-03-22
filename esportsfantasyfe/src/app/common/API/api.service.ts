@@ -13,7 +13,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   sendRequest(type: string, data: any): Observable<logregResponse> {
-    const url = this.api_url + 'user' + '/' + type;
+    const url = this.api_url + type;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<logregResponse>(url, data, { headers });

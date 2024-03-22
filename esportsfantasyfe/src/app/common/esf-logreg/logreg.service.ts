@@ -27,7 +27,7 @@ export class LogregService {
       pass: pass
     };
 
-    return this.api.sendRequest("login",data);
+    return this.api.sendRequest("user/login",data);
 
   }
 
@@ -38,7 +38,7 @@ export class LogregService {
       pass: pass
     };
 
-    return this.api.sendRequest("signup",data);
+    return this.api.sendRequest("user/signup",data);
 
   }
 
@@ -104,7 +104,7 @@ export class LogregService {
     
     console.log("sent");
     
-    this.api.sendRequest("googleLogin",data).subscribe(response =>{
+    this.api.sendRequest("user/googleLogin",data).subscribe(response =>{
 
     }, error =>{
 
