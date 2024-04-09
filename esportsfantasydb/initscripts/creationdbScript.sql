@@ -12,3 +12,20 @@ CREATE TABLE `realleague` (
     overviewpage VARCHAR(255) NOT NULL,
     game varchar(10) NOT NULL
 );
+
+CREATE TABLE `team` (
+    uuid BINARY(16) PRIMARY KEY,
+    name VARCHAR(75) NOT NULL,
+    image VARCHAR(100),
+    shortname VARCHAR(75) NOT NULL,
+    overviewpage VARCHAR(255),
+    game varchar(10) NOT NULL
+);
+
+CREATE TABLE `teamxrleague` (
+    teamuuid BINARY(16),
+    leagueuuid BINARY(16),
+    primary key (teamuuid,leagueuuid),
+    FOREIGN KEY (teamuuid) REFERENCES team(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES realleague(uuid)
+);

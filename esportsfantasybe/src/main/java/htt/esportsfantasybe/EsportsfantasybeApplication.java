@@ -1,11 +1,26 @@
 package htt.esportsfantasybe;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.DTO.TeamDTO;
+import htt.esportsfantasybe.model.Team;
+import htt.esportsfantasybe.model.complexentities.TeamXrLeague;
+import htt.esportsfantasybe.service.PlayerService;
 import htt.esportsfantasybe.service.RealLeagueService;
+import htt.esportsfantasybe.service.TeamService;
+import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
+import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import htt.esportsfantasybe.service.complexservices.TeamXrLeagueService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main class for the Spring Boot application.
@@ -16,10 +31,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class EsportsfantasybeApplication {
 
     private final RealLeagueService realLeagueService;
+    private final PlayerService playerService;
+    private final TeamService teamService;
+
+    private final TeamXrLeagueService teamXrLeagueService ;
+
+    CounterApiCaller counterApiCaller = new CounterApiCaller();
+    LolApiCaller lolApiCaller = new LolApiCaller();
 
     @Autowired
-    public EsportsfantasybeApplication(RealLeagueService realLeagueService) {
+    public EsportsfantasybeApplication(RealLeagueService realLeagueService, PlayerService playerService, TeamService teamService, TeamXrLeagueService teamXrLeagueService) {
         this.realLeagueService = realLeagueService;
+        this.playerService = playerService;
+        this.teamService = teamService;
+        this.teamXrLeagueService = teamXrLeagueService;
     }
 
     public static void main(String[] args) {
@@ -28,8 +53,21 @@ public class EsportsfantasybeApplication {
     }
 
     @PostConstruct
-    public void initialize() {
+    public void initialize() throws IOException {
         //realLeagueService.updateLeagues();
+
+        //teamService.updateTeams();
+
+        //List<TeamXrLeague> all=teamXrLeagueService.getall();
+
+        realLeagueService.getRLeaguesDB().forEach(league ->{
+            System.out.println(" ==== Liga: " + league.getEvent() + " ====");
+            List<TeamDTO> teams = teamService.getLeagueTeams(league.getUuid());
+            teams.forEach(team -> {
+                System.out.println("    " + team.getName());
+            });
+        });
+
     }
 }
 

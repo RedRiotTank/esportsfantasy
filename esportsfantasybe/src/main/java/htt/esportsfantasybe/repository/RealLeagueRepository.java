@@ -12,5 +12,7 @@ public interface RealLeagueRepository extends JpaRepository<RealLeague, UUID> {
 
     Optional<RealLeague> findByEvent(String event);
 
+    RealLeague findByEventAndOverviewpageAndGame(String event, String overviewpage, String game);
+
 
 }
