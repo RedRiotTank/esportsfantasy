@@ -8,7 +8,9 @@ import htt.esportsfantasybe.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LolApiCaller extends ApiCaller{
 
@@ -37,7 +39,7 @@ public class LolApiCaller extends ApiCaller{
 
 
 
-    public List<RealLeagueDTO> getAllLeagues(){
+    public List<RealLeagueDTO> getAllLeagues(){ //with no teams
         JsonArray allLeaguesJson = cargoQuery("CurrentLeagues=CL", "Event,OverviewPage");
         List<RealLeagueDTO> allLeaguesDTO = new ArrayList<>();
 
@@ -50,11 +52,11 @@ public class LolApiCaller extends ApiCaller{
         return allLeaguesDTO;
     }
 
-    public List<TeamDTO> getLeagueTeams(String overviewPage){
+    public Set<TeamDTO> getLeagueTeams(String overviewPage){
         String overviewPageSeason = overviewPage + " Season";
         JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2","&where=OverviewPage=\""+ overviewPageSeason + "\"");
 
-        List<TeamDTO> teams = new ArrayList<>();
+        Set<TeamDTO> teams = new HashSet<>();
         List<String> teamNames = new ArrayList<>();
 
         if (matchSchedule == null || matchSchedule.size() == 0){

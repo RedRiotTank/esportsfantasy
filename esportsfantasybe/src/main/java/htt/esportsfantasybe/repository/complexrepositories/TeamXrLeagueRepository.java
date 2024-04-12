@@ -1,6 +1,7 @@
 package htt.esportsfantasybe.repository.complexrepositories;
 
 
+import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.complexentities.TeamXrLeague;
 import htt.esportsfantasybe.model.complexkeysmodels.TeamXLeagueId;

@@ -24,7 +24,7 @@ public class Team {
     private String overviewpage;
     private String game;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(name = "teamxrleague",
             joinColumns = @JoinColumn(name = "teamuuid"),
             inverseJoinColumns = @JoinColumn(name = "leagueuuid"))

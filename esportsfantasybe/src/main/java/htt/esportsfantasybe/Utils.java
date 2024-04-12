@@ -12,6 +12,16 @@ public class Utils {
         return str;
     }
 
+    public static void esfPrint(String str) {
+        System.out.println("[eSportsFantasy]: " + str);
+    }
+
+    public static void esfPrint(String str,int tabs) {
+        String tab = "    ".repeat(tabs);
+
+        System.out.println(tab + "[eSportsFantasy]: " + str);
+    }
+
     private static boolean checkMayus(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isUpperCase(c)) {
@@ -20,4 +30,5 @@ public class Utils {
         }
         return true;
     }
+
 }

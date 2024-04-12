@@ -4,6 +4,7 @@ import htt.esportsfantasybe.model.Team;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +17,7 @@ public class TeamDTO {
     private String shortName;
     private String image;
     private String game;
+    private Set<RealLeagueDTO> leagues;
 
     public TeamDTO(String name, String overviewPage, String shortName, String image, String game) {
         this.name = name;

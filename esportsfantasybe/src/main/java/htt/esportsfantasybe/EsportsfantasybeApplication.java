@@ -54,12 +54,13 @@ public class EsportsfantasybeApplication {
 
     @PostConstruct
     public void initialize() throws IOException {
-        //realLeagueService.updateLeagues();
+        realLeagueService.updateLeagues();
 
         //teamService.updateTeams();
 
         //List<TeamXrLeague> all=teamXrLeagueService.getall();
 
+        /*
         realLeagueService.getRLeaguesDB().forEach(league ->{
             System.out.println(" ==== Liga: " + league.getEvent() + " ====");
             List<TeamDTO> teams = teamService.getLeagueTeams(league.getUuid());
@@ -67,7 +68,7 @@ public class EsportsfantasybeApplication {
                 System.out.println("    " + team.getName());
             });
         });
-
+        */
     }
 }
 

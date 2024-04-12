@@ -43,7 +43,7 @@ public class CounterApiCaller extends ApiCaller{
             for(JsonElement league : allLeaguesJson){
                 String event = league.getAsJsonObject().get("name").getAsString();
                 String apiId = league.getAsJsonObject().get("id").getAsString();
-                allLeaguesDTO.add(new RealLeagueDTO(null,event, null,"CSGO", apiId));
+                //allLeaguesDTO.add(new RealLeagueDTO(null,event, null,"CSGO", apiId));
 
             }
         }
