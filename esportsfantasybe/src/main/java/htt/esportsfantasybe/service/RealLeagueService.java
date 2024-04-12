@@ -6,6 +6,7 @@ import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -29,39 +30,17 @@ public class RealLeagueService {
     }
 
 
-
-
-
-/*
-    private void addNewLeagues(List<RealLeagueDTO> filteredRLeagues, List<RealLeague> rLeaguesDB) {
-        Utils.esfPrint("Adding new leagues...",1);
-        filteredRLeagues.forEach(filteredLeague -> {
-            RealLeague newLeague = new RealLeague(filteredLeague.getEvent(),
-                filteredLeague.getOverviewpage(), filteredLeague.getShortname(),
-                    filteredLeague.getGame(), filteredLeague.getApiId());
-            realLeagueRepository.save(newLeague);
-            //teamService.updateLeagueTeams(new RealLeagueDTO(newLeague));      //cascada equpos
-        });
-        Utils.esfPrint("New leagues added",1);
-    }
-    */
-
-
-
-
     // ------- UPDATE ------- //
 
-
     @Scheduled(cron = "5  35  4  */10  *  *")
+    @Transactional
     public void updateLeagues() throws IOException {
         Utils.esfPrint("Updating leagues...");
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
         Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
-
-        removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);    //with derivations.
-        //addNewLeagues(filteredRLeagues, rLeaguesDB);            //with derivations.
-
+        removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
+        addNewLeagues(filteredRLeagues);            //with derivations.
 
         Utils.esfPrint("Leagues updated");
     }
@@ -74,9 +53,9 @@ public class RealLeagueService {
                     .anyMatch(filteredLeague -> leagueMatches(filteredLeague, league));
             if (!leagueFound) {
                 Utils.esfPrint("Removing obsolete league" + league.getEvent() +"..." ,2);
-                teamService.removeObsoleteTeams(league);   //cascade delete team
+                //teamService.removeObsoleteTeams(league);
                 realLeagueRepository.deleteById(league.getUuid());
-                Utils.esfPrint("Obsolete league" + league.getEvent() + "removed.",2);
+                Utils.esfPrint("Obsolete league" + league.getEvent() + " removed.",2);
             }
         });
         Utils.esfPrint("Obsolete leagues removed",1);
@@ -84,6 +63,16 @@ public class RealLeagueService {
 
     }
 
+    private void addNewLeagues(Set<RealLeagueDTO> filteredRLeagues) {
+        Utils.esfPrint("Adding new leagues...",1);
+        filteredRLeagues.forEach(filteredLeague -> {
+            RealLeague rl = realLeagueRepository.save(new RealLeague(filteredLeague));
+            rl.getTeams().forEach(team -> {
+                teamService.getTeamxrleagueService().linkTeamToLeague(team.getUuid(),rl.getUuid());
+            });
+        });
+        Utils.esfPrint("New leagues added",1);
+    }
 
     // ------- OBTAIN ------- //
 
@@ -143,12 +132,6 @@ public class RealLeagueService {
 
         return leagues;
     }
-
-    public RealLeague getRLeague(RealLeagueDTO league){
-        return realLeagueRepository.findByEventAndOverviewpageAndGame(league.getEvent(), league.getOverviewpage(), league.getGame());
-
-    }
-
 
     // ------- UTILS ------- //
 

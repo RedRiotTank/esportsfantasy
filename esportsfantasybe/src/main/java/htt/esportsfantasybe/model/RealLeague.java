@@ -26,7 +26,7 @@ public class RealLeague {
     private String game;
     private String apiID;
 
-    @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Team> teams;
 
     public RealLeague() {

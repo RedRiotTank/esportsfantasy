@@ -24,22 +24,4 @@ public class TeamXrLeagueService {
         teamXrLeagueRepository.save(new TeamXrLeague(teamID, leagueID));
     }
 
-    public List<TeamXrLeague> getall(){
-        return teamXrLeagueRepository.findAll();
-    }
-
-
-    public List<UUID> getLeagueTeamsUUID(UUID leagueId){
-        return teamXrLeagueRepository.findTeamsByLeagueId(leagueId);
-    }
-
-
-    public void removeTeamFromLeague(UUID teamID, UUID leagueID) {
-        Utils.esfPrint("Removing team " + teamID + " from league " + leagueID + "...",5);
-        teamXrLeagueRepository.deleteById(new TeamXLeagueId(teamID, leagueID));
-        Utils.esfPrint("Team removed from league",5);
-    }
-
-
-
 }
