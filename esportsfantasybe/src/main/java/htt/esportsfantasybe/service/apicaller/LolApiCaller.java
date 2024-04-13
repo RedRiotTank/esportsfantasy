@@ -6,9 +6,11 @@ import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
-import htt.esportsfantasybe.model.Team;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -142,6 +144,38 @@ public class LolApiCaller extends ApiCaller{
             return entrada.substring(0, indiceParentesisAbierto).trim();
         } else { // Si no se encontró ningún paréntesis
             return entrada.trim();
+        }
+    }
+
+
+    public void downloadLeagueImage(String overviewpage) throws IOException {
+
+        String op = overviewpage.replace(" ", "_");
+        op += "_Season";
+
+        String url = getTableImgurl("https://lol.fandom.com/wiki/" + op);
+        op = op.replace("/","_");
+        Utils.downloadImage(url,"src/main/resources/media/lolmedia/leagues/" + op + ".png");
+
+
+    }
+
+    public static String getTableImgurl(String url) throws IOException {
+
+        Document documento = Jsoup.connect(url).get();
+
+        Elements tablas = documento.select("table.InfoboxTournament");
+
+        if (tablas.isEmpty()) {
+            return null;
+        } else {
+            Elements imagenes = tablas.get(0).select("img");
+
+            if (imagenes.isEmpty()) {
+                return null;
+            } else {
+                return imagenes.get(0).attr("src");
+            }
         }
     }
 

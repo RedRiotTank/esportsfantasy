@@ -66,6 +66,11 @@ public class RealLeagueService {
     private void addNewLeagues(Set<RealLeagueDTO> filteredRLeagues) {
         Utils.esfPrint("Adding new leagues...",1);
         filteredRLeagues.forEach(filteredLeague -> {
+            try {
+                lolApiCaller.downloadLeagueImage(filteredLeague.getOverviewpage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             RealLeague rl = realLeagueRepository.save(new RealLeague(filteredLeague));
             rl.getTeams().forEach(team -> {
                 teamService.getTeamxrleagueService().linkTeamToLeague(team.getUuid(),rl.getUuid());
@@ -95,33 +100,52 @@ public class RealLeagueService {
             if (league.getGame().equals("LOL")) {
                 if ((
                         league.getEvent().contains("LCK") ||
-                                league.getEvent().contains("LCS") ||
-                                league.getEvent().contains("LEC") ||
-                                league.getEvent().contains("LFL") ||
-                                league.getEvent().contains("LPL") ||
-                                league.getEvent().contains("LVP") ||
-                                league.getEvent().contains("LRN") ||
-                                league.getEvent().contains("PCL")) &&
+                        league.getEvent().contains("LCS") ||
+                        league.getEvent().contains("LEC") ||
+                        league.getEvent().contains("LFL") ||
+                        league.getEvent().contains("LPL") ||
+                        league.getEvent().contains("LVP") ||
+                        league.getEvent().contains("LRN") ||
+                        league.getEvent().contains("PCL")) &&
                         (!league.getEvent().contains("2nd") &&
-                                !league.getEvent().contains("3rd"))) {
+                        !league.getEvent().contains("3rd") &&
+                        !league.getEvent().contains("Championship"))
+                ) {
+
+                    String evt = league.getEvent();
+                    String op = league.getOverviewpage();
 
                     if (league.getEvent().contains(" Playoffs")) {
-                        String eventtNoPlayoffs = league.getEvent().replace(" Playoffs", "");
-                        String overviewPageNoPlayoffs = league.getOverviewpage().replace(" Playoffs", "");
-                        league.setEvent(eventtNoPlayoffs);
-                        league.setOverviewpage(overviewPageNoPlayoffs);
+                        evt = evt.replace(" Playoffs", "");
+                        op = op.replace(" Playoffs", "");
+
                     }
+
+                    if (op.endsWith(" Season")) {
+                        int originalLength = op.length();
+                        int suffixLength = " Season".length();
+
+                        if (originalLength > suffixLength + 1) {
+                            op = op.substring(0, originalLength - suffixLength);
+                        }
+                    }
+
+                    league.setEvent(evt);
+                    league.setOverviewpage(op);
 
                     league.setTeams(lolApiCaller.getLeagueTeams(league.getOverviewpage()));
                     filteredLeagues.add(league);
                 }
+
             }
 
-            if(league.getGame().equals("CSGO")){
-                if(league.getEvent().contains("ESL"))
-                    filteredLeagues.add(league);
-            }
+
+        if (league.getGame().equals("CSGO")) {
+            if (league.getEvent().contains("ESL"))
+                filteredLeagues.add(league);
         }
+    }
+
         return filteredLeagues;
     }
 
