@@ -2,8 +2,10 @@ package htt.esportsfantasybe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
+import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.complexentities.TeamXrLeague;
 import htt.esportsfantasybe.service.PlayerService;
@@ -21,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Main class for the Spring Boot application.
@@ -56,6 +59,9 @@ public class EsportsfantasybeApplication {
     public void initialize() throws IOException {
         realLeagueService.updateLeagues();
 
+        //Set<PlayerDTO> players =  lolApiCaller.getTeamPlayers(teamService.getTeamDataDB());
+
+        System.out.println("a");
         //teamService.updateTeams();
 
         //List<TeamXrLeague> all=teamXrLeagueService.getall();

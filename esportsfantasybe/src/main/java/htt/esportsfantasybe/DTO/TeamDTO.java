@@ -18,13 +18,20 @@ public class TeamDTO {
     private String image;
     private String game;
     private Set<RealLeagueDTO> leagues;
+    private Set<PlayerDTO> players;
 
-    public TeamDTO(String name, String overviewPage, String shortName, String image, String game) {
+    public TeamDTO(UUID uuid, String name, String overviewPage, String shortName, String image, String game, Set<PlayerDTO> players) {
+        this.uuid = uuid;
         this.name = name;
         this.OverviewPage = overviewPage;
         this.shortName = shortName;
         this.image = image;
         this.game = game;
+        this.players = players;
+    }
+
+    public TeamDTO( String name, String overviewPage, String shortName, String image, String game, Set<PlayerDTO> players) {
+        this(null,name,overviewPage,shortName,image,game,players);
     }
 
     public TeamDTO(Team team) {

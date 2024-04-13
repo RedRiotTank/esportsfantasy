@@ -2,9 +2,11 @@ package htt.esportsfantasybe.service.apicaller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.Team;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,6 +89,7 @@ public class LolApiCaller extends ApiCaller{
         return teams;
     }
 
+
     public TeamDTO getTeamData(String teamName){
         JsonArray teamData = this.cargoQuery("Teams", "Name,OverviewPage,Short,Image","&where=Name=\""+ teamName + "\"");
 
@@ -98,8 +101,37 @@ public class LolApiCaller extends ApiCaller{
         String shortName = teamData.get(0).getAsJsonObject().get("title").getAsJsonObject().get("Short").getAsString();
         String image = teamData.get(0).getAsJsonObject().get("title").getAsJsonObject().get("Image").getAsString();
 
+        TeamDTO team = new TeamDTO(name, overviewPage, shortName, image, "LOL",null);
 
-        return new TeamDTO(name, overviewPage, shortName, image, "LOL");
+        team.setPlayers(getTeamPlayers(team));
+
+        return team;
+    }
+
+    public Set<PlayerDTO> getTeamPlayers(TeamDTO team){ //&where=Team=\""+ team.getName() + "\"
+        Set<PlayerDTO> players = new HashSet<>();
+        JsonArray teamPlayers = this.cargoQuery("Players",
+                "ID," +
+                        "OverviewPage," +
+                        "Image," +
+                        "Name," +
+                        "Role",
+                "&where=Role!=\"Manager\"AND Role!=\"Owner\"AND Role!=\"Coach\"AND Role!=\"Caster\"AND Role!=\"Streamer\"AND Role!=\"Analyst\"AND Team=\""
+                        + team.getName() + "\"OR Team2=\""+ team.getName() + "\"" );
+
+
+        if (teamPlayers == null || teamPlayers.size() == 0) return null;
+
+        for(JsonElement player : teamPlayers){
+            String username = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("ID"));
+            String name = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Name"));
+            String image = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Image"));
+            String role = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Role"));
+
+            players.add(new PlayerDTO(username,image,name,role,0));
+        }
+
+        return players;
     }
 
 

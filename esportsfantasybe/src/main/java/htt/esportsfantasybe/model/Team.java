@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -30,12 +31,22 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "leagueuuid"))
     private Set<RealLeague> leagues;
 
+
+    @ManyToMany(mappedBy = "teams",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<Player> players;
+
+
     public Team(TeamDTO teamDTO) {
         this.name = teamDTO.getName();
         this.image = teamDTO.getImage();
         this.shortname = teamDTO.getShortName();
         this.overviewpage = teamDTO.getOverviewPage();
         this.game = teamDTO.getGame();
+
+        if (teamDTO.getPlayers() != null)
+            this.players = teamDTO.getPlayers().stream().map(Player::new).collect(Collectors.toSet());
+        else
+            this.players = null;
     }
 
     public Team() {

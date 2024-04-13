@@ -7,6 +7,7 @@ import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.repository.PlayerRepository;
 import htt.esportsfantasybe.repository.TeamRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
 import htt.esportsfantasybe.service.complexservices.TeamXrLeagueService;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
@@ -24,13 +25,25 @@ public class TeamService {
     @Getter
     private final TeamXrLeagueService teamxrleagueService;
 
+    @Getter
+    private final TeamXPlayerService teamxplayerService;
+
 
     LolApiCaller lolApiCaller = new LolApiCaller();
 
     @Autowired
-    public TeamService( TeamXrLeagueService teamxrleagueService) {
+    public TeamService( TeamXrLeagueService teamxrleagueService, TeamXPlayerService teamxplayerService) {
 
         this.teamxrleagueService = teamxrleagueService;
+        this.teamxplayerService = teamxplayerService;
+
+    }
+
+
+    public TeamDTO getTeamDataDB(){
+        Set<Team> team = teamRepository.findTeamsByNameAndGame("Invictus Gaming", "LOL");
+
+        return new TeamDTO(team.stream().findFirst().get());
 
     }
 }

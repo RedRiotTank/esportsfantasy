@@ -39,8 +39,9 @@ public class RealLeagueService {
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
         Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
+
         removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
-        addNewLeagues(filteredRLeagues);            //with derivations.
+        addNewLeagues(filteredRLeagues);                            //with derivations.
 
         Utils.esfPrint("Leagues updated");
     }
@@ -53,7 +54,6 @@ public class RealLeagueService {
                     .anyMatch(filteredLeague -> leagueMatches(filteredLeague, league));
             if (!leagueFound) {
                 Utils.esfPrint("Removing obsolete league" + league.getEvent() +"..." ,2);
-                //teamService.removeObsoleteTeams(league);
                 realLeagueRepository.deleteById(league.getUuid());
                 Utils.esfPrint("Obsolete league" + league.getEvent() + " removed.",2);
             }
@@ -69,6 +69,10 @@ public class RealLeagueService {
             RealLeague rl = realLeagueRepository.save(new RealLeague(filteredLeague));
             rl.getTeams().forEach(team -> {
                 teamService.getTeamxrleagueService().linkTeamToLeague(team.getUuid(),rl.getUuid());
+                if(team.getPlayers() != null && !team.getPlayers().isEmpty())
+                    team.getPlayers().forEach(player -> {
+                        teamService.getTeamxplayerService().linkTeamToPlayer(team.getUuid(),player.getUuid());
+                    });
             });
         });
         Utils.esfPrint("New leagues added",1);

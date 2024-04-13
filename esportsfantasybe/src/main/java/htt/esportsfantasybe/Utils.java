@@ -1,5 +1,7 @@
 package htt.esportsfantasybe;
 
+import com.google.gson.JsonElement;
+
 public class Utils {
 
     public static String generateShortName(String str) {
@@ -29,6 +31,13 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    public static String getStringOrNull(JsonElement element) {
+        if (element != null && !element.isJsonNull()) {
+            return element.getAsString();
+        }
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.model;
 
+import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -50,7 +51,16 @@ public class RealLeague {
 
 
     public RealLeague(RealLeagueDTO realLeagueDTO){
-        this(realLeagueDTO.getEvent(), realLeagueDTO.getOverviewpage(), realLeagueDTO.getShortname(), realLeagueDTO.getGame(), realLeagueDTO.getApiId(), realLeagueDTO.getTeams().stream().map(Team::new).collect(Collectors.toSet()));
+        this.event = realLeagueDTO.getEvent();
+        this.overviewpage = realLeagueDTO.getOverviewpage();
+        this.shortname = realLeagueDTO.getShortname();
+        this.game = realLeagueDTO.getGame();
+        this.apiID = realLeagueDTO.getApiId();
+
+        if(realLeagueDTO.getTeams() != null)
+            this.teams = realLeagueDTO.getTeams().stream().map(Team::new).collect(Collectors.toSet());
+        else this.teams = null;
+
     }
 
 
