@@ -2,6 +2,8 @@
 
 esportsfantasydb/data/*
 
+esportsfantasybe/src/main/resources/media/*
+
 esportsfantasyfe/node_modules
 esportsfantasyfe/.angular
 esportsfantasyfe/dist

@@ -18,6 +18,8 @@ import java.util.Set;
 
 public class LolApiCaller extends ApiCaller{
 
+    private static String wikiUrl = "https://lol.fandom.com/wiki/";
+
 
     public LolApiCaller(){
         super();
@@ -40,8 +42,6 @@ public class LolApiCaller extends ApiCaller{
     }
 
     // ------ Queries ------ //
-
-
 
     public List<RealLeagueDTO> getAllLeagues(){ //with no teams
         JsonArray allLeaguesJson = cargoQuery("CurrentLeagues=CL", "Event,OverviewPage");
@@ -147,24 +147,10 @@ public class LolApiCaller extends ApiCaller{
         }
     }
 
+    public static String getTableImgurl(String overviewPage, String type) throws IOException {
+        Document documento = Jsoup.connect(wikiUrl + overviewPage).get();
 
-    public void downloadLeagueImage(String overviewpage) throws IOException {
-
-        String op = overviewpage.replace(" ", "_");
-        op += "_Season";
-
-        String url = getTableImgurl("https://lol.fandom.com/wiki/" + op);
-        op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/lolmedia/leagues/" + op + ".png");
-
-
-    }
-
-    public static String getTableImgurl(String url) throws IOException {
-
-        Document documento = Jsoup.connect(url).get();
-
-        Elements tablas = documento.select("table.InfoboxTournament");
+        Elements tablas = documento.select("table.Infobox" + type);
 
         if (tablas.isEmpty()) {
             return null;

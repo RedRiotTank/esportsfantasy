@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -59,24 +60,35 @@ public class Utils {
 
 
     public static void downloadImage(String imageUrl, String destinationFile) throws IOException {
-        // Abrir una conexión a la URL de la imagen
-        URL url = new URL(imageUrl);
-        InputStream inputStream = url.openStream();
+        URL url = null;
 
-        // Crear un flujo de salida para escribir los bytes de la imagen en un archivo
+        try {
+            url = new URL(imageUrl);
 
-        OutputStream outputStream = new FileOutputStream(destinationFile);
+        } catch (MalformedURLException e) {
+            //e.printStackTrace();
+            System.out.println("URL malformada");
+            url = null;
 
-        // Leer los bytes de la imagen de la entrada y escribirlos en el archivo de salida
-        byte[] buffer = new byte[2048];
-        int length;
-        while ((length = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, length);
         }
 
-        // Cerrar los flujos
-        inputStream.close();
-        outputStream.close();
+        if(url != null){
+            InputStream inputStream = url.openStream();
+
+
+
+            OutputStream outputStream = new FileOutputStream(destinationFile);
+
+
+            byte[] buffer = new byte[2048];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            inputStream.close();
+            outputStream.close();
+        }
     }
 
 

@@ -66,19 +66,22 @@ public class RealLeagueService {
     private void addNewLeagues(Set<RealLeagueDTO> filteredRLeagues) {
         Utils.esfPrint("Adding new leagues...",1);
         filteredRLeagues.forEach(filteredLeague -> {
+
+            Optional<RealLeague> opRL;
+            RealLeague rl;
+
             try {
-                lolApiCaller.downloadLeagueImage(filteredLeague.getOverviewpage());
+                downloadLeagueImage(filteredLeague.getOverviewpage());
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                System.out.println("ERROR AL DESCARGAR IMAGEN DE LIGA.");
             }
-            RealLeague rl = realLeagueRepository.save(new RealLeague(filteredLeague));
-            rl.getTeams().forEach(team -> {
-                teamService.getTeamxrleagueService().linkTeamToLeague(team.getUuid(),rl.getUuid());
-                if(team.getPlayers() != null && !team.getPlayers().isEmpty())
-                    team.getPlayers().forEach(player -> {
-                        teamService.getTeamxplayerService().linkTeamToPlayer(team.getUuid(),player.getUuid());
-                    });
-            });
+
+            opRL = realLeagueRepository.findByEvent(filteredLeague.getEvent());
+
+            rl = opRL.orElseGet(() -> realLeagueRepository.save(new RealLeague(filteredLeague)));
+
+            teamService.updateTeams(rl);
         });
         Utils.esfPrint("New leagues added",1);
     }
@@ -109,8 +112,9 @@ public class RealLeagueService {
                         league.getEvent().contains("PCL")) &&
                         (!league.getEvent().contains("2nd") &&
                         !league.getEvent().contains("3rd") &&
-                        !league.getEvent().contains("Championship"))
-                ) {
+                        !league.getEvent().contains("Championship") &&
+                        !league.getEvent().contains("Division 2"))
+                        ) {
 
                     String evt = league.getEvent();
                     String op = league.getOverviewpage();
@@ -149,6 +153,17 @@ public class RealLeagueService {
         return filteredLeagues;
     }
 
+    public void downloadLeagueImage(String overviewpage) throws IOException {
+
+        String op = overviewpage.replace(" ", "_");
+        op += "_Season";
+
+        String url = LolApiCaller.getTableImgurl(op, "Tournament");
+        op = op.replace("/","_");
+        Utils.downloadImage(url,"src/main/resources/media/lolmedia/leagues/" + op + ".png");
+
+    }
+
 
     // ------- DATABASE ------- //
     public Set<RealLeagueDTO> getRLeaguesDB() {
@@ -170,5 +185,7 @@ public class RealLeagueService {
                         .map(overviewPage -> overviewPage.equals(filteredLeague.getOverviewpage()))
                         .orElse(true);
     }
+
+
 
 }
