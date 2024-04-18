@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { EsfLofregModalComponent } from '../esf-logreg/esf-lofreg-modal/esf-lofreg-modal.component';
 
 
 /**
@@ -12,27 +12,28 @@ import { EsfLofregModalComponent } from '../esf-logreg/esf-lofreg-modal/esf-lofr
   styleUrl: './esf-header.component.scss'
 })
 export class EsfHeaderComponent {
-  modalRef: MdbModalRef<EsfLofregModalComponent> | null = null;
   openHam: boolean = false;
 
 
   constructor(
-    private modalService: MdbModalService
+    private modalService: MdbModalService,
+    private router: Router
     ){}
 
-    /**
-     * This method opens the login modal.
-     */
-    openLoginModal() {
-      this.modalRef = this.modalService.open(EsfLofregModalComponent,{
-        modalClass: 'modal-dialog-centered modal-xl'
-      })
-    }
+    
 
     /**
      * This method opens and closes the hamburger navigation menu.
      */
     toggleHam(){
       this.openHam = !this.openHam;
+    }
+
+    goToHome(){
+      this.router.navigate(['/welcome']);
+    }
+
+    goToLogin(){
+      this.router.navigate(['/login']);
     }
 }

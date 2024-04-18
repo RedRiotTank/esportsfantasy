@@ -57,7 +57,7 @@ public class EsportsfantasybeApplication {
 
     @PostConstruct
     public void initialize() throws IOException {
-        realLeagueService.updateLeagues();
+        //realLeagueService.updateLeagues();
         //lolApiCaller.downloadLeagueImage("LEC/2024 Season/Spring");
         //Set<PlayerDTO> players =  lolApiCaller.getTeamPlayers(teamService.getTeamDataDB());
 

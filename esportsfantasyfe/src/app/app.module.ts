@@ -3,27 +3,27 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EsfShowcaseComponent } from './esf-init/esf-showcase/esf-showcase.component';
-import { EsfInitComponent } from './esf-init/esf-init.component';
 import { EsfHeaderComponent } from './common/esf-header/esf-header.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-import { EsfLofregModalComponent } from './common/esf-logreg/esf-lofreg-modal/esf-lofreg-modal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EsfHomeComponent } from './esf-app/esf-app-home/esf-home/esf-home.component';
-import { EsfLogregRegisterSuccessComponent } from './common/esf-logreg/esf-logreg-registerSuccess/esf-logreg-register-success/esf-logreg-register-success.component';
 import { EsfErrorComponent } from './common/error/esf-error/esf-error.component';
 import { GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './credentials/login/login.component';
+import { RegisterComponent } from './credentials/register/register.component';
+import { RegistersuccessComponent } from './credentials/register/registersuccess/registersuccess.component';
 @NgModule({
   declarations: [
     AppComponent,
     EsfHeaderComponent,
-    EsfShowcaseComponent,
-    EsfInitComponent,
-    EsfLofregModalComponent,
     EsfHomeComponent,
-    EsfLogregRegisterSuccessComponent,
-    EsfErrorComponent
+    EsfErrorComponent,
+    WelcomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    RegistersuccessComponent
   ],
   imports: [
     BrowserModule,

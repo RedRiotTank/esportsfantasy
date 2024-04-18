@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { logregResponse } from './logregResponse';
+import { credentialsResponse } from '../../credentials/credentialsResponse';
 
 /**
  * This service is responsible for managing the API requests of the application.
@@ -23,11 +23,11 @@ export class ApiService {
    * @param data the data of the request.
    * @returns the response of the request.
    */
-  sendRequest(type: string, data: any): Observable<logregResponse> {
+  public sendRequest(type: string, data: any): Observable<credentialsResponse> {
     const url = this.api_url + type;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post<logregResponse>(url, data, { headers });
+    return this.http.post<credentialsResponse>(url, data, { headers });
     
   }
 }

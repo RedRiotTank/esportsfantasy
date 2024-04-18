@@ -65,7 +65,42 @@ body, html {
 }
 
 
-@import '../../../styles.scss';
+
+
+
+
+
+
+
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.leagues {
+    margin-top: 20px;
+}
+
+.league-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.league-logo {
+    height: 150px;
+    margin: 0 10px;
+    object-fit: contain; /* Esta propiedad asegura que la imagen se ajuste dentro del tamaño especificado sin deformarse */
+    max-width: 100%; /* Esto garantiza que la imagen no se extienda más allá de su tamaño original */
+}
+
+
+
+@import '../../styles.scss';
 
 @media(max-width: $mobilepx) {
     .showcase{
@@ -87,6 +122,3 @@ body, html {
         }
     }
 }
-
-
-

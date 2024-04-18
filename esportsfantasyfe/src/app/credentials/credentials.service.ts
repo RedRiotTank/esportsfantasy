@@ -1,55 +1,50 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../API/api.service';
-import { logregResponse } from '../API/logregResponse';
+import { credentialsResponse } from './credentialsResponse';
 import { Observable } from 'rxjs';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { ApiService } from '../common/API/api.service';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
-/**
- * This service is responsible for managing the login and register of the application.
- * It provides the methods to login and register.
- * It also provides the methods to validate the email and password.
- * It also provides the methods to login with Google.
- * @author Alberto Plaza Montes.
- */
 @Injectable({
   providedIn: 'root'
 })
-export class LogregService {
+export class CredentialsService{
 
+  social_started: boolean = false;
   social_user: SocialUser;
   loggedIn: boolean;
-  social_started: boolean = false;
 
   constructor(
-    private api: ApiService,
-    private socialAuthService: SocialAuthService
-    ) { }
+    private socialAuthService: SocialAuthService,
+    private api: ApiService
+  ){
+  }
 
-
-  /**
+    /**
    * This method sends a login request to the server.
    * @param mail user mail.
    * @param pass user password.
    * @returns Obeservable to subscribe.
    */
-  login(mail: string, pass: string) :Observable<logregResponse> {
+    login(mail: string, pass: string) :Observable<credentialsResponse> {
 
-    const data = {
-      mail: mail,
-      pass: pass
-    };
+      const data = {
+        mail: mail,
+        pass: pass
+      };
 
-    return this.api.sendRequest("user/login",data);
+      
+  
+      return this.api.sendRequest("user/login", data);
+  
+    }
 
-  }
-
-  /**
+    /**
    * This method sends a register request to the server.
    * @param mail mail of the user.
    * @param pass password of the user.
    * @returns observable to subscribe.
    */
-  register(mail: string, pass: string) :Observable<logregResponse> {
+  register(mail: string, pass: string) :Observable<credentialsResponse> {
 
     const data = {
       mail: mail,
@@ -69,6 +64,35 @@ export class LogregService {
     return emailRegex.test(email);
   }
 
+    /**
+   * This method validates the password.
+   * @param password the password to validate.
+   * @returns null if the password is correct, a string with the error otherwise.
+   */
+    validatePassword(password: string): string | null {
+      if (!/[A-Z]/.test(password)) {
+        return "Password must contain at least one uppercase letter.";
+      }
+    
+  
+      if (!/[a-z]/.test(password)) {
+        return "Password must contain at least one lowercase letter.";
+      }
+    
+      
+      if (!/\d/.test(password)) {
+        return "Password must contain at least one digit.";
+      }
+    
+     
+      if (password.length < 8) {
+        return "Password must be at least 8 characters long.";
+      }
+    
+     
+      return null;
+    }
+
   /**
    * This method 
    * @param pass 
@@ -79,34 +103,10 @@ export class LogregService {
     return pass == passConfirm;
   }
 
-  /**
-   * This method validates the password.
-   * @param password the password to validate.
-   * @returns null if the password is correct, a string with the error otherwise.
-   */
-  validatePassword(password: string): string | null {
-    if (!/[A-Z]/.test(password)) {
-      return "Password must contain at least one uppercase letter.";
-    }
-  
 
-    if (!/[a-z]/.test(password)) {
-      return "Password must contain at least one lowercase letter.";
-    }
-  
-    
-    if (!/\d/.test(password)) {
-      return "Password must contain at least one digit.";
-    }
-  
-   
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
-  
-   
-    return null;
-  }
+
+
+
 
   // ---- Social ----
 
@@ -152,6 +152,9 @@ export class LogregService {
 
     
   }
-  
+
+
+
+
 
 }
