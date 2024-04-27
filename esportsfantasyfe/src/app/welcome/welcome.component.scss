@@ -13,52 +13,59 @@ body, html {
     height: 100%;
     margin-left: 0;
     padding-left: 0;
-}
-
-.box {
+    display: hidden;
     background-color: #F5F7FA;
+
+    
+}
+
+
+.box{
+    background-color: #F5F7FA;
+    text-align: center;
     flex: 1;
-    padding: 20px;
-
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    text-align: justify;
+    overflow: hidden;
     padding-left: 7%   ;
-}
-
-.box h1, h2{
-    font-weight: 800;
     
+    h1 {
+        font-size: 350%;
+        margin-bottom: 0;
+    }
+
+    h2 {
+        font-size: 300%;
+        margin-top: 0;
+        color: #FF5900;
+    }
+
+    p{
+        font-weight: 400;
+        color: #535252;
+        font-size: 130%;
+    }
+
+    button{
+        margin-top: 8%;
+    }
+
 }
 
-.box h1 {
-    font-size: 350%;
-    margin-bottom: 0;
-    
-}
-
-.box h2{
-    font-size: 300%;
-    margin-top: 0;
-    color: #FF5900;
-}
-
-.box p{
-    font-weight: 400;
-    color: #555555;
-    font-size: 130%;
-    margin-right: 27%;
-}
 
 .left {
+    padding-top: 4%;
     font-weight: 800;
     font-style: normal;
+    flex: 0 0 50%;
 }
 
 .right {
+
     justify-content: center;
     align-items: center;
+    padding: 0;
+    background-color: #F5F7FA;
 }
+
 
 .register-showcase{
     margin-left: 20px ;

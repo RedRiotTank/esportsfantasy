@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-welcome',
@@ -7,6 +8,27 @@ import { Router } from '@angular/router';
   styleUrl: './welcome.component.scss'
 })
 export class WelcomeComponent {
+
+
+  customOptions: OwlOptions = {
+    items: 1,
+    loop: true,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplaySpeed : 1000,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    navSpeed: 700,
+    navText: ['', ''],
+    
+    nav: false
+  }
+
+
+
+
   
   constructor
   (

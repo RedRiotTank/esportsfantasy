@@ -1,16 +1,24 @@
 package htt.esportsfantasybe.service;
 
+import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.SocialUserDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.config.JwtService;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,4 +151,44 @@ public class UserService {
 
         return matcher.matches();
     }
+
+    public List<UserDTO> getAllUsers(){
+
+        List<User> allUsers = userRepository.findAll();
+        return allUsers.stream().map(UserDTO::new).toList();
+
+    }
+
+    public List<LeagueDTO> getUserLeagues(UUID useruuid){
+        Optional<User> user = userRepository.findById(useruuid);
+        return user.get().getLeagues().stream().map(LeagueDTO::new).toList();
+    }
+
+    public byte[] getUserPfp(String mail) throws IOException {
+        Optional<User> user = userRepository.findByMail(mail);
+
+        if (user.isEmpty()) throw new RuntimeException("numerr");
+
+        UUID useruuid = user.get().getUuid();
+
+        Path imagePath;
+        imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/pfp/default.png"));
+            } catch (IOException ioException) {
+                throw new RuntimeException("numerr");
+            }
+        }
+            return imageBytes;
+    }
+
+
+
 }

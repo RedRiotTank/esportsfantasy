@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { AppapiService } from '../API/appapi.service';
+import { HeaderService } from './header.service';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 /**
@@ -11,16 +13,29 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
   templateUrl: './esf-header.component.html',
   styleUrl: './esf-header.component.scss'
 })
-export class EsfHeaderComponent {
+export class EsfHeaderComponent implements OnInit{
   openHam: boolean = false;
 
-
   constructor(
-    private modalService: MdbModalService,
+    private headerService: HeaderService,
     private router: Router
-    ){}
+    ){
+
+  }
+
+  ngOnInit(): void {
+    
+  }
 
     
+    getPfpUrl(){
+      return this.headerService.getPfpUrl();
+    }
+
+    getLoggedIn(){
+      return this.headerService.getLoggedIn();
+    }
+
 
     /**
      * This method opens and closes the hamburger navigation menu.
@@ -30,7 +45,11 @@ export class EsfHeaderComponent {
     }
 
     goToHome(){
-      this.router.navigate(['/welcome']);
+      if(this.getLoggedIn())
+        this.router.navigate(['/home']);
+      else
+        this.router.navigate(['/welcome']);
+    
     }
 
     goToLogin(){

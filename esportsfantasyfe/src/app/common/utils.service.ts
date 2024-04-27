@@ -28,4 +28,14 @@ export class UtilsService {
   getMobilepx() :number{
     return this.mobilepx;
   }
+
+    /**
+   * This method checks if the user is logged in.
+   * @returns true if the user is logged in, false otherwise.
+   */
+  isLoggedIn(): boolean {
+    // Comprobar si el token JWT está presente en el localStorage
+    const token = localStorage.getItem('token');
+    return token !== null;
+  }
 }

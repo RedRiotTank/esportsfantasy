@@ -59,7 +59,7 @@ public class PlayerService {
         String url = LolApiCaller.getTableImgurl(op,"Player");
         if(url != null) {
             op = op.replace("/", "_");
-            Utils.downloadImage(url, "src/main/resources/media/lolmedia/players/" + op + ".png");
+            Utils.downloadImage(url, "src/main/resources/media/LOL/players/" + op + ".png");
         }
     }
 

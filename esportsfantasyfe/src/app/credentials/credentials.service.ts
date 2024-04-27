@@ -3,6 +3,9 @@ import { credentialsResponse } from './credentialsResponse';
 import { Observable } from 'rxjs';
 import { ApiService } from '../common/API/api.service';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { jwtDecode } from 'jwt-decode';
+import { AppapiService } from '../common/API/appapi.service';
+import { HeaderService } from '../common/esf-header/header.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +14,12 @@ export class CredentialsService{
 
   social_started: boolean = false;
   social_user: SocialUser;
-  loggedIn: boolean;
+  loggedIn: boolean = false;
 
   constructor(
     private socialAuthService: SocialAuthService,
+    private headerService: HeaderService,
+    private appapiService: AppapiService,
     private api: ApiService
   ){
   }
@@ -103,8 +108,24 @@ export class CredentialsService{
     return pass == passConfirm;
   }
 
+  public getLoggedIn(){
+    return this.loggedIn;
+  }
 
+  updateLoginCredentials(){
+    console.log("credentials");
+    
+    this.loggedIn = true;
+  
+    const decodedToken = this.getDecodedToken();
 
+      this.appapiService.getUserPfp(decodedToken.sub).subscribe(response => {
+        
+        this.headerService.setLoggedIn(true);
+        this.headerService.setPfpUrl(response);
+      });
+
+  }
 
 
 
@@ -151,6 +172,17 @@ export class CredentialsService{
 
 
     
+  }
+
+
+
+
+  // ----- JWT -----
+
+  getDecodedToken(){
+    const token = localStorage.getItem('token');
+
+    return jwtDecode(token);
   }
 
 

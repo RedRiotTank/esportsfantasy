@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,7 +7,6 @@ import { EsfHeaderComponent } from './common/esf-header/esf-header.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { EsfHomeComponent } from './esf-app/esf-app-home/esf-home/esf-home.component';
 import { EsfErrorComponent } from './common/error/esf-error/esf-error.component';
 import { GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -15,17 +14,24 @@ import { LoginComponent } from './credentials/login/login.component';
 import { RegisterComponent } from './credentials/register/register.component';
 import { RegistersuccessComponent } from './credentials/register/registersuccess/registersuccess.component';
 import { FooterComponent } from './common/footer/footer.component';
+import { HomeComponent } from './home/home.component';
+import { CredentialsService } from './credentials/credentials.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { AccordionModule } from 'primeng/accordion';
+import { JoinLeagueComponent } from './join-league/join-league.component';
 @NgModule({
   declarations: [
     AppComponent,
     EsfHeaderComponent,
-    EsfHomeComponent,
     EsfErrorComponent,
     WelcomeComponent,
     LoginComponent,
     RegisterComponent,
     RegistersuccessComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent,
+    JoinLeagueComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,11 @@ import { FooterComponent } from './common/footer/footer.component';
     MdbModalModule,
     HttpClientModule,
     SocialLoginModule,
-    GoogleSigninButtonModule
+    GoogleSigninButtonModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    CarouselModule,
+    AccordionModule
   ],
   providers: [
     {
@@ -57,4 +67,8 @@ import { FooterComponent } from './common/footer/footer.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  
+
+  
+}

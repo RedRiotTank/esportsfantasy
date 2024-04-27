@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,6 +18,17 @@ import org.jsoup.select.Elements;
 
 
 public class Utils {
+
+    public static String generateOPname(String op){
+
+        String newop = op.replace(" ", "_");
+        newop += "_Season";
+        newop = newop.replace("/","_");
+
+        return newop;
+
+    }
+
 
     public static String generateShortName(String str) {
         for (int i = 0; i <= str.length() - 3; i++) {

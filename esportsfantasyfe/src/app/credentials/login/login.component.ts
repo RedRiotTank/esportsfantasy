@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { credentialsResponse } from '../credentialsResponse';
 import { CredentialsService } from '../credentials.service';
+import { HeaderService } from '../../common/esf-header/header.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent {
 
   constructor(
     public credentialsService: CredentialsService,
+    public headerService: HeaderService,
     private router: Router,
     
     ) {}
@@ -90,8 +92,12 @@ export class LoginComponent {
     }
    
     this.credentialsService.login(this.emailInput, this.passwordInput).subscribe(response => {
-      localStorage.setItem('token',response.token);
+      localStorage.setItem('token', response.token);
       
+      this.credentialsService.updateLoginCredentials();
+      //this.headerService.setLoggedIn(true);
+
+
       this.router.navigate(['/home']);
     }, error => {
       var err: credentialsResponse = {

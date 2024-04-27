@@ -1,0 +1,86 @@
+:host ::ng-deep .p-accordion  {
+   width: 50%;
+   margin: 2vw auto;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-header-link  {
+    text-decoration: none;
+    color: black;
+ }
+
+
+.type{
+    
+    background-color: rgb(242, 243, 247);
+    border-radius: 5px;
+    padding: 0 5vw;
+
+    margin: 1vw auto;
+
+    h4{
+        text-align: center;
+        
+    }
+
+    p{
+        color: rgb(153, 165, 184);
+        text-align: center;
+        
+    }
+
+    .form-control{
+        width: 50%;
+        margin: 0.5vw auto;
+    }
+}
+
+.type:hover{
+    cursor: pointer;
+    background-color: rgb(230, 230, 230);
+}
+
+.type.clicked{
+    background-color: rgb(230, 230, 230);
+}
+
+.create-league-button{
+    text-align: center;
+    margin: 1vw auto;
+    
+}
+
+
+.list{
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+ 
+    justify-content: center;
+    margin: 2vw auto;
+
+    .container{
+        border: 2px solid rgb(230, 230, 230);
+        text-align: center;
+        margin: 0 1vw;
+        cursor: pointer;
+        border-radius: 15px;
+        transition: transform 0.2s ease;
+        
+        img{
+            height: 200px;
+            width: auto;
+            
+        }
+    }
+
+    .container.clicked{
+        background-color: rgb(230, 230, 230);
+        transform: scale(0.95);
+    }
+
+    .container:hover{
+        background-color: rgb(230, 230, 230);
+    }
+
+    
+}

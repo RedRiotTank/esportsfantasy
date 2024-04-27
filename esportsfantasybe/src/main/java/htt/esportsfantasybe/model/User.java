@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -27,6 +28,12 @@ public class User implements UserDetails {
     private String pass;
     private String username;
     private boolean admin;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "userxleague",
+            joinColumns = @JoinColumn(name = "useruuid"),
+            inverseJoinColumns = @JoinColumn(name = "leagueuuid"))
+    private Set<League> leagues;
 
     /**
      * Constructor for the User class.

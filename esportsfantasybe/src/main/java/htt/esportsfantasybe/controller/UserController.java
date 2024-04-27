@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.controller;
 
+import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.SocialUserDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.config.JwtService;
@@ -8,9 +9,14 @@ import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -83,6 +89,41 @@ public class UserController {
             return koresponses.googleLogin(e.getMessage());
         }
     }
+
+    /**
+     */
+    @CrossOrigin
+    @PostMapping(value ="/getLeagues", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getLeagues(UUID useruuid){
+        try{
+            List<LeagueDTO> playerLeagues = userService.getUserLeagues(useruuid);
+            System.out.println(playerLeagues);
+            return okresponses.loginUser("token");
+        } catch (Exception e){
+            return koresponses.googleLogin(e.getMessage());
+        }
+    }
+
+
+    @CrossOrigin
+    @PostMapping(value ="/getPfp", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPfp(@RequestBody UserDTO newUserDTO){
+        try{
+            byte[] image = userService.getUserPfp(newUserDTO.getMail());
+
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG); // Cambiar según el tipo de imagen
+            headers.setContentLength(image.length);
+
+            return new ResponseEntity<>(image, headers, HttpStatus.OK);
+        } catch (Exception e){
+            return koresponses.googleLogin(e.getMessage());
+        }
+    }
+
+
+
 
 }
 

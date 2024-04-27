@@ -23,11 +23,23 @@ export class ApiService {
    * @param data the data of the request.
    * @returns the response of the request.
    */
-  public sendRequest(type: string, data: any): Observable<credentialsResponse> {
+  public sendRequest(type: string, data: any): Observable<any> {
     const url = this.api_url + type;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post<credentialsResponse>(url, data, { headers });
+    return this.http.post<any>(url, data, { headers });
     
+  }
+
+
+
+  public sendBlobRequest(type: string, data: any): Observable<Blob> {
+    const url = this.api_url + type;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post(url, data, {
+      headers: headers,
+      responseType: 'blob' 
+    });
   }
 }

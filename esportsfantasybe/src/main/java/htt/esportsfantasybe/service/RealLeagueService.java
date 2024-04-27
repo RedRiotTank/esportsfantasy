@@ -3,15 +3,20 @@ package htt.esportsfantasybe.service;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import jakarta.transaction.Transactional;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -160,7 +165,7 @@ public class RealLeagueService {
 
         String url = LolApiCaller.getTableImgurl(op, "Tournament");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/lolmedia/leagues/" + op + ".png");
+        Utils.downloadImage(url,"src/main/resources/media/LOL/leagues/" + op + ".png");
 
     }
 
@@ -175,6 +180,48 @@ public class RealLeagueService {
 
         return leagues;
     }
+
+    public Set<RealLeagueDTO> getGameRLeaguesDB(String game) {
+        Set<RealLeague> leagues = new HashSet<>();
+
+        leagues = realLeagueRepository.findByGame(game);
+
+        return leagues.stream()
+                .map(RealLeagueDTO::new)
+                .collect(Collectors.toSet());
+    }
+
+
+
+
+    public byte[] getRLeagueIcon(String uuid) throws IOException {
+        Optional<RealLeague> rlOptional = realLeagueRepository.findById(UUID.fromString(uuid));
+
+
+
+        RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("liga no encontrada"));
+
+
+        Path imagePath;
+        imagePath = Paths.get("src/main/resources/media/" + rl.getGame() + "/leagues/" + Utils.generateOPname(rl.getOverviewpage()) + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+            } catch (IOException ioException) {
+                throw new RuntimeException("numerr");
+            }
+        }
+        return imageBytes;
+    }
+
+
+
 
     // ------- UTILS ------- //
 

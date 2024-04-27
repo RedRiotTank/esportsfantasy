@@ -2,15 +2,18 @@ package htt.esportsfantasybe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
+import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.complexentities.TeamXrLeague;
 import htt.esportsfantasybe.service.PlayerService;
 import htt.esportsfantasybe.service.RealLeagueService;
 import htt.esportsfantasybe.service.TeamService;
+import htt.esportsfantasybe.service.UserService;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.TeamXrLeagueService;
@@ -33,30 +36,30 @@ import java.util.Set;
 @EnableScheduling
 public class EsportsfantasybeApplication {
 
-    private final RealLeagueService realLeagueService;
-    private final PlayerService playerService;
-    private final TeamService teamService;
 
-    private final TeamXrLeagueService teamXrLeagueService ;
 
-    CounterApiCaller counterApiCaller = new CounterApiCaller();
-    LolApiCaller lolApiCaller = new LolApiCaller();
 
-    @Autowired
-    public EsportsfantasybeApplication(RealLeagueService realLeagueService, PlayerService playerService, TeamService teamService, TeamXrLeagueService teamXrLeagueService) {
-        this.realLeagueService = realLeagueService;
-        this.playerService = playerService;
-        this.teamService = teamService;
-        this.teamXrLeagueService = teamXrLeagueService;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(EsportsfantasybeApplication.class, args);
         System.out.println("eSportsFantasy backend is running");
+
+
     }
 
     @PostConstruct
     public void initialize() throws IOException {
+
+/*
+        System.out.printf("a");
+        userService.getAllUsers().forEach(user -> {
+            List<LeagueDTO> leagues = userService.getUserLeagues(user.getUuid());
+            System.out.println(user.getMail() + " has the following leagues: ");
+            System.out.println(leagues);
+        });
+
+ */
+
         //realLeagueService.updateLeagues();
         //lolApiCaller.downloadLeagueImage("LEC/2024 Season/Spring");
         //Set<PlayerDTO> players =  lolApiCaller.getTeamPlayers(teamService.getTeamDataDB());

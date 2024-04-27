@@ -1,0 +1,63 @@
+
+<p (click)="jj()">leagues</p>
+
+<div class="flex justify-content-center">
+    <p-accordion [activeIndex]="0" >
+        <p-accordionTab header="Select a league type" [selected]="activeIndex === 0">
+           
+            <div  (click)="selectLeagueType(1)" [class.clicked]="leagueType === 1" class="type">
+                <h4 class="esf-title">Crear mi liga 🚀</h4>
+                <p class="esf-text">Crea tu propia liga pública para competir con los mejores o privada para demostrar a tus amigos quien es el mejor </p>
+            </div>
+
+            <div (click)="selectLeagueType(2)" [class.clicked]="leagueType === 2" class="type">
+                <h4 class="esf-title">Unirme a una liga pública 🌍</h4>
+                <p class="esf-text">Unete a una liga pública para competir con todo el mundo.</p>
+            </div>
+
+            <div (click)="selectLeagueType(3)" [class.clicked]="leagueType === 3" class="type">
+                <h4 class="esf-title">Unirme a una liga de amigos 👨‍👩‍👧‍👦</h4>
+                <p class="esf-text">Unete a la liga de un amigo para demostrar quien es el mejor.</p>
+            </div>
+
+        </p-accordionTab>
+        <p-accordionTab [disabled]="getSelectGameDisabled()" header="Select a game" [selected]="activeIndex === 1">
+            
+                <div *ngFor="let game of games" class="list">
+                    <div class="container" (click)="selectGame(game.game)" [class.clicked]="gameType == game.game">
+                        <img src="{{game.icon}}" alt="{{game}} image">                    
+                    </div>
+
+                </div>
+                
+            
+        </p-accordionTab>
+        <p-accordionTab [disabled]="getSelectCompetitionDisabled()" header="Select a competition" [selected]="activeIndex === 2">
+            <div *ngFor="let league of leagues" class="list">
+                <div class="container">
+                    <img src="{{league.icon}}" alt="{{league.competition.ShortName}} image">    
+                    <p>{{league.competition.ShortName}}</p>                
+                </div>
+
+            </div>
+        </p-accordionTab>
+        <p-accordionTab [disabled]="getSelectConfigurationDisabled()" header="Configuration" [selected]="activeIndex === 3">
+            <p>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
+            </p>
+        </p-accordionTab>
+
+        <p-accordionTab [disabled]="getCodeDisabled()" header="Introduce a code" [selected]="activeIndex === 4">
+            <p class="esf-text">
+                Introduce here the code your friend gave you to join his league.
+
+                <input type="text" class="form-control" placeholder="Code" [(ngModel)]="code" name="code" required>
+            </p>
+        </p-accordionTab>
+    </p-accordion>
+
+    <div class="create-league-button">
+        <button class="esf-ibutton">Continue</button>
+    </div>
+    
+</div>

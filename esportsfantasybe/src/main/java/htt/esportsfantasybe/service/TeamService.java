@@ -69,6 +69,6 @@ public class TeamService {
 
         String url = LolApiCaller.getTableImgurl(op, "Team");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/lolmedia/teams/" + op + ".png");
+        Utils.downloadImage(url,"src/main/resources/media/LOL/teams/" + op + ".png");
     }
 }

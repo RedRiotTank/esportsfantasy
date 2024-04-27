@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.DTO;
 
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Setter
 @Getter
 public class UserDTO {
+    private UUID uuid;
     private String mail;
     private String pass;
     private String username;
@@ -41,4 +43,11 @@ public class UserDTO {
         this.admin = false;
     }
 
+    public UserDTO(User user) {
+        this.uuid = user.getUuid();
+        this.mail = user.getMail();
+        this.pass = user.getPass();
+        this.username = user.getUsername();
+        this.admin = user.isAdmin();
+    }
 }
