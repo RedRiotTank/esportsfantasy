@@ -14,5 +14,6 @@ public class JoinLeaguePOJO {
     private int startType;
     private String code;
     private String userMail;
+    private boolean publicLeague;
 
 }

@@ -19,4 +19,8 @@ public class UserXLeagueService {
            userXLeagueRepository.save(new UserXLeague(new UserXLeagueId(userID, leagueID), isAdmin));
     }
 
+    public boolean isUserInLeague(UUID userID, UUID leagueID) {
+        return userXLeagueRepository.existsById(new UserXLeagueId(userID, leagueID));
+    }
+
 }

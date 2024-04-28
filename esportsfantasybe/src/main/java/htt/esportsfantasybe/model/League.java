@@ -21,6 +21,12 @@ public class League {
     private String name;
     private boolean activeclause;
     private int startingtype;
+    private boolean publicleague;
+
+
+    @ManyToOne // Cambiado a ManyToOne
+    @JoinColumn(name = "realleague")
+    private RealLeague realLeague;
 
     @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<User> users;
@@ -32,10 +38,12 @@ public class League {
     public League(LeagueDTO leagueDTO) {
         this(leagueDTO.getName());
     }
-    public League(String name, boolean activeclause, int startingtype) {
+    public League(String name, boolean activeclause, int startingtype, RealLeague realLeague, boolean publicleague) {
         this.name = name;
         this.activeclause = activeclause;
         this.startingtype = startingtype;
+        this.realLeague = realLeague;
+        this.publicleague = publicleague;
 
     }
 

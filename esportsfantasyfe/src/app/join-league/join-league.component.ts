@@ -30,6 +30,7 @@ export class JoinLeagueComponent implements OnInit{
     leagueName: string = null;
     clauseActive: number = 0;
     startType: number = 0;
+    publicLeague: number = 1;
 
   code: string = null;
   
@@ -175,12 +176,18 @@ export class JoinLeagueComponent implements OnInit{
 
     const canContinue = this.checkFields();
 
-    var clauseActiveBoolean;
+    var clauseActiveBoolean, publicLeagueBoolean;
 
     if(this.clauseActive == 1){
       clauseActiveBoolean = true;
     } else {
       clauseActiveBoolean = false;
+    }
+
+    if(this.publicLeague == 1){
+      publicLeagueBoolean = true;
+    } else {
+      publicLeagueBoolean = false;
     }
 
     const leagueData = {
@@ -191,7 +198,8 @@ export class JoinLeagueComponent implements OnInit{
       clauseActive: clauseActiveBoolean,
       startType: this.startType,
       code: this.code,
-      userMail: this.credentialsService.getDecodedToken().sub
+      userMail: this.credentialsService.getDecodedToken().sub,
+      publicLeague: publicLeagueBoolean
     };
 
 

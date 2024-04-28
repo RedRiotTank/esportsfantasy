@@ -26,6 +26,7 @@ public class LeagueController {
     @PostMapping(value ="/joinLeague", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> joinLeague(@RequestBody JoinLeaguePOJO joinLeaguePOJO) {
         try {
+
             leagueService.joinLeague(joinLeaguePOJO);
 
             return okresponses.joinLeague();

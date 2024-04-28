@@ -193,6 +193,13 @@ public class RealLeagueService {
 
 
 
+    public RealLeague getRLeague(String uuid) {
+        Optional<RealLeague> rlOptional = realLeagueRepository.findById(UUID.fromString(uuid));
+
+        RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("liga no encontrada"));
+
+        return rl;
+    }
 
     public byte[] getRLeagueIcon(String uuid) throws IOException {
         Optional<RealLeague> rlOptional = realLeagueRepository.findById(UUID.fromString(uuid));
