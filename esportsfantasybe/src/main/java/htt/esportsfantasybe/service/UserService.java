@@ -170,7 +170,6 @@ public class UserService {
         if (user.isEmpty()) throw new RuntimeException("numerr");
 
         UUID useruuid = user.get().getUuid();
-        System.out.println("uuid: " + useruuid.toString());
 
         Path imagePath;
         imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");
@@ -188,6 +187,14 @@ public class UserService {
             }
         }
             return imageBytes;
+    }
+
+    public UserDTO getUser(String mail){
+        Optional<User> user = userRepository.findByMail(mail);
+
+        User getUser = user.orElseThrow(() -> new RuntimeException("Could not find user with mail: " + mail + "."));
+
+        return new UserDTO(getUser);
     }
 
 

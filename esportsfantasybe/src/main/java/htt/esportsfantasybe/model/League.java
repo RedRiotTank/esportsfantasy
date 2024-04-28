@@ -19,6 +19,8 @@ public class League {
     private UUID uuid;
 
     private String name;
+    private boolean activeclause;
+    private int startingtype;
 
     @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<User> users;
@@ -30,6 +32,13 @@ public class League {
     public League(LeagueDTO leagueDTO) {
         this(leagueDTO.getName());
     }
+    public League(String name, boolean activeclause, int startingtype) {
+        this.name = name;
+        this.activeclause = activeclause;
+        this.startingtype = startingtype;
+
+    }
+
     public League() {
 
     }

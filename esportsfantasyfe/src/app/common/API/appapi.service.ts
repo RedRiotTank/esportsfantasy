@@ -12,13 +12,15 @@ export class AppapiService {
   ) { }
 
 
+  public joinLeague(leagueData :any): Observable<any> {
+    return this.api.sendRequest("League/joinLeague", leagueData);
+  }
+
   public getCompetitions(game: string): Observable<any> {
     return this.api.sendRequest("realLeague/getGameRLeagues", game);
   }
 
   public getLeagueIcon(uuid :String): Observable<string> {
-    console.log("uuid: " , uuid);
-    
     return new Observable<string>(observer => {
       const reader = new FileReader();
 

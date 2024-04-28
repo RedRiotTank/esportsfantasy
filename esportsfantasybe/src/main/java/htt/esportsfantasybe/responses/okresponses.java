@@ -37,6 +37,14 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
+    public static ResponseEntity<?> joinLeague(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "User joined league correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
     public static ResponseEntity<?> getGames(List<GamesDTO> games) {
         JsonObject okjson = new JsonObject();
         okjson.addProperty("result", "ok");

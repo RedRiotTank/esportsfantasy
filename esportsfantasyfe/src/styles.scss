@@ -30,6 +30,22 @@ $mobilepx: 768px; //if change this, change it in utils.service too.
   color: #000;
 }
 
+.esf-error-box{
+  text-align: center;
+}
+
+.esf-error-text{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: red;
+}
+
+.esf-error-box-no-display{
+  display: none;
+}
+
 
 .esf-sbutton{
   font-family: "Montserrat", sans-serif;

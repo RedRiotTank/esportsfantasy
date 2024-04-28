@@ -80,4 +80,12 @@ public class koresponses {
 
     }
 
+    public static ResponseEntity<?> joinLeague(){
+        JsonObject kojson = new JsonObject();
+        kojson.addProperty("result", "ko");
+        kojson.addProperty("status", "400");
+        kojson.addProperty("message", "User join to league failed");
+        return ResponseEntity.ok(kojson.toString());
+    }
+
 }
