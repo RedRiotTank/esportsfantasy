@@ -170,6 +170,7 @@ public class UserService {
         if (user.isEmpty()) throw new RuntimeException("numerr");
 
         UUID useruuid = user.get().getUuid();
+        System.out.println("uuid: " + useruuid.toString());
 
         Path imagePath;
         imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");

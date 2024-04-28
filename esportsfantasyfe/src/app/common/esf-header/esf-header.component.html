@@ -1,6 +1,6 @@
 <header>
  
-  <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil">
+  
   <img class="logo" src="../../assets/logo.png" alt="Logo"> 
 
   <button class="ham" (click)="toggleHam()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -17,7 +17,9 @@
       <li> <button class="esf-sbutton">MATCHS</button></li>
       <li> <button class="esf-sbutton">MARKET</button></li>
       <li> <button class="esf-sbutton">CONTACT</button></li>
-      <li><button class="esf-ibutton centeredV" (click)="goToLogin()">LOGIN</button></li>
+      <li *ngIf="!getLoggedIn()"><button class="esf-ibutton" (click)="goToLogin()">LOGIN</button></li>
+
+      <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil">
     </ul>
 
     

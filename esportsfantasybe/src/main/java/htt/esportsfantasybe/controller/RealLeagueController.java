@@ -42,7 +42,6 @@ public class RealLeagueController {
     @PostMapping(value ="/getRLeagueIcon", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRLeagueIcon(@RequestBody String uuid){
         try{
-            System.out.println("AAA");
             byte[] image = realLeagueService.getRLeagueIcon(uuid);
 
 

@@ -16,6 +16,23 @@ export class JoinLeagueComponent implements OnInit{
   games: any[] = [];
   leagues: any[] = [];
 
+
+
+
+  // DISPLAY
+
+
+
+
+  //FORM-DATA
+  competition :string = null; //uuid
+
+  leagueName: string = '';
+  clauseActive: string = 'yes';
+  startType: string = 'money';
+
+
+
   constructor(private appapi: AppapiService) { }
 
 
@@ -61,7 +78,11 @@ export class JoinLeagueComponent implements OnInit{
   }
 
   getSelectConfigurationDisabled() : boolean {
-    return true;
+    if(this.competition == null){
+      return true;
+    }
+
+    return false;
   }
 
   getConfigurationDisabled() : boolean {
@@ -110,9 +131,16 @@ export class JoinLeagueComponent implements OnInit{
         })
       });
     });
-   
 
+  }
 
+  selectCompetition(competition : string){
+    this.competition = competition;
+    this.activeIndex = 3;
+
+    console.log("comp: ", this.competition);
+    
+      
   }
 
     

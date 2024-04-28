@@ -67,7 +67,7 @@
         transition: transform 0.2s ease;
         
         img{
-            height: 200px;
+            height: auto;
             width: auto;
             
         }
@@ -80,6 +80,10 @@
 
     .container:hover{
         background-color: rgb(230, 230, 230);
+    }
+
+    .form-group div{
+        margin: 5% 5%;
     }
 
     

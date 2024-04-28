@@ -13,24 +13,41 @@ header{
     display: none;
   }
 
-  .navegation-menu{
+  .navegation-menu {
     display: flex;
-    align-items: center;
-    padding-top: 2.25%;
+    align-items: center; 
     padding-right: 3%;
+    margin: 1vw 0;
 
-    .ham-close{
+    .ham-close {
       display: none;
     }
-
-    .nav-list{
-      display: flex;
+    
+    .nav-list {
       list-style-type: none;
-      gap: 1rem;
-    }
+      margin: 0;
+      padding: 0;
 
+      li {
+        display: inline-block; 
+        vertical-align: middle;
+        margin-right: 1rem; 
+      }
+
+      img {
+        width: 4vw;
+        height: 4vw;
+        border-radius: 50%
+      }
+
+    }
+    
+    
+    
     
   }
+  
+  
 
 }
 

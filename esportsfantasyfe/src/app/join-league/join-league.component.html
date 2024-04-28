@@ -34,7 +34,7 @@
         </p-accordionTab>
         <p-accordionTab [disabled]="getSelectCompetitionDisabled()" header="Select a competition" [selected]="activeIndex === 2">
             <div *ngFor="let league of leagues" class="list">
-                <div class="container">
+                <div class="container" (click)="selectCompetition(league.competition.Uuid)" [class.clicked]="competition == league.competition.Uuid">
                     <img src="{{league.icon}}" alt="{{league.competition.ShortName}} image">    
                     <p>{{league.competition.ShortName}}</p>                
                 </div>
@@ -42,9 +42,32 @@
             </div>
         </p-accordionTab>
         <p-accordionTab [disabled]="getSelectConfigurationDisabled()" header="Configuration" [selected]="activeIndex === 3">
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
-            </p>
+            <form>
+                <div class="form-group row mb-4">
+                  <label for="leagueName" class="col-sm-3 col-form-label">League Name:</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="leagueName" name="leagueName" [(ngModel)]="leagueName" placeholder="Enter league name" required>
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
+                  <label for="clauseActive" class="col-sm-3 col-form-label">Activate Clause Option:</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="clauseActive" name="clauseActive" [(ngModel)]="clauseActive">
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
+                  <label for="startType" class="col-sm-3 col-form-label">Starting Type:</label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="startType" name="startType" [(ngModel)]="startType">
+                      <option value="money">Only Money</option>
+                      <option value="balance">Balance between Players and Money</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
         </p-accordionTab>
 
         <p-accordionTab [disabled]="getCodeDisabled()" header="Introduce a code" [selected]="activeIndex === 4">
