@@ -2,6 +2,7 @@ package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
@@ -11,11 +12,15 @@ import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class LeagueService {
+
+
 
     @Autowired
     private LeagueRepository leagueRepository;
@@ -25,6 +30,15 @@ public class LeagueService {
 
     private RealLeagueService realLeagueService;
 
+
+
+    // invitation codes:
+    private HashMap<String, UUID> invitationCodes = new HashMap<>();
+    private final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private final int CODE_SIZE = 6;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+
     @Autowired
     public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService) {
         this.userService = userService;
@@ -32,6 +46,31 @@ public class LeagueService {
         this.realLeagueService = realLeagueService;
 
     }
+
+    public String generateInvitationCode(UUID leagueUUID) {
+        String code;
+        do {
+            code = generateCode();
+        } while (invitationCodes.containsKey(code));
+
+        invitationCodes.put(code, leagueUUID);
+
+        String finalCode = code;
+        scheduler.schedule(() -> invitationCodes.remove(finalCode), 24, TimeUnit.HOURS);
+
+        return code;
+    }
+
+    private String generateCode() {
+        StringBuilder codeBuilder = new StringBuilder();
+        for (int i = 0; i < CODE_SIZE; i++) {
+            codeBuilder.append(CHARS.charAt((int) (Math.random() * CHARS.length())));
+        }
+        return codeBuilder.toString();
+    }
+
+
+
 
 
     public void joinLeague(JoinLeaguePOJO joinLeaguePOJO){
@@ -46,6 +85,9 @@ public class LeagueService {
                 League league = leagueRepository.save(new League(joinLeaguePOJO.getLeagueName(), joinLeaguePOJO.isClauseActive(), joinLeaguePOJO.getStartType(), rl, joinLeaguePOJO.isPublicLeague()));
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true);
+
+                System.out.println(generateInvitationCode(league.getUuid()));
+
 
                 break;
             case 2:
@@ -67,6 +109,21 @@ public class LeagueService {
 
                 break;
             case 3:
+
+               UUID leagueuuid = this.invitationCodes.get(joinLeaguePOJO.getCode());
+
+               if(leagueuuid == null)
+                   throw new RuntimeException("Codigo de invitacion expirado o invalido.");
+
+                League leagueUnionByCode = leagueRepository.findById(leagueuuid).orElse(null);
+
+                if(leagueUnionByCode == null)
+                    throw new RuntimeException("No se encontro la liga con el codigo ingresado");
+
+                if(userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid()))
+                    throw new RuntimeException("Ya estas en la liga");
+
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false);
 
             default:
                 System.out.println("Invalid league type");

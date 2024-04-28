@@ -24,7 +24,7 @@ public class League {
     private boolean publicleague;
 
 
-    @ManyToOne // Cambiado a ManyToOne
+    @ManyToOne
     @JoinColumn(name = "realleague")
     private RealLeague realLeague;
 
@@ -44,7 +44,6 @@ public class League {
         this.startingtype = startingtype;
         this.realLeague = realLeague;
         this.publicleague = publicleague;
-
     }
 
     public League() {

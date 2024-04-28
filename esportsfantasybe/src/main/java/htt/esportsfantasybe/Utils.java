@@ -2,12 +2,13 @@ package htt.esportsfantasybe;
 
 import com.google.gson.JsonElement;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import org.jsoup.Jsoup;

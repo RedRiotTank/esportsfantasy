@@ -92,9 +92,20 @@ export class JoinLeagueComponent implements OnInit{
   }
  
 
+  setActiveIndex(activeIndex: number) {
+    this.activeIndex = activeIndex;
+  }
+
+
   // SELECTORS
 
   selectLeagueType(leagueType: number) {
+    
+    console.log("leagueType", this.leagueType);
+    console.log("activeIndex", this.activeIndex);
+    
+    
+
     this.leagueType = leagueType;
     
     if(leagueType == 1 || leagueType == 2){
@@ -117,9 +128,10 @@ export class JoinLeagueComponent implements OnInit{
   selectGame(gameType: string) {
     this.gameType = gameType;
     this.activeIndex = 2;
-    this.leagues = [];
+    
 
     this.appapi.getCompetitions(this.gameType).subscribe(response =>{
+      this.leagues = [];
       response.leagues.forEach(competition => {
         this.appapi.getLeagueIcon(competition.Uuid).subscribe(icon =>{
           this.leagues.push({competition: competition, icon: icon});
