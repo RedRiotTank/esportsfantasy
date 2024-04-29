@@ -127,7 +127,7 @@ export class JoinLeagueComponent implements OnInit{
         this.leagues = [];
 
         leagues.forEach(league => {
-          this.appapi.getLeagueIcon(league.Uuid).subscribe(icon =>{
+          this.appapi.getRLeagueIcon(league.Uuid).subscribe(icon =>{
             this.leagues.push({competition: league, icon: icon});
           })
         });

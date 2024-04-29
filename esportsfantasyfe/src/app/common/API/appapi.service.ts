@@ -81,7 +81,7 @@ export class AppapiService {
     );
   }
 
-  public getLeagueIcon(uuid :String): Observable<string> {
+  public getRLeagueIcon(uuid :String): Observable<string> {
     return new Observable<string>(observer => {
       const reader = new FileReader();
 
@@ -111,6 +111,37 @@ export class AppapiService {
       this.sendToErrorPage(error);
     });
   }
+
+  public getUserLeagues(mail :string): Observable<any> {
+
+    return this.api.sendRequest("League/getUserLeagues", mail).pipe(
+      map(response => response.leagues),
+      catchError(error => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+    
+  }
+
+  public getLeagueIcon(uuid :String): Observable<string> {
+    return new Observable<string>(observer => {
+      const reader = new FileReader();
+
+      this.api.sendBlobRequest("League/getLeagueIcon", uuid).subscribe(response => {
+        reader.readAsDataURL(response);
+        reader.onload = () => {
+          observer.next(reader.result.toString());
+          observer.complete();
+        }
+      }, error => {
+        observer.next(null);
+        observer.complete();
+        this.sendToErrorPage(null);
+      });
+    });
+  }
+  
 
   // --- USER ---
 

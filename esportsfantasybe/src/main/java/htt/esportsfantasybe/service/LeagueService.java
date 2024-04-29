@@ -1,11 +1,14 @@
 package htt.esportsfantasybe.service;
 
+import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
+import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import htt.esportsfantasybe.repository.LeagueRepository;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
@@ -41,6 +44,29 @@ public class LeagueService {
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
 
+    }
+
+    public byte[] getLeagueIcon(String uuid){
+        League league = this.leagueRepository.findById(UUID.fromString(uuid)).orElseThrow(RuntimeException::new);
+
+        return realLeagueService.getRLeagueIcon(league.getRealLeague().getUuid().toString());
+    }
+
+    public List<UserLeagueInfoPOJO> getUserLeagues(String mail){
+
+        UserDTO userDTO = userService.getUser(mail);
+
+        List<UserXLeague> userLeagues = this.userXLeagueService.getUserXLeaguesForUser(userDTO.getUuid());
+
+        List<UserLeagueInfoPOJO> userLeagueInfoPOJOS = new ArrayList<>();
+
+        userLeagues.forEach(userXLeague -> {
+            League league = this.leagueRepository.findById(userXLeague.getId().getLeagueuuid()).orElseThrow(RuntimeException::new);
+
+            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin()));
+        });
+
+        return userLeagueInfoPOJOS;
     }
 
     public String generateInvitationCode(UUID leagueUUID) {

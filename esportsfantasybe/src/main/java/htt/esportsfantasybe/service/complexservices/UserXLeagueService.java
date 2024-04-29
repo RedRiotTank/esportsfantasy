@@ -7,6 +7,8 @@ import htt.esportsfantasybe.repository.complexrepositories.UserXLeagueRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -21,6 +23,10 @@ public class UserXLeagueService {
 
     public boolean isUserInLeague(UUID userID, UUID leagueID) {
         return userXLeagueRepository.existsById(new UserXLeagueId(userID, leagueID));
+    }
+
+    public List<UserXLeague> getUserXLeaguesForUser(UUID userUuid) {
+       return userXLeagueRepository.findAllByUserUuid(userUuid);
     }
 
 }

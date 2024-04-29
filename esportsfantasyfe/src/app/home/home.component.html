@@ -1,7 +1,34 @@
-<div class="no-league">
+<div *ngIf="leagues.length === 0" class="no-league">
     <h2 class="esf-title">You're not in any league right now</h2>
 
     <button class="esf-ibutton" (click)="goToCreateLeague()">Create a league</button>
-
-    <button class="esf-ibutton">Join a league</button>
 </div>
+
+
+
+<div *ngIf="leagues.length !== 0" class="home-container">
+
+    <div class="league-list">
+        <div *ngFor="let league of leagues" class="league">
+            <img src="{{league.icon}}" alt="logo-img">
+            <p class="esf-text"> {{league.leagueName}}</p>
+            
+        </div>
+
+        <button class="esf-ibutton" (click)="goToCreateLeague()">Join league</button>
+
+    </div>
+
+    <div class="home-content">
+        <p class="esf-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+    </div>
+
+    
+
+
+    
+</div>
+
+

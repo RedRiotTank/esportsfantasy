@@ -1,9 +1,12 @@
 package htt.esportsfantasybe.responses;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -57,6 +60,28 @@ public class okresponses {
         });
 
         okjson.add("games", gamesArray);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getUserLeagues(List<UserLeagueInfoPOJO> leagues) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got leagues correctly");
+
+        JsonArray leaguesArray = new JsonArray();
+
+        leagues.forEach(league -> {
+            JsonObject leagueJson = new JsonObject();
+            leagueJson.addProperty("leagueUUID", league.getLeagueUUID());
+            leagueJson.addProperty("leagueName", league.getLeagueName());
+            leagueJson.addProperty("isAdmin", league.getIsAdmin());
+            leaguesArray.add(leagueJson);
+        });
+
+        okjson.add("leagues", leaguesArray);
+
 
         return ResponseEntity.ok(okjson.toString());
     }
