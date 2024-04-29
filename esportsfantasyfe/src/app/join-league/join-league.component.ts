@@ -102,12 +102,6 @@ export class JoinLeagueComponent implements OnInit{
   // SELECTORS
 
   selectLeagueType(leagueType: number) {
-    
-    console.log("leagueType", this.leagueType);
-    console.log("activeIndex", this.activeIndex);
-    
-    
-
     this.leagueType = leagueType;
     
     if(leagueType == 1 || leagueType == 2){
@@ -121,10 +115,7 @@ export class JoinLeagueComponent implements OnInit{
       this.gameType = null;
       this.competition = null;
     }
-
-   // console.log(this.activeIndex);
     
-
   }
 
   selectGame(gameType: string) {
@@ -216,10 +207,6 @@ export class JoinLeagueComponent implements OnInit{
       userMail: this.credentialsService.getDecodedToken().sub,
       publicLeague: publicLeagueBoolean
     };
-
-
-    console.log("leaguedata", leagueData);
-    
     
     if(canContinue){
       this.appapi.joinLeague(leagueData);

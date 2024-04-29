@@ -101,9 +101,6 @@ export class LoginComponent {
 
       this.router.navigate(['/home']);
     }, error => {
-      console.log(error);
-      
-
       var err: credentialsResponse = {
         result: error.error.result,
         status: error.error.status,

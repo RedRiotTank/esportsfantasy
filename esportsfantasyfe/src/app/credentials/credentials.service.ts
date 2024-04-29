@@ -88,18 +88,11 @@ export class CredentialsService{
      */
     loginSocial(){
 
-      console.log("social: ", this.social_user);
-      
-
       const data = {
         mail: this.social_user.email,
         idToken: this.social_user.idToken,
         name: this.social_user.name
       };
-
-      console.log(data);
-      
-      console.log("sent");
       
       this.api.sendRequest("user/googleLogin",data).subscribe(response =>{
 
