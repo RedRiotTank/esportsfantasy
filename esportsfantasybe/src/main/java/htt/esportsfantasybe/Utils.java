@@ -5,20 +5,20 @@ import com.google.gson.JsonElement;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-
-import htt.esportsfantasybe.service.apicaller.LolApiCaller;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 
 public class Utils {
+
+    public static HttpHeaders getImageHeaders(byte[] image){
+        org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(image.length);
+
+        return headers;
+    }
+
 
     public static String generateOPname(String op){
 

@@ -2,6 +2,7 @@ package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
@@ -172,42 +173,41 @@ public class RealLeagueService {
 
     // ------- DATABASE ------- //
     public Set<RealLeagueDTO> getRLeaguesDB() {
-        Set<RealLeagueDTO> leagues = new HashSet<>();
+        Set<RealLeagueDTO> leaguesDTO = new HashSet<>();
 
-        realLeagueRepository.findAll().forEach(league ->
-                leagues.add(new RealLeagueDTO(league))
+        List<RealLeague> rLeagues = realLeagueRepository.findAll();
+
+        if(rLeagues.isEmpty()) throw new RuntimeException("1016");
+
+        rLeagues.forEach(league ->
+                leaguesDTO.add(new RealLeagueDTO(league))
         );
 
-        return leagues;
+        return leaguesDTO;
     }
 
     public Set<RealLeagueDTO> getGameRLeaguesDB(String game) {
-        Set<RealLeague> leagues = new HashSet<>();
+        Set<RealLeague> leagues;
 
         leagues = realLeagueRepository.findByGame(game);
+
+        if (leagues.isEmpty()) throw new RuntimeException("1016");
 
         return leagues.stream()
                 .map(RealLeagueDTO::new)
                 .collect(Collectors.toSet());
     }
 
-
-
     public RealLeague getRLeague(String uuid) {
         Optional<RealLeague> rlOptional = realLeagueRepository.findById(UUID.fromString(uuid));
 
-        RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("liga no encontrada"));
-
-        return rl;
+        return rlOptional.orElseThrow(() -> new RuntimeException("1017"));
     }
 
-    public byte[] getRLeagueIcon(String uuid) throws IOException {
+    public byte[] getRLeagueIcon(String uuid){
         Optional<RealLeague> rlOptional = realLeagueRepository.findById(UUID.fromString(uuid));
 
-
-
-        RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("liga no encontrada"));
-
+        RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
 
         Path imagePath;
         imagePath = Paths.get("src/main/resources/media/" + rl.getGame() + "/leagues/" + Utils.generateOPname(rl.getOverviewpage()) + ".png");
@@ -221,14 +221,11 @@ public class RealLeagueService {
             try {
                 imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
             } catch (IOException ioException) {
-                throw new RuntimeException("numerr");
+                throw new RuntimeException();
             }
         }
         return imageBytes;
     }
-
-
-
 
     // ------- UTILS ------- //
 

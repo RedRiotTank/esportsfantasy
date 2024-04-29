@@ -1,1 +1,8 @@
-<p>esf-error works!</p>
+
+
+<div class="error-container">
+    <h1>ERROR</h1>
+    <h2>HTTP Status: {{error.getHttpStatus()}}</h2>
+    <h3>Internal Status: {{error.getErrorCode()}}</h3>
+    <p>{{error.getErrorDescription()}}</p>
+</div>

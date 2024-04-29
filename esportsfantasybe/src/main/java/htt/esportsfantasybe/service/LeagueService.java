@@ -20,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class LeagueService {
 
-
-
     @Autowired
     private LeagueRepository leagueRepository;
 
@@ -29,8 +27,6 @@ public class LeagueService {
     private UserXLeagueService userXLeagueService;
 
     private RealLeagueService realLeagueService;
-
-
 
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
@@ -63,15 +59,11 @@ public class LeagueService {
 
     private String generateCode() {
         StringBuilder codeBuilder = new StringBuilder();
-        for (int i = 0; i < CODE_SIZE; i++) {
+        for (int i = 0; i < CODE_SIZE; i++)
             codeBuilder.append(CHARS.charAt((int) (Math.random() * CHARS.length())));
-        }
+
         return codeBuilder.toString();
     }
-
-
-
-
 
     public void joinLeague(JoinLeaguePOJO joinLeaguePOJO){
 
@@ -79,8 +71,8 @@ public class LeagueService {
 
         switch (joinLeaguePOJO.getLeagueType()){
             case 1:
-                RealLeague rl = realLeagueService.getRLeague(joinLeaguePOJO.getCompetition());
 
+                RealLeague rl = realLeagueService.getRLeague(joinLeaguePOJO.getCompetition());
 
                 League league = leagueRepository.save(new League(joinLeaguePOJO.getLeagueName(), joinLeaguePOJO.isClauseActive(), joinLeaguePOJO.getStartType(), rl, joinLeaguePOJO.isPublicLeague()));
 
@@ -88,12 +80,12 @@ public class LeagueService {
 
                 System.out.println(generateInvitationCode(league.getUuid()));
 
-
                 break;
+
             case 2:
                 Set<League> leagues = getPublicLeaguesWithTournament(joinLeaguePOJO.getCompetition());
 
-                League randomLeague = null;
+                League randomLeague;
                 int trycount = 0;
 
                 do{
@@ -102,29 +94,27 @@ public class LeagueService {
                     trycount++;
                 }while(userXLeagueService.isUserInLeague(userDTO.getUuid(), randomLeague.getUuid()) && trycount < 5);
 
-                if(trycount == 5)
-                    throw new RuntimeException("error encontrnado liga publica.");
+                if(trycount == 5) throw new RuntimeException("1011");
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false);
 
                 break;
+
             case 3:
 
                UUID leagueuuid = this.invitationCodes.get(joinLeaguePOJO.getCode());
 
-               if(leagueuuid == null)
-                   throw new RuntimeException("Codigo de invitacion expirado o invalido.");
+               if(leagueuuid == null) throw new RuntimeException("1012");
 
-                League leagueUnionByCode = leagueRepository.findById(leagueuuid).orElse(null);
+               League leagueUnionByCode = leagueRepository.findById(leagueuuid).orElse(null);
 
-                if(leagueUnionByCode == null)
-                    throw new RuntimeException("No se encontro la liga con el codigo ingresado");
+                if(leagueUnionByCode == null) throw new RuntimeException("1013");
 
-                if(userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid()))
-                    throw new RuntimeException("Ya estas en la liga");
+                if(userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid())) throw new RuntimeException("1014");
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false);
 
+                break;
             default:
                 System.out.println("Invalid league type");
         }
@@ -133,12 +123,16 @@ public class LeagueService {
 
     }
 
-
     public Set<League> getPublicLeaguesWithTournament(String tournamentID){
         RealLeague rl = realLeagueService.getRLeague(tournamentID);
-        if(rl != null)
-            return this.leagueRepository.findAllByRealLeagueAndPublicleague(rl, true);
-        else return null;
+
+        if(rl == null) throw new RuntimeException("1009");
+
+        Set<League> leagues = this.leagueRepository.findAllByRealLeagueAndPublicleague(rl, true);
+
+        if (leagues == null || leagues.isEmpty()) throw new RuntimeException("1010");
+
+        return leagues;
     }
 
 

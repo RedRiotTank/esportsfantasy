@@ -43,21 +43,20 @@ public class UserService {
     public void signup(UserDTO newUserDTO){
 
         if(!validateMail(newUserDTO.getMail())){
-            throw new RuntimeException("601");
+            throw new RuntimeException("1005");
         }
 
         if(inUseMail(newUserDTO.getMail())){
-            throw new RuntimeException("602");
+            throw new RuntimeException("1006");
         }
 
         if(!validatePass(newUserDTO.getPass())){
-            throw new RuntimeException("603");
+            throw new RuntimeException("1007");
         }
 
         newUserDTO.setPass(passwordEncoder.encode(newUserDTO.getPass()));
 
         User newUser = new User(newUserDTO);
-
 
         userRepository.save(newUser);
     }
@@ -73,10 +72,10 @@ public class UserService {
         String credentialPass = newUserDTO.getPass();
 
         Optional<User> loginUser = userRepository.findByMail(credentialMail);
-        if(loginUser.isEmpty()) throw new RuntimeException("610");
+        if(loginUser.isEmpty()) throw new RuntimeException("1001");
 
         boolean matches = passwordEncoder.matches(credentialPass,loginUser.get().getPass());
-        if(!matches) throw new RuntimeException("611");
+        if(!matches) throw new RuntimeException("1002");
 
         return JwtService.generateToken(newUserDTO);
     }
@@ -94,14 +93,14 @@ public class UserService {
         String credentialToken = newSocialUserDTO.getIdToken();
 
         boolean validToken = JwtService.verifyGoogleToken(credentialToken);
-        if(!validToken) throw new RuntimeException("620");
+        if(!validToken) throw new RuntimeException("1003");
 
         Optional<User> loginUser = userRepository.findByMail(credentialMail);
 
         if(loginUser.isEmpty()) {
             User newUser = new User(new UserDTO(newSocialUserDTO));
             userRepository.save(newUser);
-        } else if(loginUser.get().getPass() != null) throw new RuntimeException("621");
+        } else if(loginUser.get().getPass() != null) throw new RuntimeException("1004");
 
         return JwtService.generateToken(newSocialUserDTO);
     }
@@ -167,7 +166,7 @@ public class UserService {
     public byte[] getUserPfp(String mail) throws IOException {
         Optional<User> user = userRepository.findByMail(mail);
 
-        if (user.isEmpty()) throw new RuntimeException("numerr");
+        if (user.isEmpty()) throw new RuntimeException();
 
         UUID useruuid = user.get().getUuid();
 
@@ -183,7 +182,11 @@ public class UserService {
             try {
                 imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/pfp/default.png"));
             } catch (IOException ioException) {
-                throw new RuntimeException("numerr");
+                try {
+                    imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                } catch (IOException exception) {
+                    throw new RuntimeException();
+                }
             }
         }
             return imageBytes;
@@ -192,7 +195,7 @@ public class UserService {
     public UserDTO getUser(String mail){
         Optional<User> user = userRepository.findByMail(mail);
 
-        User getUser = user.orElseThrow(() -> new RuntimeException("Could not find user with mail: " + mail + "."));
+        User getUser = user.orElseThrow(() -> new RuntimeException("1008"));
 
         return new UserDTO(getUser);
     }

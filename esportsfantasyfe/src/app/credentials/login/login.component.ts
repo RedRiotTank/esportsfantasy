@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { credentialsResponse } from '../credentialsResponse';
 import { CredentialsService } from '../credentials.service';
 import { HeaderService } from '../../common/esf-header/header.service';
+import { AppapiService } from '../../common/API/appapi.service';
 
 @Component({
   selector: 'app-login',
@@ -100,6 +101,9 @@ export class LoginComponent {
 
       this.router.navigate(['/home']);
     }, error => {
+      console.log(error);
+      
+
       var err: credentialsResponse = {
         result: error.error.result,
         status: error.error.status,
@@ -116,6 +120,10 @@ export class LoginComponent {
       if(err.appStatus == "611"){
         this.unvalidPassword = true;
         this.errorMessage = "Wrong password";
+      }
+
+      if(err.appStatus != "610" && err.appStatus != "611"){
+        this.credentialsService.sendToErrorPage(error);
       }
     }); 
      

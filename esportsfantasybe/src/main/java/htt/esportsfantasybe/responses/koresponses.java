@@ -4,88 +4,57 @@ import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 /** This class contains the responses for the unsuccessful requests.
  * @author Alberto Plaza Montes
  */
 public class koresponses {
 
-    /** This method returns a response for an unsuccessful request (creation of a new user).
-     * @param codeS This is the code of the error.
-     * @return ResponseEntity<?> This returns the response for the unsuccessful request.
-     */
-    public static ResponseEntity<?> createdNewUser(String codeS){
+    private static final Map<Integer, String> koMap = new HashMap<>();
 
-        int code = Integer.parseInt(codeS);
+    static {
+        koMap.put(1000, "Unknown error.");
+        koMap.put(1001, "Non existent email.");
+        koMap.put(1002, "Wrong password.");
+        koMap.put(1003, "Invalid google token.");
+        koMap.put(1004, "Already locally registered email.");
+        koMap.put(1005, "Invalid email.");
+        koMap.put(1006, "Mail already in use.");
+        koMap.put(1007, "Unvalid password.");
+        koMap.put(1008, "Couldn’t find a player.");
+        koMap.put(1009, "Tournament not found.");
+        koMap.put(1010, "Couldn’ find public leagues with specified tournament.");
+        koMap.put(1011, "Error finding public league.");
+        koMap.put(1012, "Expirated or invalid invitation code.");
+        koMap.put(1013, "No league linked to this code.");
+        koMap.put(1014, "This user is already in this league.");
+        koMap.put(1015, "No games found.");
+        koMap.put(1016, "No competitions found.");
+        koMap.put(1017, "Competition not found.");
+    }
 
+    public static ResponseEntity<?> generateKO(){
+        return generateKO("1000");
+    }
+
+    public static ResponseEntity<?> generateKO(String koCode){
         JsonObject kojson = new JsonObject();
         kojson.addProperty("result", "ko");
-        kojson.addProperty("status", "400");
-        kojson.addProperty("appStatus", code);
 
-        String message = switch (code) {
-            case 601 -> "Unvalid email";
-            case 602 -> "Mail already in use";
-            case 603 -> "Unvalid password";
-            default -> "unknow error";
-        };
+        if(koCode == null || koCode.isEmpty()){
+            kojson.addProperty("appStatus", "1000");
+            kojson.addProperty("description", 1000);
+        } else {
+            kojson.addProperty("appStatus", koCode);
+            kojson.addProperty("description", koMap.get(Integer.parseInt(koCode)));
+        }
 
-        kojson.addProperty("message", message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(kojson.toString());
     }
 
-    /** This method returns a response for an unsuccessful request (login of a user).
-     * @param codeS This is the code of the error.
-     * @return ResponseEntity<?> This returns the response for the unsuccessful request.
-     */
-    public static ResponseEntity<?> login(String codeS){
 
-        int code = Integer.parseInt(codeS);
-
-        JsonObject kojson = new JsonObject();
-        kojson.addProperty("result", "ko");
-        kojson.addProperty("status", "400");
-        kojson.addProperty("appStatus", code);
-
-        String message = switch (code) {
-            case 610 -> "Inexistent email";
-            case 611 -> "Wrong password";
-            default -> "unknow error";
-        };
-
-        kojson.addProperty("message", message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(kojson.toString());
-    }
-
-    /** This method returns a response for an unsuccessful request (login of a user).
-     * @param codeS This is the code of the error.
-     * @return ResponseEntity<?> This returns the response for the unsuccessful request.
-     */
-    public static ResponseEntity<?> googleLogin(String codeS){
-
-        int code = Integer.parseInt(codeS);
-
-        JsonObject kojson = new JsonObject();
-        kojson.addProperty("result", "ko");
-        kojson.addProperty("status", "400");
-        kojson.addProperty("appStatus", code);
-
-        String message = switch (code) {
-            case 620 -> "Invalid google token";
-            case 621 -> "Locally registered email";
-            default -> "unknow error";
-        };
-
-        kojson.addProperty("message", message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(kojson.toString());
-
-    }
-
-    public static ResponseEntity<?> joinLeague(){
-        JsonObject kojson = new JsonObject();
-        kojson.addProperty("result", "ko");
-        kojson.addProperty("status", "400");
-        kojson.addProperty("message", "User join to league failed");
-        return ResponseEntity.ok(kojson.toString());
-    }
 
 }

@@ -105,7 +105,7 @@ export class RegisterComponent {
         this.unvalidEmail = true;
         this.errorMessage = "Email is already in use";
       } else {
-        this.router.navigate(['/error']);
+        this.credentialsService.sendToErrorPage(error);
       }
     });
 

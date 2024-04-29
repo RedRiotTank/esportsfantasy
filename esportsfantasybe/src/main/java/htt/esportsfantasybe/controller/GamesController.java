@@ -1,6 +1,7 @@
 package htt.esportsfantasybe.controller;
 
 import htt.esportsfantasybe.DTO.UserDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.GamesService;
@@ -27,11 +28,9 @@ public class GamesController {
         try {
             return okresponses.getGames(gamesService.getGames());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error getting games");
+            return koresponses.generateKO(e.getMessage());
         }
-
     }
-
 
     @CrossOrigin
     @PostMapping(value ="/getGameIcon", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,15 +38,9 @@ public class GamesController {
         try{
             byte[] image = gamesService.getGameIcon(game);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_PNG);
-            headers.setContentLength(image.length);
-
-            return new ResponseEntity<>(image, headers, HttpStatus.OK);
+            return new ResponseEntity<>(image, Utils.getImageHeaders(image), HttpStatus.OK);
         } catch (Exception e){
-            return koresponses.googleLogin(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
-
-
 }

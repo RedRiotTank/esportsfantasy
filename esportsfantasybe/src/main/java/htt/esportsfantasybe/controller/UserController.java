@@ -3,6 +3,7 @@ package htt.esportsfantasybe.controller;
 import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.SocialUserDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.config.JwtService;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.responses.koresponses;
@@ -52,7 +53,7 @@ public class UserController {
 
             return okresponses.createdNewUser();
         } catch(Exception e) {
-            return koresponses.createdNewUser(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 
@@ -69,7 +70,7 @@ public class UserController {
 
             return okresponses.loginUser(token);
         } catch (Exception e){
-            return koresponses.login(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 
@@ -86,11 +87,12 @@ public class UserController {
 
             return okresponses.loginUser(token);
         } catch (Exception e){
-            return koresponses.googleLogin(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 
     /**
+     * //TODO: Implement this method
      */
     @CrossOrigin
     @PostMapping(value ="/getLeagues", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -100,10 +102,9 @@ public class UserController {
             System.out.println(playerLeagues);
             return okresponses.loginUser("token");
         } catch (Exception e){
-            return koresponses.googleLogin(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
-
 
     @CrossOrigin
     @PostMapping(value ="/getPfp", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -111,19 +112,10 @@ public class UserController {
         try{
             byte[] image = userService.getUserPfp(newUserDTO.getMail());
 
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_PNG); // Cambiar según el tipo de imagen
-            headers.setContentLength(image.length);
-
-            return new ResponseEntity<>(image, headers, HttpStatus.OK);
+            return new ResponseEntity<>(image, Utils.getImageHeaders(image), HttpStatus.OK);
         } catch (Exception e){
-            return koresponses.googleLogin(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
-
-
-
-
 }
 

@@ -26,27 +26,11 @@ public class LeagueController {
     @PostMapping(value ="/joinLeague", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> joinLeague(@RequestBody JoinLeaguePOJO joinLeaguePOJO) {
         try {
-
             leagueService.joinLeague(joinLeaguePOJO);
 
             return okresponses.joinLeague();
         } catch(Exception e) {
-            return koresponses.joinLeague();
-        }
-    }
-
-
-
-    @CrossOrigin
-    @PostMapping(value ="/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> testendpoint(@RequestBody UserDTO newUserDTO) {
-        try {
-
-            System.out.println("TESTING");
-
-            return okresponses.createdNewUser();
-        } catch(Exception e) {
-            return koresponses.createdNewUser(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 }

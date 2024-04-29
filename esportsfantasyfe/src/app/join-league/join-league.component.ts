@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { CredentialsService } from '../credentials/credentials.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 
 @Component({
@@ -42,6 +42,7 @@ export class JoinLeagueComponent implements OnInit{
 
 
   ngOnInit(): void {
+
     this.appapi.getGamesFromAPI().subscribe(
       games => {
         games.forEach(game => {
@@ -51,6 +52,7 @@ export class JoinLeagueComponent implements OnInit{
         });  
       }
     );
+
   }
 
 
@@ -128,15 +130,16 @@ export class JoinLeagueComponent implements OnInit{
   selectGame(gameType: string) {
     this.gameType = gameType;
     this.activeIndex = 2;
-    
 
-    this.appapi.getCompetitions(this.gameType).subscribe(response =>{
-      this.leagues = [];
-      response.leagues.forEach(competition => {
-        this.appapi.getLeagueIcon(competition.Uuid).subscribe(icon =>{
-          this.leagues.push({competition: competition, icon: icon});
-        })
-      });
+    this.appapi.getGameRLeagues(this.gameType).subscribe(
+      leagues =>  {
+        this.leagues = [];
+
+        leagues.forEach(league => {
+          this.appapi.getLeagueIcon(league.Uuid).subscribe(icon =>{
+            this.leagues.push({competition: league, icon: icon});
+          })
+        });
     });
 
   }
@@ -219,16 +222,7 @@ export class JoinLeagueComponent implements OnInit{
     
     
     if(canContinue){
-      this.appapi.joinLeague(leagueData).subscribe(response => {
-        console.log("res: ", response);
-        if(response.status == 201){
-          this.router.navigate(['/home']);
-        } else {
-          this.router.navigate(['/error']);
-        }
-      }, error => {
-        console.log("error");
-      });
+      this.appapi.joinLeague(leagueData);
 
     }
     

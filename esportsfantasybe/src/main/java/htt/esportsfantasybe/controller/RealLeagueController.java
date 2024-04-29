@@ -2,6 +2,7 @@ package htt.esportsfantasybe.controller;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.RealLeagueService;
@@ -29,12 +30,11 @@ public class RealLeagueController {
     @PostMapping(value ="/getGameRLeagues", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getGameRLeagues(@RequestBody String game) {
         try {
-
             Set<RealLeagueDTO> leagues = realLeagueService.getGameRLeaguesDB(game);
 
             return okresponses.getGameLeagues(leagues);
         } catch(Exception e) {
-            return koresponses.createdNewUser(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 
@@ -44,31 +44,9 @@ public class RealLeagueController {
         try{
             byte[] image = realLeagueService.getRLeagueIcon(uuid);
 
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_PNG); // Cambiar según el tipo de imagen
-            headers.setContentLength(image.length);
-
-            return new ResponseEntity<>(image, headers, HttpStatus.OK);
+            return new ResponseEntity<>(image, Utils.getImageHeaders(image), HttpStatus.OK);
         } catch (Exception e){
-            return koresponses.googleLogin(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
-
-
-
-
-
-    @CrossOrigin
-    @PostMapping(value ="/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> testendpoint(@RequestBody UserDTO newUserDTO) {
-        try {
-            //userService.signup(newUserDTO);
-
-            return okresponses.createdNewUser();
-        } catch(Exception e) {
-            return koresponses.createdNewUser(e.getMessage());
-        }
-    }
-
 }

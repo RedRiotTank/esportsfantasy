@@ -28,6 +28,9 @@ public class GamesService {
 
     public List<GamesDTO> getGames() {
         List<Games> games = gamesRepository.findAll();
+
+        if(games.isEmpty()) throw new RuntimeException("1015");
+
         List<GamesDTO> gamesDTO = new ArrayList<>();
 
         games.forEach(game -> {
@@ -35,13 +38,9 @@ public class GamesService {
         });
 
         return gamesDTO;
-
-
-
     }
 
-    public byte[] getGameIcon(String game) throws IOException {
-
+    public byte[] getGameIcon(String game) {
 
         Path imagePath;
         imagePath = Paths.get("src/main/resources/media/gamesicons/" + game + ".png");
@@ -55,7 +54,7 @@ public class GamesService {
             try {
                 imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
             } catch (IOException ioException) {
-                throw new RuntimeException("imagen juego icono no encontrada");
+                throw new RuntimeException();
             }
         }
         return imageBytes;

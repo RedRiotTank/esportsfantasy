@@ -28,7 +28,7 @@ public class PlayerController {
 
             return okresponses.createdNewUser();
         } catch(Exception e) {
-            return koresponses.createdNewUser(e.getMessage());
+            return koresponses.generateKO(e.getMessage());
         }
     }
 }
