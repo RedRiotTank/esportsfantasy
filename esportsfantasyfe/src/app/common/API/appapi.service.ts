@@ -141,6 +141,16 @@ export class AppapiService {
       });
     });
   }
+
+  public getMarketPlayers(leagueUUID :string): Observable<any>{
+    return this.api.sendRequest("League/getMarketPlayers", leagueUUID).pipe(
+      map(response => response.players),
+      catchError(error => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
   
 
   // --- USER ---
@@ -164,4 +174,24 @@ export class AppapiService {
     });
   }  
 
+
+  // --- PLAYERS ---
+
+  public getPlayerIcon(uuid :String): Observable<string> {
+    return new Observable<string>(observer => {
+      const reader = new FileReader();
+
+      this.api.sendBlobRequest("Player/getPlayerIcon", uuid).subscribe(response => {
+        reader.readAsDataURL(response);
+        reader.onload = () => {
+          observer.next(reader.result.toString());
+          observer.complete();
+        }
+      }, error => {
+        observer.next(null);
+        observer.complete();
+        this.sendToErrorPage(null);
+      });
+    });
+  }
 }

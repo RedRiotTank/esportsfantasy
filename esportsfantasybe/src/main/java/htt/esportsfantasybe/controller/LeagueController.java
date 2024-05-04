@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/League")
@@ -63,4 +65,22 @@ public class LeagueController {
             return koresponses.generateKO(e.getMessage());
         }
     }
+
+    @CrossOrigin
+    @PostMapping(value ="/getMarketPlayers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getMarketPlayers(@RequestBody String leagueUUID) {
+        try {
+            Set<PlayerInfoPOJO> players = leagueService.getMarketPlayersInfo(UUID.fromString(leagueUUID));
+
+            return okresponses.getMarketPlayers(players);
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+
+
+
+
+
 }

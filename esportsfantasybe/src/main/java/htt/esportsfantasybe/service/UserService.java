@@ -163,6 +163,7 @@ public class UserService {
         return user.get().getLeagues().stream().map(LeagueDTO::new).toList();
     }
 
+
     public byte[] getUserPfp(String mail) throws IOException {
         Optional<User> user = userRepository.findByMail(mail);
 
@@ -194,6 +195,14 @@ public class UserService {
 
     public UserDTO getUser(String mail){
         Optional<User> user = userRepository.findByMail(mail);
+
+        User getUser = user.orElseThrow(() -> new RuntimeException("1008"));
+
+        return new UserDTO(getUser);
+    }
+
+    public UserDTO getUser(UUID uuid){
+        Optional<User> user = userRepository.findById(uuid);
 
         User getUser = user.orElseThrow(() -> new RuntimeException("1008"));
 

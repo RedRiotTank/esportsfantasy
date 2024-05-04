@@ -1,13 +1,16 @@
 package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.LeagueDTO;
+import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import htt.esportsfantasybe.repository.LeagueRepository;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
@@ -34,6 +37,7 @@ public class LeagueService {
     private RealLeagueService realLeagueService;
 
     private MarketService marketService;
+    private PlayerService playerService;
 
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
@@ -43,11 +47,12 @@ public class LeagueService {
 
 
     @Autowired
-    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService) {
+    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService, PlayerService playerService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
         this.marketService = marketService;
+        this.playerService = playerService;
 
     }
 
@@ -172,8 +177,7 @@ public class LeagueService {
     }
 
 
-    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
-    @Scheduled(fixedRate =  10 * 60 * 1000) // 10 minutos
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
     public void updateAllMarkets(){
         List<League> leagues = this.leagueRepository.findAll();
 
@@ -182,5 +186,35 @@ public class LeagueService {
         });
     }
 
+
+    public Set<PlayerInfoPOJO> getMarketPlayersInfo(UUID leagueUUID) {
+
+        List<Market> playersInSell = this.marketService.getLeagueMarketEntriesInSell(leagueUUID,true);
+        Set<PlayerInfoPOJO> playerInfoPOJOS = new HashSet<>();
+
+
+        playersInSell.forEach(marketEntry -> {
+            PlayerDTO playerDTO = playerService.getPlayer(marketEntry.getId().getPlayeruuid());
+            String ownerUsername = "Free Agent";
+
+            if(marketEntry.getOwneruuid() != null) ownerUsername = userService.getUser(marketEntry.getOwneruuid()).getUsername();
+
+            playerInfoPOJOS.add(
+                    new PlayerInfoPOJO(
+                            playerDTO.getUuid(),
+                            playerDTO.getUsername(),
+                            playerDTO.getRole(),
+                            playerDTO.getTeams(),
+                            marketEntry.getOwneruuid(),
+                            ownerUsername,
+                            0,
+                            11,
+                            250
+                    )
+            );
+        });
+
+        return playerInfoPOJOS;
+    }
 
 }

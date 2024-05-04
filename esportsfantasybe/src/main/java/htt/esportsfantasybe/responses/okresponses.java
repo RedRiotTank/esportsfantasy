@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import org.springframework.http.ResponseEntity;
 
@@ -104,6 +105,38 @@ public class okresponses {
         });
 
         okjson.add("leagues", leaguesArray);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getMarketPlayers(Set<PlayerInfoPOJO> players) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got market players correctly");
+
+        JsonArray playersArray = new JsonArray();
+
+        players.forEach(player -> {
+            JsonObject playerJson = new JsonObject();
+            playerJson.addProperty("uuid", player.getUuid().toString());
+            playerJson.addProperty("name", player.getName());
+            playerJson.addProperty("role", player.getRole());
+            playerJson.addProperty("teamsList", player.getTeamsList().toString());
+
+            if(player.getOwnerUUID() != null)
+                playerJson.addProperty("ownerUUID", player.getOwnerUUID().toString());
+            else
+                playerJson.addProperty("ownerUUID", "null");
+
+            playerJson.addProperty("ownerUsername", player.getOwnerUsername());
+            playerJson.addProperty("price", player.getPrice());
+            playerJson.addProperty("points", player.getPoints());
+            playerJson.addProperty("clause", player.getClause());
+            playersArray.add(playerJson);
+        });
+
+        okjson.add("players", playersArray);
 
         return ResponseEntity.ok(okjson.toString());
     }

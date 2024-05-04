@@ -130,7 +130,7 @@ public class LolApiCaller extends ApiCaller{
             String image = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Image"));
             String role = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Role"));
 
-            players.add(new PlayerDTO(username,image,name,role,0));
+            players.add(new PlayerDTO(username,image,name,role,0,team));
         }
 
         return players;

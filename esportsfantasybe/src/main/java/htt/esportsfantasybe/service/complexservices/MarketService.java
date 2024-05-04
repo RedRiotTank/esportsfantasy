@@ -68,5 +68,9 @@ public class MarketService {
 
     }
 
+    public List<Market> getLeagueMarketEntriesInSell(UUID leagueUUID, boolean insell){
+        return marketRepository.findMarketsById_LeagueuuidAndInsell(leagueUUID, insell);
+    }
+
 
 }

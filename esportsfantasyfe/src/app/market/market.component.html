@@ -1,1 +1,18 @@
-<p>market works!</p>
+<div class="container">
+
+    <div class="playerContainer" *ngFor="let player of marketPlayers">
+        <img src="{{player.icon}}" alt="">
+        
+        <div class="playerInfo">
+            <p>{{player.name}}</p>
+            <p>{{player.role}}</p>
+            <p>{{player.team}}</p>
+            <p>{{player.price}}</p>
+            <p>{{player.ownerUsername}}</p>
+            <p>{{player.points}}</p>
+        </div>
+    </div>
+
+</div>
+
+
