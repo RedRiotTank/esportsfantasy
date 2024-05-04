@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { AccordionModule } from 'primeng/accordion';
 import { JoinLeagueComponent } from './join-league/join-league.component';
+import { MarketComponent } from './market/market.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { JoinLeagueComponent } from './join-league/join-league.component';
     RegistersuccessComponent,
     FooterComponent,
     HomeComponent,
-    JoinLeagueComponent
+    JoinLeagueComponent,
+    MarketComponent
   ],
   imports: [
     BrowserModule,

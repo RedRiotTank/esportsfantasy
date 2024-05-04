@@ -52,6 +52,14 @@ export class EsfHeaderComponent implements OnInit{
     
     }
 
+    goToMarket(){
+      if(this.getLoggedIn())
+        this.router.navigate(['/market']);
+      else
+        this.router.navigate(['/welcome']);
+    
+    }
+
     goToLogin(){
       this.router.navigate(['/login']);
     }

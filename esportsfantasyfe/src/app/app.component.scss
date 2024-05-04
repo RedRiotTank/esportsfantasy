@@ -1,0 +1,52 @@
+.content-container{
+    display: flex;
+    flex-direction: row;
+    
+    
+    margin-top: 3vw;
+
+
+    .league-list{
+        flex: 30%;
+        text-align: center;
+        
+
+        .league{
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-radius: 15px;
+            padding: 1vw 1vw;
+            margin : 1vw 0;
+            margin-left: 0.6vw;
+            gap: 0.7vw;
+            img{
+                width: 3vw;
+                height: auto;
+            }
+
+            p{
+                margin: 0;
+                padding: 0;
+            }
+
+            
+        }
+
+        .league:hover{
+            background-color:rgb(230, 230, 230);
+        }
+
+        button{
+            
+            margin : 0.4vw 1vw;
+            
+        }
+
+    }
+
+    .content{
+        background-color: red;
+    }
+}

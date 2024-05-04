@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppapiService } from '../common/API/appapi.service';
 import { CredentialsService } from '../credentials/credentials.service';
+import { LeagueListServiceService } from '../league-list-service.service';
 
 @Component({
   selector: 'app-home',
@@ -10,30 +11,21 @@ import { CredentialsService } from '../credentials/credentials.service';
 })
 export class HomeComponent implements OnInit{
 
-  leagues: any[] = [];
-
-
   constructor(
     private router: Router,
-    private appapiService: AppapiService,
-    private credentialsService: CredentialsService) { }
+    private leagueListService: LeagueListServiceService) { }
   
   ngOnInit(): void {
-    this.appapiService.getUserLeagues(this.credentialsService.getDecodedToken().sub).subscribe( leagues => {
-      leagues.forEach(league => {
-        this.appapiService.getLeagueIcon(league.leagueUUID).subscribe(icon => {
-          league.icon = icon;
-        });
-        this.leagues.push(league);
-      });
-    });
     
   }
 
   goToCreateLeague(){
     this.router.navigate(['/joinLeague']);
   }
-
+  
+  getLeagues(){
+    return this.leagueListService.getLeagues();
+  }
   
 
 }
