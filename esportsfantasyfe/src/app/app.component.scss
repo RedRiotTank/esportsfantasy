@@ -21,6 +21,7 @@
             margin : 1vw 0;
             margin-left: 0.6vw;
             gap: 0.7vw;
+            transition: transform 0.2s ease;
             img{
                 width: 3vw;
                 height: auto;
@@ -36,6 +37,11 @@
 
         .league:hover{
             background-color:rgb(230, 230, 230);
+        }
+
+        .league.clicked{
+            background-color:rgb(230, 230, 230);
+            transform: scale(0.95);
         }
 
         button{

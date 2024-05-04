@@ -38,4 +38,13 @@ export class AppComponent implements OnInit{
     return this.credentialsService;
   }
 
+  public getSelectedLeague(){
+    
+    return this.leagueListService.getSelectedLeague();
+  }
+
+  public setSelectedLeague(index: number){
+    this.leagueListService.setSelectedLeague(index);
+  }
+
 }
