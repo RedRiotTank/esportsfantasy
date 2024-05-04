@@ -17,8 +17,8 @@ public class UserXLeagueService {
     @Autowired
     private UserXLeagueRepository userXLeagueRepository;
 
-    public void linkUserToLeague(UUID userID, UUID leagueID, boolean isAdmin) {
-           userXLeagueRepository.save(new UserXLeague(new UserXLeagueId(userID, leagueID), isAdmin));
+    public void linkUserToLeague(UUID userID, UUID leagueID, boolean isAdmin, int money) {
+           userXLeagueRepository.save(new UserXLeague(new UserXLeagueId(userID, leagueID), isAdmin, money));
     }
 
     public boolean isUserInLeague(UUID userID, UUID leagueID) {

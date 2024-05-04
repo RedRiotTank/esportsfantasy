@@ -20,9 +20,12 @@ public class UserXLeague {
     @Column(name = "isadmin")
     boolean isAdmin;
 
-    public UserXLeague(UserXLeagueId id, boolean isAdmin) {
+    private int money;
+
+    public UserXLeague(UserXLeagueId id, boolean isAdmin, int money) {
         this.id = id;
         this.isAdmin = isAdmin;
+        this.money = money;
     }
 
     public UserXLeague() {

@@ -63,7 +63,7 @@ public class LeagueService {
         userLeagues.forEach(userXLeague -> {
             League league = this.leagueRepository.findById(userXLeague.getId().getLeagueuuid()).orElseThrow(RuntimeException::new);
 
-            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin()));
+            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin(),userXLeague.getMoney()));
         });
 
         return userLeagueInfoPOJOS;
@@ -95,6 +95,9 @@ public class LeagueService {
 
         UserDTO userDTO = userService.getUser(joinLeaguePOJO.getUserMail());
 
+        //TODO: modificar dinero en funciónj de opción elegida.
+        int money = 8000000;
+
         switch (joinLeaguePOJO.getLeagueType()){
             case 1:
 
@@ -102,7 +105,7 @@ public class LeagueService {
 
                 League league = leagueRepository.save(new League(joinLeaguePOJO.getLeagueName(), joinLeaguePOJO.isClauseActive(), joinLeaguePOJO.getStartType(), rl, joinLeaguePOJO.isPublicLeague()));
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true, money);
 
                 System.out.println(generateInvitationCode(league.getUuid()));
 
@@ -122,7 +125,7 @@ public class LeagueService {
 
                 if(trycount == 5) throw new RuntimeException("1011");
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false, money);
 
                 break;
 
@@ -138,7 +141,7 @@ public class LeagueService {
 
                 if(userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid())) throw new RuntimeException("1014");
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false, money);
 
                 break;
             default:
