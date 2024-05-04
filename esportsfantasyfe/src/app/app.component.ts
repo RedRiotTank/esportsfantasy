@@ -34,4 +34,8 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/joinLeague']);
   }
 
+  public getCredentialService(){
+    return this.credentialsService;
+  }
+
 }

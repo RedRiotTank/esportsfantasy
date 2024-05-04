@@ -50,13 +50,15 @@ export class CredentialsService{
     }
 
     public getLoggedIn(){
+      
       return this.loggedIn;
     }
   
     updateLoginCredentials(){
-      this.loggedIn = true;
     
       const decodedToken = this.getDecodedToken();
+
+      if(decodedToken.sub != null)  this.loggedIn = true;   // PROVISIONAL CHECKEAR ESTO. 
   
         this.appapiService.getUserPfp(decodedToken.sub).subscribe(response => {
           
@@ -72,6 +74,7 @@ export class CredentialsService{
      * This method initializes the social login.
      */
     initSocial(){
+      
       if(!this.social_started){
         this.socialAuthService.authState.subscribe((user) => {
           this.social_user = user;

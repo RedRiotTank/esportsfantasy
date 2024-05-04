@@ -1,8 +1,8 @@
 <app-esf-header></app-esf-header>
 
-<div class="content-container">
+<div [ngClass]="{'content-container': this.getCredentialService().getLoggedIn()}">
 
-    <div class="league-list">
+    <div *ngIf="this.getCredentialService().getLoggedIn()" class="league-list">
         <div *ngFor="let league of this.getLeagues()" class="league">
             <img src="{{league.icon}}" alt="logo-img">
             <p class="esf-text"> {{league.leagueName}}</p>
