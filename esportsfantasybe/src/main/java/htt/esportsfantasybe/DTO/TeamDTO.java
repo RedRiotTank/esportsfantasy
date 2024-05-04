@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -42,6 +43,16 @@ public class TeamDTO {
         this.shortName = team.getShortname();
         this.game = team.getGame();
 
+    }
+
+    public TeamDTO(Team team, boolean copyPlayers) {
+        this.uuid = team.getUuid();
+        this.name = team.getName();
+        if (copyPlayers) {
+            this.players = team.getPlayers().stream()
+                    .map(PlayerDTO::new)
+                    .collect(Collectors.toSet());
+        }
     }
 
 

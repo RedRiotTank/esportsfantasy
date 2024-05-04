@@ -22,7 +22,7 @@ public class LeagueDTO {
         this.name = name;
         this.activeClause = activeClause;
         this.startingType = startingType;
-
+        this.realLeagueDTO = realLeagueDTO;
     }
 
     public LeagueDTO(League league) {

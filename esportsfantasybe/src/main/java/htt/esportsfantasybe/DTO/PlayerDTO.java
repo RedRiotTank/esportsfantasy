@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.DTO;
 
+import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
 import lombok.Getter;
@@ -35,5 +36,15 @@ public class PlayerDTO {
     public PlayerDTO(String username,String image, String fullname, String role, float value) {
         this(null,username,image,fullname,role,value);
     }
+
+    public PlayerDTO(Player player){
+        this.uuid = player.getUuid();
+        this.username = player.getUsername();
+        this.fullname = player.getFullname();
+        this.image = player.getImage();
+        this.role = player.getRole();
+        this.value = player.getValue();
+    }
+
 
 }

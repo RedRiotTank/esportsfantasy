@@ -29,3 +29,38 @@ CREATE TABLE `teamxrleague` (
     FOREIGN KEY (teamuuid) REFERENCES team(uuid),
     FOREIGN KEY (leagueuuid) REFERENCES realleague(uuid)
 );
+
+CREATE TABLE `league` (
+    uuid BINARY(16) PRIMARY KEY,
+    name VARCHAR(75) NOT NULL,
+    activeclause tinyint(1),
+    startingtype int(11) NOT NULL,
+    realleague BINARY(16),
+    publicleague tinyint(1),
+    FOREIGN KEY (realleague) REFERENCES realleague(uuid)
+);
+
+CREATE TABLE `userxleague` (
+	useruuid BINARY(16),
+    leagueuuid BINARY(16),
+    isAdmin boolean,
+    money integer,
+	primary key(useruuid,leagueuuid),
+    FOREIGN KEY (useruuid) REFERENCES user(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES league(uuid)
+);
+
+CREATE TABLE `market` (
+	playeruuid BINARY(16),
+    leagueuuid BINARY(16),
+    owneruuid BINARY(16),
+    clause integer not null,
+    insell tinyint(1) NOT null,
+    maxbid integer,
+    biduseruuid binary(16),
+	primary key(playeruuid,leagueuuid),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES league(uuid),
+    FOREIGN KEY (owneruuid) REFERENCES user(uuid),
+    FOREIGN KEY (biduseruuid) REFERENCES user(uuid)
+);

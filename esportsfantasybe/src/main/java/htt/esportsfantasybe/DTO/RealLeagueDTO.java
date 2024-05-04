@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -46,7 +47,9 @@ public class RealLeagueDTO {
                 realLeague.getShortname(),
                 realLeague.getGame(),
                 realLeague.getApiID(),
-                realLeague.getTeams().stream().map(TeamDTO::new).collect(java.util.stream.Collectors.toSet())
+                realLeague.getTeams().stream()
+                        .map(team -> new TeamDTO(team, true))
+                        .collect(Collectors.toSet())
         );
     }
 }

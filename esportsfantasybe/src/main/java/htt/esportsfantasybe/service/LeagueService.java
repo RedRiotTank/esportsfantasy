@@ -11,8 +11,10 @@ import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import htt.esportsfantasybe.repository.LeagueRepository;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
+import htt.esportsfantasybe.service.complexservices.MarketService;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,6 +33,8 @@ public class LeagueService {
 
     private RealLeagueService realLeagueService;
 
+    private MarketService marketService;
+
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
     private final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -39,10 +43,11 @@ public class LeagueService {
 
 
     @Autowired
-    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService) {
+    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
+        this.marketService = marketService;
 
     }
 
@@ -107,6 +112,8 @@ public class LeagueService {
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true, money);
 
+                marketService.initMarket(new LeagueDTO(league));
+
                 System.out.println(generateInvitationCode(league.getUuid()));
 
                 break;
@@ -165,6 +172,15 @@ public class LeagueService {
     }
 
 
+    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
+    @Scheduled(fixedRate =  10 * 60 * 1000) // 10 minutos
+    public void updateAllMarkets(){
+        List<League> leagues = this.leagueRepository.findAll();
+
+        leagues.forEach(league -> {
+            marketService.updateMarket(new LeagueDTO(league));
+        });
+    }
 
 
 }
