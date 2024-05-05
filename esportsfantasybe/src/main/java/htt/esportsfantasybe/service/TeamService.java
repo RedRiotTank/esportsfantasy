@@ -52,7 +52,7 @@ public class TeamService {
         rl.getTeams().forEach(team -> {
 
             try {
-                downloadTeamImage(team.getOverviewpage());
+                downloadTeamImage(team);
             } catch (IOException e) {
                 //e.printStackTrace();
                 System.out.println("Error downloading team image");
@@ -65,14 +65,14 @@ public class TeamService {
 
     }
 
-    public void downloadTeamImage(String overviewpage) throws IOException {
-        String op = overviewpage.replace(" ", "_");
+    public void downloadTeamImage(Team team) throws IOException {
+        String op = team.getOverviewpage().replace(" ", "_");
         op = op.replace("'", "%27");
 
 
         String url = LolApiCaller.getTableImgurl(op, "Team");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/LOL/teams/" + op + ".png");
+        Utils.downloadImage(url,"src/main/resources/media/teams/" + team.getUuid() + ".png");
     }
 
     public byte[] getPlayerTeamIcon(String playeruuid, String leagueuuid){
@@ -82,13 +82,13 @@ public class TeamService {
 
 
 
-        AtomicReference<String> teamname = new AtomicReference<>("");
+        AtomicReference<String> teamuuid = new AtomicReference<>("");
 
         //TODO: ASIGNAR CON UUIDS
         playerDTO.getTeams().forEach(team -> {
             team.getLeagues().forEach( league ->{
                 if(league.getUuid().equals(UUID.fromString(leagueuuid))){
-                    teamname.set(team.getName());
+                    teamuuid.set(team.getUuid().toString());
                 }
             });
 
@@ -98,7 +98,7 @@ public class TeamService {
 
         Path imagePath;
 
-        imagePath = Paths.get("src/main/resources/media/" + "LOL" + "/teams/" + teamname + ".png");
+        imagePath = Paths.get("src/main/resources/media/teams/" + teamuuid + ".png");
 
         byte[] imageBytes;
 

@@ -38,6 +38,8 @@ public class EsportsfantasybeApplication {
 
 
 
+    @Autowired
+    private RealLeagueService realLeagueService;
 
 
     public static void main(String[] args) {

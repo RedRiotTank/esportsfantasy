@@ -66,7 +66,7 @@ public class PlayerService {
         String url = LolApiCaller.getTableImgurl(op,"Player");
         if(url != null) {
             op = op.replace("/", "_");
-            Utils.downloadImage(url, "src/main/resources/media/LOL/players/" + player.getUuid().toString() + ".png");
+            Utils.downloadImage(url, "src/main/resources/media/players/" + player.getUuid().toString() + ".png");
         }
     }
 
@@ -83,7 +83,7 @@ public class PlayerService {
         Path imagePath;
         //TODO: LOL hardcoded. Change to player.getGame()
         //TODO 2: Change to player.getUuid().toString()
-        imagePath = Paths.get("src/main/resources/media/" + "LOL" + "/players/" + player.getUsername() + ".png");
+        imagePath = Paths.get("src/main/resources/media/players/" + player.getUuid() + ".png");
 
         byte[] imageBytes;
 

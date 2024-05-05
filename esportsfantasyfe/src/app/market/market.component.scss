@@ -26,41 +26,45 @@
             .rtrow {
                 display: flex; 
                 flex-direction: row; 
+                gap: 0.7vw;
 
-
-                .role{
+                .role {
                     background-color: red;
                     border-radius: 5px;
                     padding: 0.2vw 0.5vw;
                     color: black;
                     font-weight: bold;
-
+                    margin: auto 0;
                 }
 
-                .role.top{
+                .role.top {
                     background-color: red;
                 }
-                .role.jungle{
+                .role.jungle {
                     background-color: green;
                 }
-                .role.mid{
+                .role.mid {
                     background-color: purple;
                 }
-                .role.bot{
+                .role.bot {
                     background-color: blue;
                 }
-                .role.support{
+                .role.support {
                     background-color: yellow;
                 }
 
-                .ownerSpan{
+                .ownerSpan {
                     font-weight: bold;
                 }
 
-
+                .teamicon {
+                    width: auto;
+                    height: 40px;
+                    // vertical-align: center; // No es necesario
+                }
             }
 
-            .points{
+            .points {
                 background-color: lightblue;
                 border-radius: 5px;
                 color: black;
@@ -70,8 +74,8 @@
             }
         }
 
-        .price{
-            vertical-align: middle;
+        .price {
+            // vertical-align: middle; // No es necesario
             margin: auto;
             border-radius: 5px;
             border: none;

@@ -76,16 +76,18 @@ public class RealLeagueService {
             Optional<RealLeague> opRL;
             RealLeague rl;
 
-            try {
-                downloadLeagueImage(filteredLeague.getOverviewpage());
-            } catch (IOException e) {
-                //e.printStackTrace();
-                System.out.println("ERROR AL DESCARGAR IMAGEN DE LIGA.");
-            }
+
 
             opRL = realLeagueRepository.findByEvent(filteredLeague.getEvent());
 
             rl = opRL.orElseGet(() -> realLeagueRepository.save(new RealLeague(filteredLeague)));
+
+            try {
+                downloadLeagueImage(rl);
+            } catch (IOException e) {
+                //e.printStackTrace();
+                System.out.println("ERROR AL DESCARGAR IMAGEN DE LIGA.");
+            }
 
             teamService.updateTeams(rl);
         });
@@ -159,14 +161,14 @@ public class RealLeagueService {
         return filteredLeagues;
     }
 
-    public void downloadLeagueImage(String overviewpage) throws IOException {
+    public void downloadLeagueImage(RealLeague rl) throws IOException {
 
-        String op = overviewpage.replace(" ", "_");
+        String op = rl.getOverviewpage().replace(" ", "_");
         op += "_Season";
 
         String url = LolApiCaller.getTableImgurl(op, "Tournament");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/LOL/leagues/" + op + ".png");
+        Utils.downloadImage(url,"src/main/resources/media/leagues/" + rl.getUuid() + ".png");
 
     }
 
@@ -210,7 +212,7 @@ public class RealLeagueService {
         RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
 
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/" + rl.getGame() + "/leagues/" + Utils.generateOPname(rl.getOverviewpage()) + ".png");
+        imagePath = Paths.get("src/main/resources/media/leagues/" + uuid + ".png");
 
         byte[] imageBytes;
 
