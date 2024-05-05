@@ -1,0 +1,81 @@
+.container {
+    width: 75%;
+
+    .playerContainer {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        background-color: rgb(242, 243, 247);
+
+        .playerIcon {
+            width: 150px;
+            height: auto;
+            background-color: rgb(242, 243, 247);
+        }
+
+        .playerInfo {
+            display: flex;
+            flex-direction: column;
+            margin: 0.5vw 0.5vw;
+
+            .playerUsername {
+                font-size: 1vw;
+                font-weight: bold;
+            }
+
+            .rtrow {
+                display: flex; 
+                flex-direction: row; 
+
+
+                .role{
+                    background-color: red;
+                    border-radius: 5px;
+                    padding: 0.2vw 0.5vw;
+                    color: black;
+                    font-weight: bold;
+
+                }
+
+                .role.top{
+                    background-color: red;
+                }
+                .role.jungle{
+                    background-color: green;
+                }
+                .role.mid{
+                    background-color: purple;
+                }
+                .role.bot{
+                    background-color: blue;
+                }
+                .role.support{
+                    background-color: yellow;
+                }
+
+                .ownerSpan{
+                    font-weight: bold;
+                }
+
+
+            }
+
+            .points{
+                background-color: lightblue;
+                border-radius: 5px;
+                color: black;
+                font-weight: bold;
+                width: 25%;
+                text-align: center;
+            }
+        }
+
+        .price{
+            vertical-align: middle;
+            margin: auto;
+            border-radius: 5px;
+            border: none;
+            background-color: red;
+        }
+    }
+}

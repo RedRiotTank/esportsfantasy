@@ -1,16 +1,52 @@
+
+
+
+
 <div class="container">
 
     <div class="playerContainer" *ngFor="let player of marketPlayers">
-        <img src="{{player.icon}}" alt="">
-        
+        <img src="{{player.icon}}" alt="" class="playerIcon">
+
         <div class="playerInfo">
-            <p>{{player.name}}</p>
+            <p class="playerUsername">{{player.name}}</p>
+            
+            <div class="rtrow">
+                <p class="role" 
+                    [class.top] = "player.role == 'Top'"
+                    [class.jungle] = "player.role == 'Jungle'"
+                    [class.mid] = "player.role == 'Mid'"
+                    [class.bot] = "player.role == 'Bot'"
+                    [class.support] = "player.role == 'Support'">
+                    {{player.role}}
+                </p>
+                
+                <!-- team icon here-->
+            </div>
+
+            <div class="rtrow">
+                <p> <span class="ownerSpan"> Owner: </span>{{player.ownerUsername}}</p>
+            </div>
+
+            <p class="points"> {{player.points}} </p>
+        </div>
+    
+        
+        <button class="price">{{player.price}}</button>
+        
+
+        <!--
+
+
+        <div class="playerInfo">
+            
             <p>{{player.role}}</p>
             <p>{{player.team}}</p>
             <p>{{player.price}}</p>
             <p>{{player.ownerUsername}}</p>
             <p>{{player.points}}</p>
         </div>
+        -->
+        
     </div>
 
 </div>
