@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.DTO;
 
+import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class TeamDTO {
     private String shortName;
     private String image;
     private String game;
-    private Set<RealLeagueDTO> leagues;
+    private Set<RealLeague> leagues;
     private Set<PlayerDTO> players;
 
     public TeamDTO(UUID uuid, String name, String overviewPage, String shortName, String image, String game, Set<PlayerDTO> players) {
@@ -42,6 +43,7 @@ public class TeamDTO {
         this.OverviewPage = team.getOverviewpage();
         this.shortName = team.getShortname();
         this.game = team.getGame();
+        this.leagues =team.getLeagues();
 
     }
 

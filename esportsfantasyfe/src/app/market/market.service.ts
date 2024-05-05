@@ -22,8 +22,16 @@ export class MarketService {
         players.forEach(player => {
           this.appApiService.getPlayerIcon(player.uuid).subscribe(icon => {
             player.icon = icon;
-            this.marketPlayers.push(player);
+            
           });
+
+          this.appApiService.getPlayerTeamIcon(player.uuid, this.leagueListService.getSelectedLeague().rLeagueUUID).subscribe(icon => {
+            player.teamicon = icon;
+            
+          });
+
+          this.marketPlayers.push(player);
+
         });  
       }
     );

@@ -49,6 +49,7 @@ public class PlayerDTO {
         for(Team team : player.getTeams()){
             this.teams.add(new TeamDTO(team));
         }
+
     }
 
 

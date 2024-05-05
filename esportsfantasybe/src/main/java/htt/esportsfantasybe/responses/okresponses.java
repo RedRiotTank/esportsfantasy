@@ -79,6 +79,7 @@ public class okresponses {
             leagueJson.addProperty("leagueName", league.getLeagueName());
             leagueJson.addProperty("isAdmin", league.getIsAdmin());
             leagueJson.addProperty("money", league.getMoney());
+            leagueJson.addProperty("rLeagueUUID", league.getRLeagueUUID());
             leaguesArray.add(leagueJson);
         });
 

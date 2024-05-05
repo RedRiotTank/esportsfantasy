@@ -73,7 +73,7 @@ public class LeagueService {
         userLeagues.forEach(userXLeague -> {
             League league = this.leagueRepository.findById(userXLeague.getId().getLeagueuuid()).orElseThrow(RuntimeException::new);
 
-            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin(),userXLeague.getMoney()));
+            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin(),userXLeague.getMoney(), league.getRealLeague().getUuid().toString()));
         });
 
         return userLeagueInfoPOJOS;
@@ -179,6 +179,7 @@ public class LeagueService {
 
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
     public void updateAllMarkets(){
+        System.out.println("Updating markets");
         List<League> leagues = this.leagueRepository.findAll();
 
         leagues.forEach(league -> {

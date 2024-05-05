@@ -174,6 +174,25 @@ export class AppapiService {
     });
   }  
 
+  // --- TEAMS ---
+
+  public getPlayerTeamIcon(playeruuid :String, leagueuuid :String): Observable<string> {
+    return new Observable<string>(observer => {
+      const reader = new FileReader();
+
+      this.api.sendBlobRequest("Team/getPlayerTeamIcon", {playeruuid: playeruuid, leagueuuid: leagueuuid}).subscribe(response => {
+        reader.readAsDataURL(response);
+        reader.onload = () => {
+          observer.next(reader.result.toString());
+          observer.complete();
+        }
+      }, error => {
+        observer.next(null);
+        observer.complete();
+        this.sendToErrorPage(null);
+      });
+    });
+  }
 
   // --- PLAYERS ---
 

@@ -1,22 +1,23 @@
 package htt.esportsfantasybe.service;
 
-import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
-import htt.esportsfantasybe.repository.PlayerRepository;
 import htt.esportsfantasybe.repository.TeamRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
-import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
 import htt.esportsfantasybe.service.complexservices.TeamXrLeagueService;
-import jakarta.transaction.Transactional;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class TeamService {
@@ -29,6 +30,7 @@ public class TeamService {
 
     private final PlayerService playerService;
 
+    private RealLeagueService realLeagueService;
 
     LolApiCaller lolApiCaller = new LolApiCaller();
 
@@ -36,6 +38,7 @@ public class TeamService {
     public TeamService( TeamXrLeagueService teamxrleagueService, PlayerService playerService) {
         this.teamxrleagueService = teamxrleagueService;
         this.playerService = playerService;
+
     }
 
     public TeamDTO getTeamDataDB(){
@@ -70,5 +73,45 @@ public class TeamService {
         String url = LolApiCaller.getTableImgurl(op, "Team");
         op = op.replace("/","_");
         Utils.downloadImage(url,"src/main/resources/media/LOL/teams/" + op + ".png");
+    }
+
+    public byte[] getPlayerTeamIcon(String playeruuid, String leagueuuid){
+        PlayerDTO playerDTO = playerService.getPlayer(UUID.fromString(playeruuid));
+
+        if(playerDTO == null) throw new RuntimeException("1018");
+
+
+
+        AtomicReference<String> teamname = new AtomicReference<>("");
+
+        //TODO: ASIGNAR CON UUIDS
+        playerDTO.getTeams().forEach(team -> {
+            team.getLeagues().forEach( league ->{
+                if(league.getUuid().equals(UUID.fromString(leagueuuid))){
+                    teamname.set(team.getName());
+                }
+            });
+
+
+        });
+
+
+        Path imagePath;
+
+        imagePath = Paths.get("src/main/resources/media/" + "LOL" + "/teams/" + teamname + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+            } catch (IOException ioException) {
+                throw new RuntimeException();
+            }
+        }
+        return imageBytes;
     }
 }
