@@ -22,9 +22,10 @@ export class LeagueListServiceService {
       leagues.forEach(league => {
         this.appapiService.getLeagueIcon(league.leagueUUID).subscribe(icon => {
           league.icon = icon;
-          league.index = leagueIndex;
-          leagueIndex++;
+          
         });
+        league.index = leagueIndex;
+        leagueIndex++;
         this.leagues.push(league);
       });
     });
