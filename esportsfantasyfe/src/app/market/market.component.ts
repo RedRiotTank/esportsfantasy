@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { MarketService } from './market.service';
 
 @Component({
   selector: 'app-market',
@@ -9,30 +10,18 @@ import { LeagueListServiceService } from '../league-list-service.service';
 })
 export class MarketComponent implements OnInit{
 
-  marketPlayers: any[] = [];
+  
 
-  constructor(private appApiService: AppapiService,
-    private leagueListService: LeagueListServiceService
+  constructor(
+    private marketService: MarketService
   ) { }
 
   ngOnInit(): void {
-    this.appApiService.getMarketPlayers(this.leagueListService.getSelectedLeague().leagueUUID).subscribe(
-      players => {
-        console.log(players);
-        players.forEach(player => {
-          this.appApiService.getPlayerIcon(player.uuid).subscribe(icon => {
-            player.icon = icon;
-            this.marketPlayers.push(player);
-          });
-        });  
-      }
-    );
+    this.marketService.loadMarket();
   }
 
-  log(){
-    console.log(this.marketPlayers);
+  getMarketPlayers(){
+    return this.marketService.getMarketPlayers();
   }
-
-
 
 }

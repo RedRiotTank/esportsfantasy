@@ -4,6 +4,7 @@ import { credentialsResponse } from '../credentialsResponse';
 import { CredentialsService } from '../credentials.service';
 import { HeaderService } from '../../common/esf-header/header.service';
 import { AppapiService } from '../../common/API/appapi.service';
+import { LeagueListServiceService } from '../../league-list-service.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent {
     public credentialsService: CredentialsService,
     public headerService: HeaderService,
     private router: Router,
+    private leagueListService: LeagueListServiceService,
     
     ) {}
 
@@ -98,7 +100,7 @@ export class LoginComponent {
       this.credentialsService.updateLoginCredentials();
       //this.headerService.setLoggedIn(true);
 
-
+      this.leagueListService.updateLeagueList();
       this.router.navigate(['/home']);
     }, error => {
       var err: credentialsResponse = {

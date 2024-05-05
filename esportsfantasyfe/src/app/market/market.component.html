@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <div class="playerContainer" *ngFor="let player of marketPlayers">
+    <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
         <img src="{{player.icon}}" alt="" class="playerIcon">
 
         <div class="playerInfo">
