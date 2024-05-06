@@ -12,12 +12,22 @@
       <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
     </svg></button>
 
-    <ul class="nav-list">
+    <ul class="nav-list" *ngIf="!getLoggedIn()">
       <li> <button class="esf-sbutton" (click)="goToHome()">HOME</button></li>
       <li> <button class="esf-sbutton">MATCHS</button></li>
       <li> <button class="esf-sbutton" (click)="goToMarket()">MARKET</button></li>
       <li> <button class="esf-sbutton">CONTACT</button></li>
       <li *ngIf="!getLoggedIn()"><button class="esf-ibutton" (click)="goToLogin()">LOGIN</button></li>
+
+      <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil">
+    </ul>
+
+    <ul class="nav-list-logged" *ngIf="getLoggedIn()">
+      <li> <a (click)="goToHome()"><i class="fa-solid fa-house"></i> <span>HOME</span></a></li>
+      <li> <a (click)="goToTeam()"><i class="fa-solid fa-users"></i> <span>TEAM</span></a></li>
+      <li> <a href=""><i class="fa-solid fa-computer"></i> <span>MATCHS</span></a></li>
+      <li> <a (click)="goToMarket()"><i class="fa-solid fa-money-bill-transfer"></i> <span>MARKET</span></a></li>
+      
 
       <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil">
     </ul>

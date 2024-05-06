@@ -21,6 +21,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { AccordionModule } from 'primeng/accordion';
 import { JoinLeagueComponent } from './join-league/join-league.component';
 import { MarketComponent } from './market/market.component';
+import { TeamComponent } from './team/team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,8 @@ import { MarketComponent } from './market/market.component';
     FooterComponent,
     HomeComponent,
     JoinLeagueComponent,
-    MarketComponent
+    MarketComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,

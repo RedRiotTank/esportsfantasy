@@ -60,6 +60,14 @@ export class EsfHeaderComponent implements OnInit{
     
     }
 
+    goToTeam(){
+      if(this.getLoggedIn())
+        this.router.navigate(['/team']);
+      else
+        this.router.navigate(['/welcome']);
+    
+    }
+
     goToLogin(){
       this.router.navigate(['/login']);
     }

@@ -41,6 +41,38 @@ header{
       }
 
     }
+
+    .nav-list-logged {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        display: inline-block; 
+        vertical-align: middle;
+        margin-right: 1rem; 
+        text-align: center;
+
+        a{
+          cursor: pointer;
+          text-decoration: none;
+          color: black;
+          span{
+            display: block;
+            
+          }
+        }
+        
+        
+      }
+
+      img {
+        width: 4vw;
+        height: 4vw;
+        border-radius: 50%
+      }
+
+    }
     
     
     
