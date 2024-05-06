@@ -1,5 +1,10 @@
 <app-esf-header></app-esf-header>
 
+<div class="league-p-container">
+    <p class="p-item">{{this.getMoneyWithFormat()}} 🪙</p>
+    
+</div>
+
 <div [ngClass]="{'content-container': this.getCredentialService().getLoggedIn()}">
 
     <div *ngIf="this.getCredentialService().getLoggedIn()" class="league-list">

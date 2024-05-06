@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/League/getMarketPlayers").permitAll()
                 .requestMatchers("/api/Player/getPlayerIcon").permitAll()
                 .requestMatchers("/api/Team/getPlayerTeamIcon").permitAll()
+                .requestMatchers("/api/userxleague/getUserXLeagueMoney").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

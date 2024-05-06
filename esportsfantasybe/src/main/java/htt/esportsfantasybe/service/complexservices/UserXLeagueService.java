@@ -29,4 +29,9 @@ public class UserXLeagueService {
        return userXLeagueRepository.findAllByUserUuid(userUuid);
     }
 
+    public int getUserXLeagueMoney(UUID userUuid, UUID leagueUuid) {
+        UserXLeague res =  userXLeagueRepository.findById(new UserXLeagueId(userUuid, leagueUuid)).orElseThrow(() -> new RuntimeException("1020"));
+        return res.getMoney();
+    }
+
 }

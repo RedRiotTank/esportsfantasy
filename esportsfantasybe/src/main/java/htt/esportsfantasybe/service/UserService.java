@@ -77,6 +77,8 @@ public class UserService {
         boolean matches = passwordEncoder.matches(credentialPass,loginUser.get().getPass());
         if(!matches) throw new RuntimeException("1002");
 
+        newUserDTO.setUuid(loginUser.get().getUuid());
+
         return JwtService.generateToken(newUserDTO);
     }
 

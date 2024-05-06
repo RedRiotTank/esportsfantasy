@@ -58,6 +58,9 @@ export class CredentialsService{
     
       const decodedToken = this.getDecodedToken();
 
+      console.log(decodedToken);
+      
+
       if(decodedToken.sub != null)  this.loggedIn = true;   // PROVISIONAL CHECKEAR ESTO. 
   
         this.appapiService.getUserPfp(decodedToken.sub).subscribe(response => {
@@ -182,6 +185,10 @@ export class CredentialsService{
     const token = localStorage.getItem('token');
 
     return jwtDecode(token);
+  }
+
+  getUserUUID(){
+    return this.getDecodedToken().jti;
   }
 
 

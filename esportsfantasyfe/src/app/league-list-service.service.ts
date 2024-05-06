@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppapiService } from './common/API/appapi.service';
 import { CredentialsService } from './credentials/credentials.service';
+import { MoneyService } from './common/money.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class LeagueListServiceService {
   private selectedLeague: number = 0;
 
   constructor(private appapiService: AppapiService,
-    private credentialsService: CredentialsService
+    private credentialsService: CredentialsService,
+    private moneyService: MoneyService
   ) { }
 
   public updateLeagueList(){    
@@ -27,6 +29,11 @@ export class LeagueListServiceService {
         league.index = leagueIndex;
         leagueIndex++;
         this.leagues.push(league);
+
+        if(league.index == 0){
+          this.setSelectedLeague(0);
+        }
+
       });
     });
 
@@ -44,9 +51,15 @@ export class LeagueListServiceService {
     return this.leagues[this.selectedLeague];
   }
 
+  public getSelectedLeagueUUID(){
+    console.log("Getting league UUID: " + this.leagues[this.selectedLeague].leagueUUID);
+    
+    return this.leagues[this.selectedLeague].leagueUUID;
+  }
+
   public setSelectedLeague(index: number){
 
-    console.log("Setting league to: " + index);
+    this.moneyService.updateMoney(this.getSelectedLeagueUUID());
     
 
     if(index < 0 || index >= this.leagues.length){

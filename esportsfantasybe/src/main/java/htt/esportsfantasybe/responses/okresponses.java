@@ -142,5 +142,13 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
+    public static ResponseEntity<?> getUserXLeagueMoney(int money) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got money correctly");
+        okjson.addProperty("money", money);
 
+        return ResponseEntity.ok(okjson.toString());
+    }
 }
