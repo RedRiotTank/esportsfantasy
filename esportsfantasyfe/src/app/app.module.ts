@@ -25,7 +25,8 @@ import { TeamComponent } from './team/team.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BidupModalComponent } from './market/bidup-modal/bidup-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSliderModule } from '@angular/material/slider';
+import { SliderModule } from 'primeng/slider'; // Importa SliderModule de PrimeNG
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,12 +51,11 @@ import { MatSliderModule } from '@angular/material/slider';
     HttpClientModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     CarouselModule,
     AccordionModule,
     MatDialogModule,
-    MatSliderModule
+    SliderModule // Asegúrate de que SliderModule esté importado aquí para PrimeNG
   ],
   providers: [
     {
@@ -79,8 +79,4 @@ import { MatSliderModule } from '@angular/material/slider';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  
-
-  
-}
+export class AppModule { }

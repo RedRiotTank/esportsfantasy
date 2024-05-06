@@ -37,6 +37,8 @@ public class koresponses {
         koMap.put(1018, "Player not found.");
         koMap.put(1019, "Team not found.");
         koMap.put(1020, "Player in league not found.");
+        koMap.put(1021, "Market entry not found.");
+        koMap.put(1022, "Not enough money.");
     }
 
     public static ResponseEntity<?> generateKO(){

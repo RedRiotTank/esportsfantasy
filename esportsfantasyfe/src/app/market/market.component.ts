@@ -9,7 +9,7 @@ import { BidupModalComponent } from './bidup-modal/bidup-modal.component';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
-  styleUrl: './market.component.scss'
+  styleUrls: ['./market.component.scss'] // Aquí está el cambio
 })
 export class MarketComponent implements OnInit{
 
@@ -37,7 +37,15 @@ export class MarketComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('El modal ha sido cerrado');
+      
+      if(result){
+        this.marketService.bidUp(player.uuid, result.number).subscribe( () => {
+          console.log("Bid up success");
+          
+        });
+        
+      }
+
     });
   }
 

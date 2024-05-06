@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { CredentialsService } from '../credentials/credentials.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ import { LeagueListServiceService } from '../league-list-service.service';
 export class MarketService {
 
   constructor(private appApiService: AppapiService,
-    private leagueListService: LeagueListServiceService
+    private leagueListService: LeagueListServiceService,
+    private credentialsService: CredentialsService
   ) { }
 
   private marketPlayers: any[] = [];
@@ -41,5 +43,9 @@ export class MarketService {
 
   public getMarketPlayers(){
     return this.marketPlayers;
+  }
+
+  public bidUp(playerUUID: string, value: number){
+    return this.appApiService.bidPlayer(playerUUID, this.leagueListService.getSelectedLeagueUUID(), this.credentialsService.getUserUUID(),  value);
   }
 }

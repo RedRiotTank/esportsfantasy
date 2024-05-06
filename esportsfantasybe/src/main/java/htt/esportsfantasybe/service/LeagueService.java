@@ -177,7 +177,8 @@ public class LeagueService {
     }
 
 
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
+    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
+    @Scheduled(fixedRate =  30 * 1000) // 1min
     public void updateAllMarkets(){
         System.out.println("Updating markets");
         List<League> leagues = this.leagueRepository.findAll();

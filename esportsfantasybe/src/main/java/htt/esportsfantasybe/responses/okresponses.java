@@ -28,6 +28,14 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
+    public static ResponseEntity<?> bidup(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "bidup created correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
     /** This method returns a response for a successful request (login of a user).
      * @param token This is the token of the user.
      * @return ResponseEntity<?> This returns the response for the successful request.

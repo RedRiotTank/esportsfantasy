@@ -13,7 +13,16 @@ import java.util.UUID;
 @Repository
 public interface MarketRepository extends JpaRepository<Market, MarketId> {
 
+
+
+    List<Market> findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(UUID leagueId, boolean insell);
+
     List<Market> findMarketsById_LeagueuuidAndInsell(UUID leagueId, boolean insell);
+
+    Market findMarketById_LeagueuuidAndId_Playeruuid(UUID leagueId, UUID playerUuid);
+
+    @Query("SELECT m FROM Market m WHERE m.biduseruuid IS NOT NULL")
+    List<Market> findAllWithBidUserNotNull();
 
 
 

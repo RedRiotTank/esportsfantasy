@@ -1,13 +1,14 @@
 <h1 mat-dialog-title>bid up for {{data.name}} </h1>
 <div mat-dialog-content>
-  <p>{{data.price}}</p>
-  <mat-slider
-  min="0"
-  max="100"
-  step="1"
-  thumbLabel
-></mat-slider>
+  <div>
+    <input type="text" pInputText [(ngModel)]="value" class="w-full mb-3"/>
+    <p-slider 
+    [(ngModel)]="value"
+    [min]="this.data.price" 
+    [max]="moneyService.getMoney()"
+    ></p-slider>
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="closeModal()">Cerrar</button>
+  <button mat-button (click)="closeModal()">bid up</button>
 </div>

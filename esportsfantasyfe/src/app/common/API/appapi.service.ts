@@ -213,4 +213,15 @@ export class AppapiService {
       });
     });
   }
+
+  // --- MARKET ---
+  public bidPlayer(playerUUID :String, leagueUUID :String, userUUID :String, value :number) :Observable<any> {
+    return this.api.sendRequest("Market/bidup", {playeruuid: playerUUID, leagueuuid: leagueUUID, useruuid: userUUID, value: value }).pipe(
+      map(response => response.players),
+      catchError(error => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
 }

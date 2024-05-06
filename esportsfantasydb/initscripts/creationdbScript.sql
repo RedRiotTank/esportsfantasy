@@ -74,6 +74,18 @@ CREATE TABLE `teamxplayer` (
     FOREIGN KEY (teamuuid) REFERENCES team(uuid)
 );
 
+CREATE TABLE `userxleaguexplayer` (
+	useruuid BINARY(16),
+    leagueuuid BINARY(16),
+	playeruuid BINARY(16),
+    jour int,
+    aligned tinyint(1),
+	primary key(useruuid,leagueuuid,playeruuid, jour),
+    FOREIGN KEY (useruuid) REFERENCES user(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES league(uuid),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid)
+);
+
 CREATE TABLE `market` (
 	playeruuid BINARY(16),
     leagueuuid BINARY(16),
