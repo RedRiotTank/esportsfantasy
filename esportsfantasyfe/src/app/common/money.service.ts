@@ -30,6 +30,12 @@ export class MoneyService {
   }
 
   public getMoneyWithFormat(){
-    return this.money;
+    if (this.money >= 1000000) {
+      return (this.money / 1000000).toFixed(2) + " M";
+  } else if (this.money >= 1000) {
+      return (this.money / 1000).toFixed(this.money % 1000 !== 0 ? 2 : 0) + " k";
+  } else {
+      return this.money.toString();
+  }
   }
 }
