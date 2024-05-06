@@ -20,11 +20,11 @@ public class PlayerDTO {
     private String fullname;
     private String image;
     private String role;
-    private float value;
+    private int value;
 
     private Set<TeamDTO> teams = new HashSet<>();
 
-    public PlayerDTO(UUID uuid, String username,String image, String fullname, String role, float value, TeamDTO teamDTO) {
+    public PlayerDTO(UUID uuid, String username,String image, String fullname, String role, int value, TeamDTO teamDTO) {
         this.uuid = uuid;
         this.username = username;
         this.image = image;
@@ -35,7 +35,7 @@ public class PlayerDTO {
     }
 
 
-    public PlayerDTO(String username,String image, String fullname, String role, float value, TeamDTO teamDTO) {
+    public PlayerDTO(String username,String image, String fullname, String role, int value, TeamDTO teamDTO) {
         this(null,username,image,fullname,role,value, teamDTO);
     }
 

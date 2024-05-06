@@ -6,6 +6,7 @@ import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.service.PlayerService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -130,7 +131,7 @@ public class LolApiCaller extends ApiCaller{
             String image = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Image"));
             String role = Utils.getStringOrNull(player.getAsJsonObject().get("title").getAsJsonObject().get("Role"));
 
-            players.add(new PlayerDTO(username,image,name,role,0,team));
+            players.add(new PlayerDTO(username,image,name,role, PlayerService.getDefaultValue() ,team));
         }
 
         return players;

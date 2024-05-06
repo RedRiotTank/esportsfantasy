@@ -10,6 +10,8 @@ CREATE TABLE `realleague` (
     uuid BINARY(16) PRIMARY KEY,
     event VARCHAR(75) NOT NULL,
     overviewpage VARCHAR(255) NOT NULL,
+    apiID VARCHAR(255) ,
+    shortname varchar(10) NOT NULL,
     game varchar(10) NOT NULL
 );
 
@@ -20,6 +22,10 @@ CREATE TABLE `team` (
     shortname VARCHAR(75) NOT NULL,
     overviewpage VARCHAR(255),
     game varchar(10) NOT NULL
+);
+
+CREATE TABLE `games` (
+    game varchar(5) PRIMARY KEY
 );
 
 CREATE TABLE `teamxrleague` (
@@ -50,6 +56,24 @@ CREATE TABLE `userxleague` (
     FOREIGN KEY (leagueuuid) REFERENCES league(uuid)
 );
 
+CREATE TABLE `player` (
+	uuid BINARY(16),
+    username VARCHAR(75) NOT NULL,
+    fullname VARCHAR(100),
+    image VARCHAR(25),
+    role VARCHAR(25) NOT NULL,
+    value int NOT NULL,
+	primary key(uuid)
+);
+
+CREATE TABLE `teamxplayer` (
+	playeruuid BINARY(16),
+    teamuuid BINARY(16),
+	primary key(playeruuid,teamuuid),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid),
+    FOREIGN KEY (teamuuid) REFERENCES team(uuid)
+);
+
 CREATE TABLE `market` (
 	playeruuid BINARY(16),
     leagueuuid BINARY(16),
@@ -58,9 +82,13 @@ CREATE TABLE `market` (
     insell tinyint(1) NOT null,
     maxbid integer,
     biduseruuid binary(16),
+    marketValue int,
 	primary key(playeruuid,leagueuuid),
     FOREIGN KEY (playeruuid) REFERENCES player(uuid),
     FOREIGN KEY (leagueuuid) REFERENCES league(uuid),
     FOREIGN KEY (owneruuid) REFERENCES user(uuid),
     FOREIGN KEY (biduseruuid) REFERENCES user(uuid)
 );
+
+insert into games(game) values ("LOL");
+insert into games(game) values ("CSGO");

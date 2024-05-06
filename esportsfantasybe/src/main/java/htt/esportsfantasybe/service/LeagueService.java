@@ -208,7 +208,7 @@ public class LeagueService {
                             playerDTO.getTeams(),
                             marketEntry.getOwneruuid(),
                             ownerUsername,
-                            0,
+                            marketEntry.getMarketvalue(),
                             11,
                             250
                     )

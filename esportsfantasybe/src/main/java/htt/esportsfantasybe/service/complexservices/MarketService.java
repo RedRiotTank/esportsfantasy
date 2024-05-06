@@ -23,7 +23,7 @@ public class MarketService {
 
         league.getRealLeagueDTO().getTeams().forEach(team -> {
             team.getPlayers().forEach(player -> {
-                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, 0, false, 0, null));
+                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, 0, false, 0, null, player.getValue()));
 
             });
         });

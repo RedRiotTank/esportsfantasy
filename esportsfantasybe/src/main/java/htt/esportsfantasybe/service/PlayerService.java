@@ -11,6 +11,7 @@ import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.repository.PlayerRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,8 @@ import java.util.UUID;
 
 @Service
 public class PlayerService {
+
+    private static int DEFAULT_VALUE = 300000;
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -98,6 +101,10 @@ public class PlayerService {
             }
         }
         return imageBytes;
+    }
+
+    public static int getDefaultValue() {
+        return DEFAULT_VALUE;
     }
 
 }

@@ -45,9 +45,8 @@ public class RealLeagueService {
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
         Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
-
         removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
-        addNewLeagues(filteredRLeagues);                            //with derivations.
+        addNewLeagues(filteredRLeagues);
 
         Utils.esfPrint("Leagues updated");
     }
@@ -179,7 +178,7 @@ public class RealLeagueService {
 
         List<RealLeague> rLeagues = realLeagueRepository.findAll();
 
-        if(rLeagues.isEmpty()) throw new RuntimeException("1016");
+        //if(rLeagues.isEmpty()) throw new RuntimeException("1016");
 
         rLeagues.forEach(league ->
                 leaguesDTO.add(new RealLeagueDTO(league))

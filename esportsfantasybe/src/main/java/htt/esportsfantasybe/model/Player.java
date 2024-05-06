@@ -23,7 +23,7 @@ public class Player {
     private String fullname;
     private String image;
     private String role;
-    private float value;
+    private int value;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "teamxplayer",
@@ -31,7 +31,7 @@ public class Player {
             inverseJoinColumns = @JoinColumn(name = "teamuuid"))
     private Set<Team> teams;
 
-    public Player(UUID uuid, String username, String fullname, String role, float value) {
+    public Player(UUID uuid, String username, String fullname, String role, int value) {
         this.uuid = uuid;
         this.username = username;
         this.fullname = fullname;
