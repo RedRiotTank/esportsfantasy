@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 import { MarketService } from './market.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BidupModalComponent } from './bidup-modal/bidup-modal.component';
+
 
 @Component({
   selector: 'app-market',
@@ -13,7 +16,8 @@ export class MarketComponent implements OnInit{
   
 
   constructor(
-    private marketService: MarketService
+    private marketService: MarketService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -22,6 +26,19 @@ export class MarketComponent implements OnInit{
 
   getMarketPlayers(){
     return this.marketService.getMarketPlayers();
+  }
+
+  openModal(player: any): void {
+    console.log(player);
+    
+    const dialogRef = this.dialog.open(BidupModalComponent, {
+      width: '250px',
+      data: { name: player.name, uuid: player.uuid, price: player.price}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El modal ha sido cerrado');
+    });
   }
 
 }

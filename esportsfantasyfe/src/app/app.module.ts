@@ -22,6 +22,10 @@ import { AccordionModule } from 'primeng/accordion';
 import { JoinLeagueComponent } from './join-league/join-league.component';
 import { MarketComponent } from './market/market.component';
 import { TeamComponent } from './team/team.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { BidupModalComponent } from './market/bidup-modal/bidup-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +39,8 @@ import { TeamComponent } from './team/team.component';
     HomeComponent,
     JoinLeagueComponent,
     MarketComponent,
-    TeamComponent
+    TeamComponent,
+    BidupModalComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,9 @@ import { TeamComponent } from './team/team.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     CarouselModule,
-    AccordionModule
+    AccordionModule,
+    MatDialogModule,
+    MatSliderModule
   ],
   providers: [
     {
@@ -67,7 +74,8 @@ import { TeamComponent } from './team/team.component';
           console.error(err);
         }
       } as SocialAuthServiceConfig,
-    }
+    },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
