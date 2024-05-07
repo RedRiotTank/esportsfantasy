@@ -7,6 +7,7 @@ import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
+import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import org.springframework.http.ResponseEntity;
 
@@ -156,6 +157,30 @@ public class okresponses {
         okjson.addProperty("status", "200");
         okjson.addProperty("message", "got money correctly");
         okjson.addProperty("money", money);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> teamInfo(Set<PlayerTeamInfoPOJO> teamInfo) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got team info correctly");
+
+        JsonArray playersArray = new JsonArray();
+
+        teamInfo.forEach(player -> {
+            JsonObject playerJson = new JsonObject();
+            playerJson.addProperty("uuid", player.getPlayeruuid().toString());
+            playerJson.addProperty("username", player.getUsername());
+            playerJson.addProperty("fullname", player.getFullname());
+            playerJson.addProperty("role", player.getRole());
+            playerJson.addProperty("aligned", player.isAligned());
+            playersArray.add(playerJson);
+        });
+
+        okjson.add("players", playersArray);
+
 
         return ResponseEntity.ok(okjson.toString());
     }

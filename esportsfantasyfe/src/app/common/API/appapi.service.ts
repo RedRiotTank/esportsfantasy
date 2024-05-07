@@ -194,6 +194,16 @@ export class AppapiService {
     });
   }
 
+  public getUserTeamInfo(userUUID :string, leagueUUID :string): Observable<any>{
+    return this.api.sendRequest("UserXLeagueXPlayer/TeamInfo", {useruuid: userUUID, leagueuuid: leagueUUID}).pipe(
+      map(response => response.players),
+      catchError(error => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
+
   // --- PLAYERS ---
 
   public getPlayerIcon(uuid :String): Observable<string> {
