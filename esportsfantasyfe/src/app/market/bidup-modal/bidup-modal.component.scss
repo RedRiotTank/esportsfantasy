@@ -1,0 +1,61 @@
+:host ::ng-deep .p-slider-handle { 
+    border-color: rgb(229, 80, 0); 
+} 
+:host ::ng-deep .p-slider .p-slider-handle:hover { 
+    border-color: rgb(229, 80, 0); 
+    background: rgb(229, 80, 0);
+} 
+
+
+
+:host ::ng-deep .p-slider-horizontal .p-slider-range {
+    background-color: rgb(229, 80, 0); /* Cambia 'red' por el color que desees */
+}
+
+
+
+.esf-modal{
+    background-color:rgb(255, 255, 255);
+    h1{
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    .input-div{
+        text-align: center;
+    }
+
+    input{
+        text-align: center;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+        outline: none; /* Para eliminar el borde de enfoque predeterminado */
+        border-bottom: 2px solid transparent; /* Línea de color gris */
+        transition: border-bottom-color 0.3s;
+    }
+
+    input:focus{
+        border-bottom-color: rgb(229, 80, 0); /* Cambia el color de la línea cuando el input está enfocado */
+        
+    }
+    button{
+        background-color: rgb(229, 80, 0);
+        color: white;
+        border-radius: 20px;
+        border: none;
+        padding: 5px 10px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0 auto;
+        padding: 0.5rem 4rem;
+    }
+
+    button:hover{
+        background-color: rgb(255, 80, 0);
+    }
+}

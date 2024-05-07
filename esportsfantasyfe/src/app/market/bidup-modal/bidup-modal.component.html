@@ -1,14 +1,21 @@
-<h1 mat-dialog-title>bid up for {{data.name}} </h1>
-<div mat-dialog-content>
-  <div>
-    <input type="text" pInputText [(ngModel)]="value" class="w-full mb-3"/>
-    <p-slider 
-    [(ngModel)]="value"
-    [min]="this.data.price" 
-    [max]="moneyService.getMoney()"
-    ></p-slider>
+<div class="esf-modal">
+  <h1 mat-dialog-title>Bid up for {{data.name}} </h1>
+  <div mat-dialog-content>
+    <div class="input-div">
+      <input type="text" pInputText [(ngModel)]="value" class="w-full mb-3"/>
+      <p-slider 
+      [(ngModel)]="value"
+      [min]="this.data.price" 
+      [max]="moneyService.getMoney()"
+      styleClass="custom-slider"
+      ></p-slider>
+    </div>
   </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="closeModal()">Bid up</button>
+  </div>
+  
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="closeModal()">bid up</button>
-</div>
+
+
+

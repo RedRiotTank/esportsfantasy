@@ -32,7 +32,7 @@ export class MarketComponent implements OnInit{
     console.log(player);
     
     const dialogRef = this.dialog.open(BidupModalComponent, {
-      width: '250px',
+      width: '400px',
       data: { name: player.name, uuid: player.uuid, price: player.price}
     });
 
