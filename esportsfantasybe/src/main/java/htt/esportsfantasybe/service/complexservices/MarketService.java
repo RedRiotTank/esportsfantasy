@@ -65,11 +65,6 @@ public class MarketService {
 
         List<Market> leagueMarketEntriesInSell = marketRepository.findMarketsById_LeagueuuidAndInsell(league.getUuid(), true);
 
-        //TODO: ejecutar compras aquí antes de borrar los registros.
-
-
-
-
         Collections.shuffle(leagueMarketEntriesNoSell);
 
 
@@ -106,6 +101,8 @@ public class MarketService {
         Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueUUID, playerUUID);
 
         if (market == null) throw new RuntimeException("1021");
+
+        if (!market.isInsell()) throw new RuntimeException("1023");
 
         if(!userXLeagueService.userHasEnoughMoney(userUUID, leagueUUID, bidValue)) throw new RuntimeException("1022");
 

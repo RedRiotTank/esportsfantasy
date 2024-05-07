@@ -27,7 +27,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final static String SECRET_KEY = ".secretkey";
+    private final static String SECRET_KEY = "c272ddf8bc884ed30e27e06dac182b2c80a49c36a1b146c569c43005a9af8e02";
 
     private final static int EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 24;
 
@@ -70,6 +70,7 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDTO.getMail())
+                .setId(userDTO.getUuid().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -154,7 +155,7 @@ public class JwtService {
      */
     public static boolean verifyGoogleToken(String idTokenString) {
         try {
-            String GOOGLE_CLIENT_ID = ".googleclientID";
+            String GOOGLE_CLIENT_ID = "860986754360-fqq5h0sfu5abhccvp7u1djv0h23rr80c.apps.googleusercontent.com";
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
                     .setAudience(Collections.singletonList(GOOGLE_CLIENT_ID))
                     .build();
