@@ -1,0 +1,7 @@
+<div class="bench-team">
+    <div *ngFor="let player of this.players" class="element-p bench-element" (click)="selectPlayer(player)">
+        <img [src]="player.icon" alt="" class="avatar">
+
+        <p>{{player.username}}</p>
+    </div>
+</div>

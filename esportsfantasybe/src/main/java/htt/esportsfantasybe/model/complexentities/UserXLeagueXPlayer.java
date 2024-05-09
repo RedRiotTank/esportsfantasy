@@ -16,9 +16,9 @@ public class UserXLeagueXPlayer {
     @EmbeddedId
     private UserXLeagueXPlayerId id;
 
-    private boolean aligned;
+    private int aligned;
 
-    public UserXLeagueXPlayer(UserXLeagueXPlayerId id, boolean aligned) {
+    public UserXLeagueXPlayer(UserXLeagueXPlayerId id, int aligned) {
         this.id = id;
         this.aligned = aligned;
     }

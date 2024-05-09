@@ -14,9 +14,9 @@ public class PlayerTeamInfoPOJO {
     private String fullname;
     private String role;
 
-    private boolean aligned;
+    private int aligned;
 
-    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role, boolean aligned) {
+    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role, int aligned) {
         this.playeruuid = playeruuid;
         this.username = username;
         this.fullname = fullname;

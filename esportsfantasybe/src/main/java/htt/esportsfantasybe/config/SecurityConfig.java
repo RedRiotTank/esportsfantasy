@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/userxleague/getUserXLeagueMoney").permitAll()
                 .requestMatchers("/api/Market/bidup").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/TeamInfo").permitAll()
+                .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

@@ -69,4 +69,12 @@ export class LeagueListServiceService {
     }
   }
 
+  public getSelectedLeagueGame(){
+
+    
+    
+    
+    return this.leagues[this.selectedLeague].leagueGame;
+  }
+
 }

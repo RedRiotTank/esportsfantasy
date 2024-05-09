@@ -89,6 +89,7 @@ public class okresponses {
             leagueJson.addProperty("isAdmin", league.getIsAdmin());
             leagueJson.addProperty("money", league.getMoney());
             leagueJson.addProperty("rLeagueUUID", league.getRLeagueUUID());
+            leagueJson.addProperty("leagueGame", league.getLeagueGame());
             leaguesArray.add(leagueJson);
         });
 
@@ -175,13 +176,21 @@ public class okresponses {
             playerJson.addProperty("username", player.getUsername());
             playerJson.addProperty("fullname", player.getFullname());
             playerJson.addProperty("role", player.getRole());
-            playerJson.addProperty("aligned", player.isAligned());
+            playerJson.addProperty("aligned", player.getAligned());
             playersArray.add(playerJson);
         });
 
         okjson.add("players", playersArray);
 
 
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> setAligned() {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "Player aligned correctly");
         return ResponseEntity.ok(okjson.toString());
     }
 }

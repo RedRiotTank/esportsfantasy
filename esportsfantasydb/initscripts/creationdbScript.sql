@@ -79,7 +79,7 @@ CREATE TABLE `userxleaguexplayer` (
     leagueuuid BINARY(16),
 	playeruuid BINARY(16),
     jour int,
-    aligned tinyint(1),
+    aligned tinyint(7),
 	primary key(useruuid,leagueuuid,playeruuid, jour),
     FOREIGN KEY (useruuid) REFERENCES user(uuid),
     FOREIGN KEY (leagueuuid) REFERENCES league(uuid),

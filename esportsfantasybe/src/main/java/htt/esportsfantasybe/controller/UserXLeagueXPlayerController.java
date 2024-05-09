@@ -3,6 +3,7 @@ package htt.esportsfantasybe.controller;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeaguePOJO;
+import htt.esportsfantasybe.model.pojos.UserLeaguePlayerPOJO;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
@@ -36,4 +37,18 @@ public class UserXLeagueXPlayerController {
             return koresponses.generateKO(e.getMessage());
         }
     }
+
+
+    @CrossOrigin
+    @PostMapping(value ="/SetAligned", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> TeamInfo(@RequestBody UserLeaguePlayerPOJO userLeaguePlayerPOJO){
+        try{
+            userXLeagueXPlayerService.setAligned(userLeaguePlayerPOJO.getUseruuid(), userLeaguePlayerPOJO.getLeagueuuid(), userLeaguePlayerPOJO.getPlayeruuid(), userLeaguePlayerPOJO.getAligned());
+
+            return okresponses.setAligned();
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 }

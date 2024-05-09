@@ -1,22 +1,3 @@
-.team-setter {
-    position: relative;
-    text-align: center;
-    width: 75%; /* Para que el contenedor se ajuste al tamaño de la imagen */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-}
-
-.background {
-    width: 100%;
-    height: auto;
-}
-
-.in-team{
-    position: absolute;
-    z-index: 1; 
-    transform: translate(-50%, -50%);
-    height: 10%; 
-}
-
 .element-p {
     
     color: white; 
@@ -35,42 +16,8 @@
 
     img{
         width: 4vw; 
-        height: auto; 
-    
+        height: auto;
     }
-}
-
-.non-aligned {
-    
-      
-}
-
-.aligned {
-    //background-color: red; 
-}
-
-.pla-1 {
-    top: 20%;
-    left: 15%;
-}
-
-.pla-2 {
-    top: 33%;
-    left: 28%;
-}
-
-.pla-3 {
-    top: 50%;
-    left: 50%;
-}
-
-.pla-4 {
-    top: 80%;
-    left: 65%;
-}
-.pla-5 {
-    top: 80%;
-    left: 75%;
 }
 
 .bench-team {

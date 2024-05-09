@@ -1,6 +1,27 @@
-<p>team works!</p>
 
+<!-- SLIDER CON ENFRENTAMIENTOS -->
 
-<div *ngFor="let player of getTeamPlayers()">
-    <p>player name: {{player.username}}</p>
+<div class="team-setter">
+    <img [src]="getGameBackground()" alt="" class="background">
+
+    <div *ngFor="let index of [1,2,3,4,5]">
+        <div class="in-team element-p pla-{{index}}" [ngClass]="{ 'non-aligned' : this.getAligned(index) == null, 'aligned' : this.getAligned(index) != null }"
+            (click)="openModal(index)">
+        
+        <i class="fa-solid fa-plus" *ngIf="this.getAligned(index) == null"></i>
+
+        <img [src]="this.getAligned(index).icon" alt="" *ngIf="this.getAligned(index) != null">
+
+    </div>
+
+    </div>
 </div>
+
+<div class="bench-team">
+    <div *ngFor="let player of getTeamPlayers()" class="element-p bench-element">
+        <img [src]="player.icon" alt="" class="avatar">
+
+        <p>{{player.username}}</p>
+    </div>
+</div>
+

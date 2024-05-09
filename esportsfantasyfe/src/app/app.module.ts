@@ -25,7 +25,8 @@ import { TeamComponent } from './team/team.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BidupModalComponent } from './market/bidup-modal/bidup-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SliderModule } from 'primeng/slider'; // Importa SliderModule de PrimeNG
+import { SliderModule } from 'primeng/slider';
+import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplayer-modal.component'; // Importa SliderModule de PrimeNG
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { SliderModule } from 'primeng/slider'; // Importa SliderModule de PrimeN
     JoinLeagueComponent,
     MarketComponent,
     TeamComponent,
-    BidupModalComponent
+    BidupModalComponent,
+    SelectplayerModalComponent
   ],
   imports: [
     BrowserModule,
