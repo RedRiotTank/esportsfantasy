@@ -38,6 +38,13 @@ public class UserXLeagueService {
         return getUserXLeagueMoney(userUuid, leagueUuid) >= money;
     }
 
+    public void addMoney(UUID userUuid, UUID leagueUuid, int money){
+        userXLeagueRepository.findById(new UserXLeagueId(userUuid, leagueUuid)).ifPresent(userXLeague -> {
+            userXLeague.setMoney(userXLeague.getMoney() + money);
+            userXLeagueRepository.save(userXLeague);
+        });
+    }
+
     public void discountMoney(UUID userUuid, UUID leagueUuid, int money){
         if(userHasEnoughMoney(userUuid, leagueUuid, money)){
             userXLeagueRepository.findById(new UserXLeagueId(userUuid, leagueUuid)).ifPresent(userXLeague -> {
@@ -45,7 +52,7 @@ public class UserXLeagueService {
                 userXLeagueRepository.save(userXLeague);
             });
         } else {
-            throw new RuntimeException("no suficiente dinero");
+            throw new RuntimeException("1022");
         }
     }
 }

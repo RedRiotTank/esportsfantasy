@@ -22,18 +22,14 @@ public class Market {
     private UUID owneruuid;
     private int clause;
     private boolean insell;
-    private int maxbid;
-    private UUID biduseruuid;
     private int marketvalue;
 
 
-    public Market(MarketId id, UUID owneruuid, int clause, boolean insell, int maxbid, UUID biduseruuid, int marketvalue) {
+    public Market(MarketId id, UUID owneruuid, int clause, boolean insell, int marketvalue) {
         this.id = id;
         this.owneruuid = owneruuid;
         this.clause = clause;
         this.insell = insell;
-        this.maxbid = maxbid;
-        this.biduseruuid = biduseruuid;
         this.marketvalue = marketvalue;
     }
 

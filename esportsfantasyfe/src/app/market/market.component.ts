@@ -29,7 +29,7 @@ export class MarketComponent implements OnInit{
   }
 
   openModal(player: any): void {
-    console.log(player);
+    //console.log(player);
     
     const dialogRef = this.dialog.open(BidupModalComponent, {
       width: '400px',
@@ -40,7 +40,7 @@ export class MarketComponent implements OnInit{
       
       if(result){
         this.marketService.bidUp(player.uuid, result.number).subscribe( () => {
-          console.log("Bid up success");
+          //console.log("Bid up success");
           
         });
         

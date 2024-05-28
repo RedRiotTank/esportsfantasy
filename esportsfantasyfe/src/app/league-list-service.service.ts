@@ -52,21 +52,20 @@ export class LeagueListServiceService {
   }
 
   public getSelectedLeagueUUID(){
-    console.log("Getting league UUID: " + this.leagues[this.selectedLeague].leagueUUID);
+    //console.log("Getting league UUID: " + this.leagues[this.selectedLeague].leagueUUID);
+    console.log(this.leagues[this.selectedLeague]);
     
     return this.leagues[this.selectedLeague].leagueUUID;
   }
 
   public setSelectedLeague(index: number){
-
-    this.moneyService.updateMoney(this.getSelectedLeagueUUID());
-    
-
     if(index < 0 || index >= this.leagues.length){
       this.selectedLeague = 0;
     } else {
       this.selectedLeague = index;
     }
+
+    this.moneyService.updateMoney(this.getSelectedLeagueUUID());
   }
 
   public getSelectedLeagueGame(){

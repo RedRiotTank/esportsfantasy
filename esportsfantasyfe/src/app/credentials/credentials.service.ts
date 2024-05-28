@@ -58,7 +58,7 @@ export class CredentialsService{
     
       const decodedToken = this.getDecodedToken();
 
-      console.log(decodedToken);
+      //console.log(decodedToken);
       
 
       if(decodedToken.sub != null)  this.loggedIn = true;   // PROVISIONAL CHECKEAR ESTO. 

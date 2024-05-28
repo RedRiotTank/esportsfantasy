@@ -25,7 +25,7 @@ export class TeamComponent implements OnInit{
   }
 
   getTeamPlayers(){
-    console.log(this.teamService.getTeamPlayers());
+    //console.log(this.teamService.getTeamPlayers());
     
     return this.teamService.getTeamPlayers();
   }

@@ -20,7 +20,7 @@ export class MarketService {
 
     this.appApiService.getMarketPlayers(this.leagueListService.getSelectedLeague().leagueUUID).subscribe(
       players => {
-        console.log(players);
+        //console.log(players);
         players.forEach(player => {
           this.appApiService.getPlayerIcon(player.uuid).subscribe(icon => {
             player.icon = icon;

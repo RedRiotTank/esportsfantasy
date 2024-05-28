@@ -205,7 +205,7 @@ export class AppapiService {
   }
 
   public setAlignment(userUUID :string, leagueUUID :string, playerUUID :string, alignment :number): Observable<any>{
-    console.log("alignment: " + alignment);
+    //console.log("alignment: " + alignment);
     return this.api.sendRequest("UserXLeagueXPlayer/SetAligned", {useruuid: userUUID, leagueuuid: leagueUUID, playeruuid: playerUUID, aligned: alignment}).pipe(
       map(response => response),
       catchError(error => {
