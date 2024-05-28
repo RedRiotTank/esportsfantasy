@@ -26,6 +26,7 @@ public class RealLeague {
     private String shortname;
     private String game;
     private String apiID;
+    private Integer currentjour;
 
     @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Team> teams;

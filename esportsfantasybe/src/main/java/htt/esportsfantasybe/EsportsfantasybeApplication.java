@@ -61,6 +61,12 @@ public class EsportsfantasybeApplication {
         });
 
  */
+        /*
+        realLeagueService.getRLeaguesDB().forEach(league ->{
+            realLeagueService.updateLeagueJournal(league.getUuid());
+
+        });
+        */
 
         //realLeagueService.updateLeagues();
         //lolApiCaller.downloadLeagueImage("LEC/2024 Season/Spring");

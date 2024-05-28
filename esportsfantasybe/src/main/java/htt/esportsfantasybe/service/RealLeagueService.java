@@ -95,6 +95,26 @@ public class RealLeagueService {
 
     // ------- OBTAIN ------- //
 
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+    public void updateLeagueJournal() {
+
+        System.out.println("AAA");
+        this.getRLeaguesDB().forEach(league ->{
+            System.out.println(league.getEvent());
+            Optional<RealLeague> rlOptional = realLeagueRepository.findById(league.getUuid());
+
+            RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
+
+            int journal = lolApiCaller.getLeagueCurrentJour(rl.getOverviewpage());
+
+            rl.setCurrentjour(journal);
+
+            realLeagueRepository.save(rl);
+
+        });
+
+    }
+
     private Set<RealLeagueDTO> obtainAllRLeagues() throws IOException {
         Set<RealLeagueDTO> allLeagues = new HashSet<>();
 
@@ -120,6 +140,7 @@ public class RealLeagueService {
                         (!league.getEvent().contains("2nd") &&
                         !league.getEvent().contains("3rd") &&
                         !league.getEvent().contains("Championship") &&
+                                !league.getEvent().contains("Placements") &&
                         !league.getEvent().contains("Division 2"))
                         ) {
 

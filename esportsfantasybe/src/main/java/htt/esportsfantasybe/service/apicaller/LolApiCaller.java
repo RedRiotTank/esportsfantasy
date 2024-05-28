@@ -12,10 +12,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LolApiCaller extends ApiCaller{
 
@@ -43,6 +46,51 @@ public class LolApiCaller extends ApiCaller{
     }
 
     // ------ Queries ------ //
+
+    public int getLeagueCurrentJour(String overviewPage)  {
+        int maxJour = 0;
+        Date currentDate = new Date();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String overviewPageSeason = overviewPage + " Season";
+        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
+
+        Set<TeamDTO> teams = new HashSet<>();
+        List<String> teamNames = new ArrayList<>();
+
+        if (matchSchedule == null || matchSchedule.size() == 0){
+            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,MatchDay,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
+        }
+
+
+        Date matchDate = null;
+
+        for (JsonElement match : matchSchedule){
+            String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString().replaceAll("\\D", "");
+            String dateString = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
+
+            try {
+                matchDate = formatter.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return 0;
+            }
+
+            if (matchDate.before(currentDate) && Integer.parseInt(jour) > maxJour) {
+                maxJour = Integer.parseInt(jour);
+            }
+
+
+
+
+
+
+
+        }
+
+
+        return maxJour;
+    }
 
     public List<RealLeagueDTO> getAllLeagues(){ //with no teams
         JsonArray allLeaguesJson = cargoQuery("CurrentLeagues=CL", "Event,OverviewPage");

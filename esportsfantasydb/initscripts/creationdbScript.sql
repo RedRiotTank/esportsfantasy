@@ -12,7 +12,8 @@ CREATE TABLE `realleague` (
     overviewpage VARCHAR(255) NOT NULL,
     apiID VARCHAR(255) ,
     shortname varchar(10) NOT NULL,
-    game varchar(10) NOT NULL
+    game varchar(10) NOT NULL,
+    currentjour INT
 );
 
 CREATE TABLE `team` (
