@@ -92,13 +92,23 @@ CREATE TABLE `market` (
     owneruuid BINARY(16),
     clause integer not null,
     insell tinyint(1) NOT null,
-    maxbid integer,
-    biduseruuid binary(16),
     marketValue int,
 	primary key(playeruuid,leagueuuid),
     FOREIGN KEY (playeruuid) REFERENCES player(uuid),
     FOREIGN KEY (leagueuuid) REFERENCES league(uuid),
-    FOREIGN KEY (owneruuid) REFERENCES user(uuid),
+    FOREIGN KEY (owneruuid) REFERENCES user(uuid)
+);
+
+CREATE TABLE `bidup` (
+	playeruuid BINARY(16),
+    leagueuuid BINARY(16),
+    biduseruuid BINARY(16),
+    date date,
+    state tinyint(1) NOT null,
+    bid int,
+	primary key(playeruuid,leagueuuid, biduseruuid, date),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES league(uuid),
     FOREIGN KEY (biduseruuid) REFERENCES user(uuid)
 );
 
