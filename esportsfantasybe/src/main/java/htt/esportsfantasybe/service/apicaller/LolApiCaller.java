@@ -2,10 +2,13 @@ package htt.esportsfantasybe.service.apicaller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.complexentities.Event;
+import htt.esportsfantasybe.model.pojos.EventPOJO;
 import htt.esportsfantasybe.service.PlayerService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,6 +50,30 @@ public class LolApiCaller extends ApiCaller{
 
     // ------ Queries ------ //
 
+    public Set<EventPOJO> getRLeaguesEvents(String overviewPage) {
+
+
+
+        String overviewPageSeason = overviewPage + " Season";
+        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
+
+        if (matchSchedule == null || matchSchedule.size() == 0)
+            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
+
+        Set<EventPOJO> events = new HashSet<>();
+
+        for (JsonElement match : matchSchedule){
+            String team1 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team1").getAsString();
+            String team2 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team2").getAsString();
+            String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString().replaceAll("\\D", "");
+            String dateTime_UTC = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
+
+            events.add(new EventPOJO(team1,team2,jour,dateTime_UTC));
+        }
+
+        return events;
+    }
+
     public int getLeagueCurrentJour(String overviewPage)  {
         int maxJour = 0;
         Date currentDate = new Date();
@@ -79,13 +106,6 @@ public class LolApiCaller extends ApiCaller{
             if (matchDate.before(currentDate) && Integer.parseInt(jour) > maxJour) {
                 maxJour = Integer.parseInt(jour);
             }
-
-
-
-
-
-
-
         }
 
 
@@ -99,7 +119,7 @@ public class LolApiCaller extends ApiCaller{
         for(JsonElement league : allLeaguesJson){
             String event = league.getAsJsonObject().get("title").getAsJsonObject().get("Event").getAsString();
             String overviewPage = league.getAsJsonObject().get("title").getAsJsonObject().get("OverviewPage").getAsString();
-            allLeaguesDTO.add(new RealLeagueDTO(null,event, overviewPage, Utils.generateShortName(event),"LOL"));
+            allLeaguesDTO.add(new RealLeagueDTO(null,event, overviewPage, Utils.generateShortName(event),"LOL",0));
         }
 
         return allLeaguesDTO;

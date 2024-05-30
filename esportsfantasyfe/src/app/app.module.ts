@@ -8,7 +8,12 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EsfErrorComponent } from './common/error/esf-error/esf-error.component';
-import { GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  GoogleSigninButtonModule,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './credentials/login/login.component';
 import { RegisterComponent } from './credentials/register/register.component';
@@ -27,7 +32,9 @@ import { BidupModalComponent } from './market/bidup-modal/bidup-modal.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { SliderModule } from 'primeng/slider';
 import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplayer-modal.component'; // Importa SliderModule de PrimeNG
-
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +50,7 @@ import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplay
     MarketComponent,
     TeamComponent,
     BidupModalComponent,
-    SelectplayerModalComponent
+    SelectplayerModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +64,11 @@ import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplay
     CarouselModule,
     AccordionModule,
     MatDialogModule,
-    SliderModule // Asegúrate de que SliderModule esté importado aquí para PrimeNG
+    SliderModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
   ],
   providers: [
     {
@@ -69,16 +80,16 @@ import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplay
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               '860986754360-fqq5h0sfu5abhccvp7u1djv0h23rr80c.apps.googleusercontent.com'
-            )
-          }
+            ),
+          },
         ],
         onError: (err) => {
           console.error(err);
-        }
+        },
       } as SocialAuthServiceConfig,
     },
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

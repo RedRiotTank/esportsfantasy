@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/Market/bidup").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/TeamInfo").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
+                .requestMatchers("/api/events/getEvents").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

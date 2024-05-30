@@ -1,30 +1,31 @@
 <app-esf-header></app-esf-header>
 
 <div class="league-p-container">
-    <p class="p-item">{{this.getMoneyWithFormat()}} 🪙</p>
-    
+  <p class="p-item">{{ this.getMoneyWithFormat() }} 🪙</p>
 </div>
 
-<div [ngClass]="{'content-container': this.getCredentialService().getLoggedIn()}">
-
-    <div *ngIf="this.getCredentialService().getLoggedIn()" class="league-list">
-        <div *ngFor="let league of this.getLeagues()" class="league" [class.clicked]="this.getSelectedLeague().leagueUUID == league.leagueUUID"  (click)="setSelectedLeague(league.index)">
-            <img src="{{league.icon}}" alt="logo-img">
-            <p class="esf-text"> {{league.leagueName}}</p>
-            
-        </div>
-
-        <button class="esf-ibutton" (click)="goToCreateLeague()">Join league</button>
-
+<div
+  [ngClass]="{ 'content-container': this.getCredentialService().getLoggedIn() }"
+>
+  <div *ngIf="this.getCredentialService().getLoggedIn()" class="league-list">
+    <div
+      *ngFor="let league of this.getLeagues()"
+      class="league"
+      [class.clicked]="this.getSelectedLeague().leagueUUID == league.leagueUUID"
+      (click)="setSelectedLeague(league.index)"
+    >
+      <img src="{{ league.icon }}" alt="logo-img" />
+      <p class="esf-text">{{ league.leagueName }}</p>
     </div>
 
-    <div class="content">
-        <router-outlet></router-outlet>
-    </div>
-    
+    <button class="esf-ibutton" (click)="goToCreateLeague()">
+      Join league
+    </button>
+  </div>
 
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-
 
 <app-footer></app-footer>

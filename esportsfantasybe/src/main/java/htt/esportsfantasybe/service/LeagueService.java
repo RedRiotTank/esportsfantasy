@@ -219,4 +219,8 @@ public class LeagueService {
         return playerInfoPOJOS;
     }
 
+    public League getLeague(UUID leagueuuid){
+        return this.leagueRepository.findById(leagueuuid).orElseThrow(RuntimeException::new);
+    }
+
 }

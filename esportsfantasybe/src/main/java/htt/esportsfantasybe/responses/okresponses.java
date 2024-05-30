@@ -4,14 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonElement;
+import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.pojos.EventInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** This class contains the responses for the successful requests.
@@ -56,6 +60,35 @@ public class okresponses {
         okjson.addProperty("status", "201");
         okjson.addProperty("message", "User joined league correctly");
         return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getEvents(Set<EventInfoPOJO> events) {
+        JsonObject responseJson = new JsonObject();
+        responseJson.addProperty("result", "ok");
+        responseJson.addProperty("status", "200");
+        responseJson.addProperty("message", "got events correctly");
+
+        Map<Integer, JsonArray> eventsGroupedByJour = new HashMap<>();
+
+        for (EventInfoPOJO event : events) {
+            JsonObject eventJson = new JsonObject();
+            eventJson.addProperty("team1uuid", event.getTeam1uuid().toString());
+            eventJson.addProperty("team2uuid", event.getTeam2uuid().toString());
+            eventJson.addProperty("team1name", event.getTeam1name());
+            eventJson.addProperty("team2name", event.getTeam2name());
+            eventJson.addProperty("date", event.getJour());
+
+            eventsGroupedByJour
+                    .computeIfAbsent(event.getJour(), k -> new JsonArray())
+                    .add(eventJson);
+        }
+
+        for (Map.Entry<Integer, JsonArray> entry : eventsGroupedByJour.entrySet()) {
+            responseJson.add(entry.getKey().toString(), entry.getValue());
+        }
+
+        System.out.println("RESPIESTA_ " + responseJson.toString());
+        return ResponseEntity.ok(responseJson.toString());
     }
 
     public static ResponseEntity<?> getGames(List<GamesDTO> games) {
@@ -176,6 +209,7 @@ public class okresponses {
             playerJson.addProperty("username", player.getUsername());
             playerJson.addProperty("fullname", player.getFullname());
             playerJson.addProperty("role", player.getRole());
+            playerJson.addProperty("jour", player.getJour());
             playerJson.addProperty("aligned", player.getAligned());
             playersArray.add(playerJson);
         });

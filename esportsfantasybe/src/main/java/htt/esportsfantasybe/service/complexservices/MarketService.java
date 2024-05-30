@@ -7,6 +7,7 @@ import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.complexkeysmodels.MarketId;
 import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
+import htt.esportsfantasybe.service.LeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.error.Mark;
@@ -35,8 +36,6 @@ public class MarketService {
     }
 
     public void initMarket(LeagueDTO league){
-
-        /*
         league.getRealLeagueDTO().getTeams().forEach(team -> {
             team.getPlayers().forEach(player -> {
                 marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, 0, false, player.getValue()));
@@ -45,9 +44,6 @@ public class MarketService {
         });
 
         updateMarket(league);
-
-         */
-
     }
 
 
@@ -96,7 +92,8 @@ public class MarketService {
 
             if(!bidUpList.isEmpty()){
                 BidUp maxBidUp = Collections.max(bidUpList, Comparator.comparingInt(BidUp::getBid));
-                userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid());
+
+                userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid(),league.getRealLeagueDTO().getCurrentjour());
                 bidUpService.closeBidUp(maxBidUp);
 
                 for (BidUp bidUp : bidUpList) {

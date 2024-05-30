@@ -8,6 +8,7 @@ import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import htt.esportsfantasybe.service.complexservices.EventService;
 import jakarta.transaction.Transactional;
 import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,12 @@ public class RealLeagueService {
 
     private final TeamService teamService;
 
+    private final EventService eventService;
+
     @Autowired
-    public RealLeagueService(TeamService teamService) {
+    public RealLeagueService(TeamService teamService, EventService eventService) {
         this.teamService = teamService;
+        this.eventService = eventService;
     }
 
 
@@ -48,7 +52,14 @@ public class RealLeagueService {
         removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
         addNewLeagues(filteredRLeagues);
 
+
         Utils.esfPrint("Leagues updated");
+    }
+
+    @Scheduled(fixedRate = 172800000)   //48 hours
+    public void updateRLeaguesEventSchedule(){
+        this.getRLeaguesDB().forEach(eventService::obtainRLeagueEvents);
+
     }
 
     private void removeObsoleteLeagues(Set<RealLeagueDTO> filteredRLeagues, Set<RealLeagueDTO> rLeaguesDB) {

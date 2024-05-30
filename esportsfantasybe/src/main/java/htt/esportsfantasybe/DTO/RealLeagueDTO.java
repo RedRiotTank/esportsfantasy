@@ -19,10 +19,11 @@ public class RealLeagueDTO {
     private String shortname;
     private String game;
     private String apiId;
+    private int currentjour;
 
     private Set<TeamDTO> teams;
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage,String shortname, String game, String apiId, Set<TeamDTO> teams){
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage,String shortname, String game, String apiId, Set<TeamDTO> teams, int currentjour){
         this.uuid = uuid;
         this.event = event;
         this.overviewpage = overviewPage;
@@ -30,14 +31,15 @@ public class RealLeagueDTO {
         this.game = game;
         this.apiId = apiId;
         this.teams = teams;
+        this.currentjour = currentjour;
     }
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game){
-        this(uuid,event,overviewPage,shortname,game,null, null);
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, int currentjour){
+        this(uuid,event,overviewPage,shortname,game,null, null, currentjour);
     }
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, Set<TeamDTO> teams){
-        this(uuid,event,overviewPage,shortname,game,null, teams);
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, Set<TeamDTO> teams, int currentjour){
+        this(uuid,event,overviewPage,shortname,game,null, teams, currentjour);
     }
 
     public RealLeagueDTO(RealLeague realLeague){
@@ -49,7 +51,8 @@ public class RealLeagueDTO {
                 realLeague.getApiID(),
                 realLeague.getTeams().stream()
                         .map(team -> new TeamDTO(team, true))
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toSet()),
+                realLeague.getCurrentjour()
         );
     }
 }

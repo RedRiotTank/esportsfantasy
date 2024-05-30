@@ -113,5 +113,17 @@ CREATE TABLE `bidup` (
     FOREIGN KEY (biduseruuid) REFERENCES user(uuid)
 );
 
+CREATE TABLE `event` (
+	realleagueuuid BINARY(16),
+    team1uuid BINARY(16),
+    team2uuid BINARY(16),
+    date date,
+    jour int,
+    primary key(realleagueuuid,team1uuid,team2uuid,jour),
+    FOREIGN KEY (realleagueuuid) REFERENCES realleague(uuid),
+    FOREIGN KEY (team1uuid) REFERENCES team(uuid),
+     FOREIGN KEY (team2uuid) REFERENCES team(uuid)
+);
+
 insert into games(game) values ("LOL");
 insert into games(game) values ("CSGO");

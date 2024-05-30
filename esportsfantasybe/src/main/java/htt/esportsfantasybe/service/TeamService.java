@@ -41,11 +41,21 @@ public class TeamService {
 
     }
 
-    public TeamDTO getTeamDataDB(){
-        Set<Team> team = teamRepository.findTeamsByNameAndGame("Invictus Gaming", "LOL");
+    public TeamDTO getTeam(UUID teamuuid){
+        Optional<Team> team = teamRepository.findById(teamuuid);
+
+        return team.map(TeamDTO::new).orElse(null);
+
+    }
+
+    public TeamDTO getTeamDataDB(String teamname){
+        Set<Team> team = teamRepository.findTeamsByNameAndGame(teamname, "LOL");
+
+        if(team == null || team.isEmpty()) return null;
 
         return new TeamDTO(team.stream().findFirst().get());
     }
+
 
 
     public void updateTeams(RealLeague rl){
