@@ -187,8 +187,8 @@ public class LolApiCaller extends ApiCaller{
                         "Image," +
                         "Name," +
                         "Role",
-                "&where=Role!=\"Manager\"AND Role!=\"Owner\"AND Role!=\"Coach\"AND Role!=\"Caster\"AND Role!=\"Streamer\"AND Role!=\"Analyst\"AND Team=\""
-                        + team.getName() + "\"OR Team2=\""+ team.getName() + "\"" );
+                "&where=(Role=\"Top\"OR Role=\"Jungle\"OR Role=\"Mid\"OR Role=\"Bot\"OR Role=\"Support\")AND (Team=\""
+                        + team.getName() + "\"OR Team2=\""+ team.getName() + "\")" );
 
 
         if (teamPlayers == null || teamPlayers.size() == 0) return null;
@@ -219,20 +219,31 @@ public class LolApiCaller extends ApiCaller{
     public static String getTableImgurl(String overviewPage, String type) throws IOException {
         Document documento = Jsoup.connect(wikiUrl + overviewPage).get();
 
-        Elements tablas = documento.select("table.Infobox" + type);
+        Elements tables = documento.select("table#infoboxPlayer");
 
-        if (tablas.isEmpty()) {
-            return null;
-        } else {
-            Elements imagenes = tablas.get(0).select("img");
+        if (tables.isEmpty()) return null;
+         else {
+            Elements divs = tables.get(0).select("div.floatnone");
 
-            if (imagenes.isEmpty()) {
+            if (divs.isEmpty()) {
                 return null;
             } else {
-                return imagenes.get(0).attr("src");
+                Elements imagenes = divs.get(0).select("img");
+
+                if (imagenes.isEmpty()) return null;
+                 else {
+                    String imageUrl = imagenes.get(0).attr("src");
+                    if(overviewPage == "Eika") System.out.println("eikaurl: " + imageUrl);
+
+
+                    if (imageUrl.equals("https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/1d/Unknown_Infobox_Image_-_Player.png/revision/latest/scale-to-width-down/220?cb=20210522010719")) return null;
+                    else{
+                        return imageUrl;
+                    }
+
+                }
             }
         }
+
     }
-
-
 }
