@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 
 
 public class Utils {
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_BOLD = "\u001B[1m";
 
     public static HttpHeaders getImageHeaders(byte[] image){
         org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
@@ -42,13 +45,12 @@ public class Utils {
     }
 
     public static void esfPrint(String str) {
-        System.out.println("[eSportsFantasy]: " + str);
+        System.out.println(ANSI_RED + ANSI_BOLD + "[eSportsFantasy]: " + ANSI_RESET + str);
     }
 
     public static void esfPrint(String str,int tabs) {
         String tab = "    ".repeat(tabs);
-
-        System.out.println(tab + "[eSportsFantasy]: " + str);
+        System.out.println(tab + ANSI_RED + ANSI_BOLD + "[eSportsFantasy]: " + ANSI_RESET + str);
     }
 
     private static boolean checkMayus(String str) {
@@ -78,18 +80,12 @@ public class Utils {
 
         try {
             url = new URL(imageUrl);
-
         } catch (MalformedURLException e) {
-            //e.printStackTrace();
-            System.out.println("URL malformada");
             url = null;
-
         }
 
         if(url != null){
             InputStream inputStream = url.openStream();
-
-
 
             OutputStream outputStream = new FileOutputStream(destinationFile);
 
