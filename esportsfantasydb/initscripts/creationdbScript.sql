@@ -119,6 +119,7 @@ CREATE TABLE `event` (
     team2uuid BINARY(16),
     date date,
     jour int,
+    winner tinyint(1),
     primary key(realleagueuuid,team1uuid,team2uuid,jour),
     FOREIGN KEY (realleagueuuid) REFERENCES realleague(uuid),
     FOREIGN KEY (team1uuid) REFERENCES team(uuid),

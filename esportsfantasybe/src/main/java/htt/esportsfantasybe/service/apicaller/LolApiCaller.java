@@ -65,7 +65,15 @@ public class LolApiCaller extends ApiCaller{
         for (JsonElement match : matchSchedule){
             String team1 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team1").getAsString();
             String team2 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team2").getAsString();
-            String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString().replaceAll("\\D", "");
+            String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString();
+
+            if(jour.equals("Tiebreakers"))
+                jour = "50";
+            else if(jour.equals("Playoffs"))
+                jour = "100";
+            else
+                jour = jour.replaceAll("\\D", "");
+
             String dateTime_UTC = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
 
             events.add(new EventPOJO(team1,team2,jour,dateTime_UTC));
@@ -93,7 +101,18 @@ public class LolApiCaller extends ApiCaller{
         Date matchDate = null;
 
         for (JsonElement match : matchSchedule){
-            String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString().replaceAll("\\D", "");
+            String jour;
+
+            try{
+                jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString();
+            } catch (Exception e){
+                jour = "Playoffs";
+            }
+
+
+
+
+
             String dateString = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
 
             try {
@@ -102,6 +121,15 @@ public class LolApiCaller extends ApiCaller{
                 e.printStackTrace();
                 return 0;
             }
+            if(jour.equals("Tiebreakers"))  //50 if is in tierbreakers
+                jour = "50";
+            else if(jour.equals("Playoffs"))
+                jour = "100";
+            else
+                jour = jour.replaceAll("\\D", "");
+
+            if(jour.equals(""))  //100 if is in playoffs
+                System.out.println("JOUR IS EMPTY");
 
             if (matchDate.before(currentDate) && Integer.parseInt(jour) > maxJour) {
                 maxJour = Integer.parseInt(jour);

@@ -34,43 +34,10 @@ public class EsportsfantasybeApplication {
     public void initialize() throws IOException {
 
         // ----------- FULL UPDATE ----------- //
-        realLeagueService.initializeLeagues();
+        //realLeagueService.initializeLeagues();
         // ----------- END UPDATE ----------- //
 
-/*
-        System.out.printf("a");
-        userService.getAllUsers().forEach(user -> {
-            List<LeagueDTO> leagues = userService.getUserLeagues(user.getUuid());
-            System.out.println(user.getMail() + " has the following leagues: ");
-            System.out.println(leagues);
-        });
 
- */
-        /*
-        realLeagueService.getRLeaguesDB().forEach(league ->{
-            realLeagueService.updateLeagueJournal(league.getUuid());
-
-        });
-        */
-
-
-        //lolApiCaller.downloadLeagueImage("LEC/2024 Season/Spring");
-        //Set<PlayerDTO> players =  lolApiCaller.getTeamPlayers(teamService.getTeamDataDB());
-
-
-        //teamService.updateTeams();
-
-        //List<TeamXrLeague> all=teamXrLeagueService.getall();
-
-        /*
-        realLeagueService.getRLeaguesDB().forEach(league ->{
-            System.out.println(" ==== Liga: " + league.getEvent() + " ====");
-            List<TeamDTO> teams = teamService.getLeagueTeams(league.getUuid());
-            teams.forEach(team -> {
-                System.out.println("    " + team.getName());
-            });
-        });
-        */
     }
 }
 

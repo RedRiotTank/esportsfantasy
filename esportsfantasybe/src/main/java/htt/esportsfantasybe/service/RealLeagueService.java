@@ -111,7 +111,7 @@ public class RealLeagueService {
 
             RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
 
-            int journal = lolApiCaller.getLeagueCurrentJour(rl.getOverviewpage());
+            int journal = lolApiCaller.getLeagueCurrentJour(rl.getOverviewpage() );
 
             rl.setCurrentjour(journal);
 
