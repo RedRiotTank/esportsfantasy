@@ -2,15 +2,12 @@ package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
-import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
-import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.EventService;
 import jakarta.transaction.Transactional;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -42,18 +39,16 @@ public class RealLeagueService {
 
     // ------- UPDATE ------- //
 
-    @Scheduled(cron = "5  35  4  */10  *  *")
     @Transactional
-    public void updateLeagues() throws IOException {
-        Utils.esfPrint("Updating leagues...");
+    public void initializeLeagues() throws IOException {
+        Utils.esfPrint("Initializing leagues...");
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
         Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
         removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
         addNewLeagues(filteredRLeagues);
 
-
-        Utils.esfPrint("Leagues updated");
+        Utils.esfPrint("Leagues initialized");
     }
 
     @Scheduled(fixedRate = 172800000)   //48 hours
