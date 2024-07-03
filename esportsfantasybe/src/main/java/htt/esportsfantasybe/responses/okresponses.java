@@ -86,8 +86,7 @@ public class okresponses {
         for (Map.Entry<Integer, JsonArray> entry : eventsGroupedByJour.entrySet()) {
             responseJson.add(entry.getKey().toString(), entry.getValue());
         }
-
-        System.out.println("RESPIESTA_ " + responseJson.toString());
+        
         return ResponseEntity.ok(responseJson.toString());
     }
 
