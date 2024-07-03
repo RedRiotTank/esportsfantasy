@@ -1,6 +1,9 @@
 <app-esf-header></app-esf-header>
 
-<div class="league-p-container">
+<div
+  *ngIf="this.getCredentialService().getLoggedIn()"
+  class="league-p-container"
+>
   <p class="p-item">{{ this.getMoneyWithFormat() }} 🪙</p>
 </div>
 
