@@ -245,9 +245,27 @@ public class LolApiCaller extends ApiCaller{
     }
 
     public static String getTableImgurl(String overviewPage, String type) throws IOException {
-        Document documento = Jsoup.connect(wikiUrl + overviewPage).get();
+        Document doc = Jsoup.connect(wikiUrl + overviewPage).get();
 
-        Elements tables = documento.select("table#infoboxPlayer");
+        Elements tables;
+
+        switch (type) {
+            case "Tournament"-> {
+                tables = doc.select("table#infoboxTournament");
+            }
+
+            case "Team"-> {
+                tables = doc.select("table#infoboxTeam");
+            }
+            case "Player"-> {
+                tables = doc.select("table#infoboxPlayer");
+            }
+            default -> {
+                return null;
+            }
+        }
+
+
 
         if (tables.isEmpty()) return null;
          else {
@@ -261,7 +279,6 @@ public class LolApiCaller extends ApiCaller{
                 if (imagenes.isEmpty()) return null;
                  else {
                     String imageUrl = imagenes.get(0).attr("src");
-                    if(overviewPage == "Eika") System.out.println("eikaurl: " + imageUrl);
 
 
                     if (imageUrl.equals("https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/1d/Unknown_Infobox_Image_-_Player.png/revision/latest/scale-to-width-down/220?cb=20210522010719")) return null;
