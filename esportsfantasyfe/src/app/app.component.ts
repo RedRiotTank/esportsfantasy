@@ -11,18 +11,20 @@ import { TeamService } from './team/team.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'esportsfantasyfe';
 
-  constructor(private router: Router, 
-    private credentialsService: CredentialsService, 
+  constructor(
+    private router: Router,
+    private credentialsService: CredentialsService,
     private appapiService: AppapiService,
     private leagueListService: LeagueListServiceService,
     private marketService: MarketService,
     private teamService: TeamService,
-    private moneyService: MoneyService) {
+    private moneyService: MoneyService
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.credentialsService.updateLoginCredentials();
@@ -30,34 +32,37 @@ export class AppComponent implements OnInit{
     });
   }
   ngOnInit(): void {
+    if (!this.credentialsService.getLoggedIn()) {
+      localStorage.removeItem('token');
+      this.appapiService.sendToErrorPage(null);
+    }
+
     this.leagueListService.updateLeagueList();
   }
 
-  getLeagues(){
+  getLeagues() {
     return this.leagueListService.getLeagues();
   }
 
-  goToCreateLeague(){
+  goToCreateLeague() {
     this.router.navigate(['/joinLeague']);
   }
 
-  public getCredentialService(){
+  public getCredentialService() {
     return this.credentialsService;
   }
 
-  public getSelectedLeague(){
-    
+  public getSelectedLeague() {
     return this.leagueListService.getSelectedLeague();
   }
 
-  public setSelectedLeague(index: number){
+  public setSelectedLeague(index: number) {
     this.leagueListService.setSelectedLeague(index);
     this.marketService.loadMarket();
     this.teamService.loadTeam();
   }
 
-  public getMoneyWithFormat(){
+  public getMoneyWithFormat() {
     return this.moneyService.getMoneyWithFormat();
   }
-
 }
