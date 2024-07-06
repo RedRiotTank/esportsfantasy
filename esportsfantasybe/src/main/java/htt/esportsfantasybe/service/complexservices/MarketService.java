@@ -75,10 +75,7 @@ public class MarketService {
 
         });
 
-         */
-
-
-
+        */
 
         List<Market> leagueMarketEntriesNoSell = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(league.getUuid(), false);   //TODO: añadir que no coja a los jugadores que tengan dueño.
 

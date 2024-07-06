@@ -177,15 +177,18 @@ public class LeagueService {
     }
 
 
-    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
-    @Scheduled(fixedRate =  30 * 1000) // 1min
+    //@Scheduled(fixedRate = 12 * 60 * 60 * 1000) // 12h for normal use
+    @Scheduled(fixedRate =  30 * 1000) // 30s for testing
     public void updateAllMarkets(){
-        System.out.println("Updating markets");
+        Utils.esfPrint("Updating all markets");
+
         List<League> leagues = this.leagueRepository.findAll();
 
         leagues.forEach(league -> {
             marketService.updateMarket(new LeagueDTO(league));
         });
+
+        Utils.esfPrint("All markets updated");
     }
 
 

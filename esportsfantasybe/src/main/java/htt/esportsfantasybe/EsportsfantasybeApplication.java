@@ -34,7 +34,7 @@ public class EsportsfantasybeApplication {
     public void initialize() throws IOException {
 
         // ----------- FULL UPDATE ----------- //
-        //realLeagueService.initializeLeagues();
+        //realLeagueService.GeneralCascadeUpdate();
         // ----------- END UPDATE ----------- //
 
 

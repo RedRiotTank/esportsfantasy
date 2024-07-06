@@ -40,19 +40,20 @@ public class RealLeagueService {
     // ------- UPDATE ------- //
 
     @Transactional
-    public void initializeLeagues() throws IOException {
-        Utils.esfPrint("Initializing leagues...");
+    @Scheduled(fixedRate = 86400000) //24 hours
+    public void GeneralCascadeUpdate() throws IOException {
+        Utils.esfPrint("Initializing general cascade update");
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
         Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
-        removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //with derivations.
-        addNewLeagues(filteredRLeagues);
+        removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //TODO: CHECK CASCADE
+        addNewLeaguesCascade(filteredRLeagues, rLeaguesDB);
 
-        Utils.esfPrint("Leagues initialized");
+        Utils.esfPrint("Finished general cascade update");
     }
 
-    @Scheduled(fixedRate = 172800000)   //48 hours
-    public void updateRLeaguesEventSchedule(){
+    @Scheduled(fixedRate = 7200000)   //2 hours
+    public void updateRLeaguesEvents(){
         this.getRLeaguesDB().forEach(eventService::obtainRLeagueEvents);
 
     }
@@ -74,34 +75,34 @@ public class RealLeagueService {
 
     }
 
-    private void addNewLeagues(Set<RealLeagueDTO> filteredRLeagues) {
+    private void addNewLeaguesCascade(Set<RealLeagueDTO> filteredRLeagues, Set<RealLeagueDTO> rLeaguesDB) {
         Utils.esfPrint("Adding new leagues...",1);
         filteredRLeagues.forEach(filteredLeague -> {
 
-            Optional<RealLeague> opRL;
-            RealLeague rl;
+            if(!rLeaguesDB.contains(filteredLeague)) {
+                Optional<RealLeague> opRL;
+                RealLeague rl;
 
+                opRL = realLeagueRepository.findByEvent(filteredLeague.getEvent());
 
+                rl = opRL.orElseGet(() -> realLeagueRepository.save(new RealLeague(filteredLeague)));
 
-            opRL = realLeagueRepository.findByEvent(filteredLeague.getEvent());
+                try {
+                    downloadLeagueImage(rl);
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    System.out.println("ERROR AL DESCARGAR IMAGEN DE LIGA.");
+                }
 
-            rl = opRL.orElseGet(() -> realLeagueRepository.save(new RealLeague(filteredLeague)));
-
-            try {
-                downloadLeagueImage(rl);
-            } catch (IOException e) {
-                //e.printStackTrace();
-                System.out.println("ERROR AL DESCARGAR IMAGEN DE LIGA.");
+                teamService.updateTeams(rl);
             }
-
-            teamService.updateTeams(rl);
         });
         Utils.esfPrint("New leagues added",1);
     }
 
     // ------- OBTAIN ------- //
 
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) //juju
     public void updateLeagueJournal() {
 
         this.getRLeaguesDB().forEach(league ->{
@@ -130,7 +131,7 @@ public class RealLeagueService {
 
     private Set<RealLeagueDTO> filterObtainedRLeagues(Set<RealLeagueDTO> allLeagues) {
         Set<RealLeagueDTO> filteredLeagues = new HashSet<>();
-        for (RealLeagueDTO league : allLeagues) {
+        for (RealLeagueDTO league : allLeagues) {           //TODO: SWITCH
             if (league.getGame().equals("LOL")) {
                 if ((
                         league.getEvent().contains("LCK") ||
