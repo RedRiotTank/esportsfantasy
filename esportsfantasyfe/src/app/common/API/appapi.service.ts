@@ -218,6 +218,27 @@ export class AppapiService {
     });
   }
 
+  public getTeamIcon(uuid: String): Observable<string> {
+    return new Observable<string>((observer) => {
+      const reader = new FileReader();
+
+      this.api.sendBlobRequest('Team/getTeamIcon', uuid).subscribe(
+        (response) => {
+          reader.readAsDataURL(response);
+          reader.onload = () => {
+            observer.next(reader.result.toString());
+            observer.complete();
+          };
+        },
+        (error) => {
+          observer.next(null);
+          observer.complete();
+          this.sendToErrorPage(null);
+        }
+      );
+    });
+  }
+
   public getUserTeamInfo(
     userUUID: string,
     leagueUUID: string

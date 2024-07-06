@@ -3,18 +3,16 @@ package htt.esportsfantasybe.service.complexservices;
 import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
-import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.pojos.EventInfoPOJO;
 import htt.esportsfantasybe.model.pojos.EventPOJO;
 import htt.esportsfantasybe.repository.complexrepositories.EventRepository;
-import htt.esportsfantasybe.service.LeagueService;
 import htt.esportsfantasybe.service.TeamService;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -41,12 +39,17 @@ public class EventService {
 
 
         Set<EventInfoPOJO> events = new HashSet<>();
-
         eventRepository.findAllById_Realleagueuuid(leagueuuid).forEach(
             event ->{
 
                 TeamDTO t1 = teamService.getTeam(event.getId().getTeam1uuid());
                 TeamDTO t2 = teamService.getTeam(event.getId().getTeam2uuid());
+
+                byte[] t1icon = teamService.getTeamIcon(t1.getUuid());
+                byte[] t2icon = teamService.getTeamIcon(t2.getUuid());
+
+                String t1iconBase64 = Base64.getEncoder().encodeToString(t1icon);
+                String t2iconBase64 = Base64.getEncoder().encodeToString(t2icon);
 
                 events.add(
                         new EventInfoPOJO(
@@ -54,6 +57,8 @@ public class EventService {
                                 event.getId().getTeam2uuid(),
                                 t1.getName(),
                                 t2.getName(),
+                                t1iconBase64,
+                                t2iconBase64,
                                 event.getId().getJour(),
                                 event.getDate()
                         )

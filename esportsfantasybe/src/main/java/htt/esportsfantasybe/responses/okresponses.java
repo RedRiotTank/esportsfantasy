@@ -77,6 +77,8 @@ public class okresponses {
             eventJson.addProperty("team1name", event.getTeam1name());
             eventJson.addProperty("team2name", event.getTeam2name());
             eventJson.addProperty("date", event.getJour());
+            eventJson.addProperty("team1icon", event.getTeam1icon());
+            eventJson.addProperty("team2icon", event.getTeam2icon());
 
             eventsGroupedByJour
                     .computeIfAbsent(event.getJour(), k -> new JsonArray())
@@ -86,7 +88,6 @@ public class okresponses {
         for (Map.Entry<Integer, JsonArray> entry : eventsGroupedByJour.entrySet()) {
             responseJson.add(entry.getKey().toString(), entry.getValue());
         }
-        
         return ResponseEntity.ok(responseJson.toString());
     }
 

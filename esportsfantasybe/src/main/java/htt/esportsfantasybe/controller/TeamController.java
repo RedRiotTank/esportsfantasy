@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/Team")
 public class TeamController {
@@ -27,6 +29,18 @@ public class TeamController {
     public ResponseEntity<?> getPlayerTeamIcon(@RequestBody PlayerLeaguePOJO playerLeaguePOJO){
         try{
             byte[] image = teamService.getPlayerTeamIcon(playerLeaguePOJO.getPlayeruuid(), playerLeaguePOJO.getLeagueuuid());
+
+            return new ResponseEntity<>(image, Utils.getImageHeaders(image), HttpStatus.OK);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(value ="/getTeamIcon", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTeamIcon(@RequestBody String teamuuid){
+        try{
+            byte[] image = teamService.getTeamIcon(UUID.fromString(teamuuid));
 
             return new ResponseEntity<>(image, Utils.getImageHeaders(image), HttpStatus.OK);
         } catch (Exception e){

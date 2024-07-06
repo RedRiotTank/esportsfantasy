@@ -12,7 +12,8 @@ import { AppapiService } from '../common/API/appapi.service';
 })
 export class TeamComponent implements OnInit {
   private league: string;
-  public jours: number[] = null;
+  public jours: number[] = [];
+  public matchs: any = {};
   public selectedJour: number = 1;
 
   constructor(
@@ -36,7 +37,8 @@ export class TeamComponent implements OnInit {
         const highestKey = Math.max(...numericKeys);
         this.jours = Array.from({ length: highestKey }, (_, i) => i + 1);
 
-        console.log(response);
+        this.matchs = response;
+        console.log(this.matchs);
       });
 
     this.league = this.leaguelistService.getSelectedLeagueGame();

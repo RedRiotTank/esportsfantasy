@@ -124,4 +124,24 @@ public class TeamService {
         }
         return imageBytes;
     }
+
+    public byte[] getTeamIcon(UUID teamuuid){
+        Path imagePath;
+
+        imagePath = Paths.get("src/main/resources/media/teams/" + teamuuid.toString() + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+            } catch (IOException ioException) {
+                throw new RuntimeException();
+            }
+        }
+        return imageBytes;
+    }
 }

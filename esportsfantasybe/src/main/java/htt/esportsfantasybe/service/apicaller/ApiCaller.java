@@ -38,7 +38,7 @@ public abstract class ApiCaller {
 
     //  ------- CARGOQUERYS -------
     protected JsonArray cargoRequest(String apiSource, String tables, String fields, String extended){
-        String apiUrl = "https://" + apiSource + tablesHead + tables + fieldsHead + fields + extended;
+        String apiUrl = "https://" + apiSource + tablesHead + tables + fieldsHead + fields + extended + "&limit=500&offset=0";
         //System.out.println(apiUrl);
         JsonObject jsonObject = null;
 
