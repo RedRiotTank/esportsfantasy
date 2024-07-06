@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/UserXLeagueXPlayer/TeamInfo").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
                 .requestMatchers("/api/events/getEvents").permitAll()
+                .requestMatchers("/api/user/loginWithToken").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

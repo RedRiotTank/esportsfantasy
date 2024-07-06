@@ -46,6 +46,10 @@ export class CredentialsService {
     return this.api.sendRequest('user/login', data);
   }
 
+  loginWithToken(token: string): Observable<credentialsResponse> {
+    return this.api.sendRequest('user/loginWithToken', token);
+  }
+
   public getLoggedIn() {
     return this.loggedIn;
   }

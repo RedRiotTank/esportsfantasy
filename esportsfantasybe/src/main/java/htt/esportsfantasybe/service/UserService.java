@@ -8,6 +8,7 @@ import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static htt.esportsfantasybe.config.JwtService.extractUserEmail;
 
 /**
  * This class is a service class that handles the business logic of the User entity.
@@ -80,6 +83,15 @@ public class UserService {
         newUserDTO.setUuid(loginUser.get().getUuid());
 
         return JwtService.generateToken(newUserDTO);
+    }
+
+    public String loginWithToken(String token){
+        String userEmail = JwtService.extractUserEmail(token);
+        UserDetails user = userRepository.findByMail(userEmail).orElseThrow(() -> new RuntimeException("1001"));
+        boolean validToken = JwtService.isTokenValid(token, user);
+        if (!validToken) throw new RuntimeException("1003");
+
+        return token;
     }
 
     /**

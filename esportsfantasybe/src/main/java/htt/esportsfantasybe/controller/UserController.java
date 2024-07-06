@@ -74,6 +74,20 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/loginWithToken", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> loginWithToken(@RequestBody String token){
+        System.out.println("Token: " + token);
+        try{
+            userService.loginWithToken(token);
+
+            return okresponses.loginUser(token);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+
     /**
      * The googlelogin method is a POST request that logs in an existing User entity using Google.
      * @param newSocialUserDTO the SocialUserDTO object that contains the User entity's data

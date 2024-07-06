@@ -32,9 +32,24 @@ export class AppComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    if (!this.credentialsService.getLoggedIn()) {
-      localStorage.removeItem('token');
-      this.appapiService.sendToErrorPage(null);
+    if (localStorage.getItem('token') != null) {
+      this.credentialsService
+        .loginWithToken(localStorage.getItem('token'))
+        .subscribe(
+          (response: any) => {
+            if (response.error) {
+              this.credentialsService.sendToErrorPage(response.error);
+            } else {
+              this.credentialsService.loggedIn = true;
+              this.credentialsService.social_started = true;
+              this.credentialsService.social_user = response.user;
+              this.leagueListService.updateLeagueList();
+            }
+          },
+          (error: any) => {
+            this.credentialsService.sendToErrorPage(error);
+          }
+        );
     }
 
     this.leagueListService.updateLeagueList();

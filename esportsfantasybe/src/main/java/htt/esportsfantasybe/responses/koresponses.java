@@ -19,7 +19,7 @@ public class koresponses {
         koMap.put(1000, "Unknown error.");
         koMap.put(1001, "Non existent email.");
         koMap.put(1002, "Wrong password.");
-        koMap.put(1003, "Invalid google token.");
+        koMap.put(1003, "Invalid token.");
         koMap.put(1004, "Already locally registered email.");
         koMap.put(1005, "Invalid email.");
         koMap.put(1006, "Mail already in use.");
