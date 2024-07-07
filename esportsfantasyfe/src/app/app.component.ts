@@ -51,8 +51,6 @@ export class AppComponent implements OnInit {
           }
         );
     }
-
-    this.leagueListService.updateLeagueList();
   }
 
   getLeagues() {
