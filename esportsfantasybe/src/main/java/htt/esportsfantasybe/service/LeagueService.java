@@ -178,7 +178,7 @@ public class LeagueService {
 
 
     //@Scheduled(fixedRate = 12 * 60 * 60 * 1000) // 12h for normal use
-    @Scheduled(fixedRate =  30 * 1000) // 30s for testing
+    //@Scheduled(fixedRate =  30 * 1000) // 30s for testing
     public void updateAllMarkets(){
         Utils.esfPrint("Updating all markets");
 

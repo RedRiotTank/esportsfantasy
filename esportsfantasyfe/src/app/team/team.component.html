@@ -1,22 +1,3 @@
-<!-- SLIDER CON ENFRENTAMIENTOS -->
-
-<div class="events">
-  <div *ngFor="let match of matchs[selectedJour]">
-    <div>
-      <img
-        [src]="'data:image/png;base64,' + match.team1icon"
-        alt="{{ match.team1name }}"
-      />
-      {{ match.team1name }} vs
-      <img
-        [src]="'data:image/png;base64,' + match.team2icon"
-        alt="{{ match.team2name }}"
-      />
-      {{ match.team2name }}
-    </div>
-  </div>
-</div>
-
 <div class="jour-selector">
   <mat-form-field>
     <mat-label>Current week</mat-label>
@@ -24,9 +5,11 @@
       [(value)]="selectedJour"
       (selectionChange)="onSelectionChange($event)"
     >
-      <mat-option *ngFor="let number of jours" [value]="number">{{
-        "week " + number
-      }}</mat-option>
+      <mat-option
+        *ngFor="let number of getLeagueTotalJours()"
+        [value]="number"
+        >{{ "week " + number }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
 </div>

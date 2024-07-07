@@ -12,15 +12,19 @@ import java.util.Date;
 public class EventPOJO {
     private String team1;
     private String team2;
+    private String team1Score;
+    private String team2Score;
     private String jour;
     private Date dateTime;
 
-    public EventPOJO(String team1, String team2, String jour, String dateTime_UTC) {
+    public EventPOJO(String team1, String team2, String jour,String team1Score, String team2Score ,String dateTime_UTC) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         this.team1 = team1;
         this.team2 = team2;
         this.jour = jour;
+        this.team1Score = team1Score;
+        this.team2Score = team2Score;
 
         try {
             formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

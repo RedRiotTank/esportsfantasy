@@ -35,6 +35,7 @@ import { SelectplayerModalComponent } from './team/selectplayer-modal/selectplay
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatchsComponent } from './matchs/matchs.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TeamComponent,
     BidupModalComponent,
     SelectplayerModalComponent,
+    MatchsComponent,
   ],
   imports: [
     BrowserModule,

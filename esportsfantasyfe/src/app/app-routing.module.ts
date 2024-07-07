@@ -10,19 +10,25 @@ import { authGuard, welcomeGuard } from './credentials/auth.guard';
 import { JoinLeagueComponent } from './join-league/join-league.component';
 import { MarketComponent } from './market/market.component';
 import { TeamComponent } from './team/team.component';
+import { MatchsComponent } from './matchs/matchs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
-  { path: 'welcome', component: WelcomeComponent, canActivate: [welcomeGuard]},
-  { path: 'login', component: LoginComponent } ,
-  { path: 'register', component: RegisterComponent } ,
-  { path: 'register-success', component: RegistersuccessComponent } ,
-  { path: 'joinLeague', component: JoinLeagueComponent, canActivate: [authGuard]},
-  { path: 'home', component: HomeComponent, canActivate: [authGuard]},
-  { path: 'market', component: MarketComponent, canActivate: [authGuard]},
-  { path: 'team', component: TeamComponent, canActivate: [authGuard]},
-  { path: 'error', component: EsfErrorComponent }
+  { path: 'matchs', component: MatchsComponent },
+  { path: 'welcome', component: WelcomeComponent, canActivate: [welcomeGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'register-success', component: RegistersuccessComponent },
+  {
+    path: 'joinLeague',
+    component: JoinLeagueComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'market', component: MarketComponent, canActivate: [authGuard] },
+  { path: 'team', component: TeamComponent, canActivate: [authGuard] },
 
+  { path: 'error', component: EsfErrorComponent },
 ];
 
 /**
@@ -31,6 +37,6 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

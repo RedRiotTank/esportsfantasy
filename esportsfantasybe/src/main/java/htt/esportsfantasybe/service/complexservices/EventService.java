@@ -33,7 +33,9 @@ public class EventService {
 
 
 
-
+    public int getRLeagueTotalJours(UUID leagueuuid){
+        return eventRepository.findMaxJour(leagueuuid);
+    }
 
     public Set<EventInfoPOJO> getEvents(UUID leagueuuid){
 
@@ -59,6 +61,8 @@ public class EventService {
                                 t2.getName(),
                                 t1iconBase64,
                                 t2iconBase64,
+                                event.getTeam1Score(),
+                                event.getTeam2Score(),
                                 event.getId().getJour(),
                                 event.getDate()
                         )
@@ -88,7 +92,8 @@ public class EventService {
                     team2.getUuid(),
                     Integer.parseInt(ev.getJour()),
                     ev.getDateTime(),
-                    null
+                    ev.getTeam1Score(),
+                    ev.getTeam2Score()
 
             );
 

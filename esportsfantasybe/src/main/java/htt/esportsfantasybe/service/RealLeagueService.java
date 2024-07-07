@@ -40,7 +40,7 @@ public class RealLeagueService {
     // ------- UPDATE ------- //
 
     @Transactional
-    @Scheduled(fixedRate = 86400000) //24 hours
+    //@Scheduled(fixedRate = 86400000) //24 hours
     public void GeneralCascadeUpdate() throws IOException {
         Utils.esfPrint("Initializing general cascade update");
 
@@ -52,7 +52,7 @@ public class RealLeagueService {
         Utils.esfPrint("Finished general cascade update");
     }
 
-    @Scheduled(fixedRate = 7200000)   //2 hours
+    //@Scheduled(fixedRate = 7200000)   //2 hours
     public void updateRLeaguesEvents(){
         this.getRLeaguesDB().forEach(eventService::obtainRLeagueEvents);
 
@@ -100,6 +100,10 @@ public class RealLeagueService {
         Utils.esfPrint("New leagues added",1);
     }
 
+    public int getRLeagueTotalJours(String uuid) {
+        RealLeague rl = getRLeague(uuid);
+        return this.eventService.getRLeagueTotalJours(rl.getUuid());
+    }
     // ------- OBTAIN ------- //
 
     //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) //juju

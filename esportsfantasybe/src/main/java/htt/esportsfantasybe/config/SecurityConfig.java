@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
                 .requestMatchers("/api/events/getEvents").permitAll()
                 .requestMatchers("/api/user/loginWithToken").permitAll()
+                .requestMatchers("/api/realLeague/getRLeagueTotalJours").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

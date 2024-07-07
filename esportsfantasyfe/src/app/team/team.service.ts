@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
 })
 export class TeamService {
   private teamPlayers: any[] = [];
-
+  public totalJours: number = 1;
   constructor(
     private appApiservice: AppapiService,
     private leagueservice: LeagueListServiceService,
@@ -31,6 +31,14 @@ export class TeamService {
               player.icon = response;
             });
         });
+      });
+  }
+
+  public loadTotalJours() {
+    this.appApiservice
+      .getRLeagueTotalJours(this.leagueservice.getSelectedRLeagueUUID())
+      .subscribe((response) => {
+        this.totalJours = response;
       });
   }
 

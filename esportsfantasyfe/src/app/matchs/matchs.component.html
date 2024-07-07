@@ -1,0 +1,38 @@
+<div class="feed">
+  <div *ngFor="let jour of getJours()">
+    <h2 class="week-title">Week {{ jour }}</h2>
+    <div class="events">
+      <div *ngFor="let match of getMatchs()[jour]" class="match">
+        <div class="team team1">
+          <img
+            [src]="'data:image/png;base64,' + match.team1icon"
+            alt="{{ match.team1name }}"
+            class="team-icon"
+          />
+          <span class="team-name">{{ match.team1name }}</span>
+          <span class="team-score">{{
+            match.team1Score === null ? "?" : match.team1Score
+          }}</span>
+        </div>
+        <div class="separator">
+          <img src="../../assets/icons/vs.png" class="vsimg" alt="" />
+        </div>
+        <div class="team team2">
+          <span class="team-score">{{
+            match.team2Score === null ? "?" : match.team2Score
+          }}</span>
+          <span class="team-name">{{ match.team2name }}</span>
+          <img
+            [src]="'data:image/png;base64,' + match.team2icon"
+            alt="{{ match.team2name }}"
+            class="team-icon"
+          />
+        </div>
+        <div class="match-date">
+          {{ match.date | date : "fullDate" }} -
+          {{ match.date | date : "shortTime" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

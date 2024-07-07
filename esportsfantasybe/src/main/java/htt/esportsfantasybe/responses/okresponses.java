@@ -76,9 +76,11 @@ public class okresponses {
             eventJson.addProperty("team2uuid", event.getTeam2uuid().toString());
             eventJson.addProperty("team1name", event.getTeam1name());
             eventJson.addProperty("team2name", event.getTeam2name());
-            eventJson.addProperty("date", event.getJour());
+            eventJson.addProperty("date", event.getDate().toString());
             eventJson.addProperty("team1icon", event.getTeam1icon());
             eventJson.addProperty("team2icon", event.getTeam2icon());
+            eventJson.addProperty("team1Score", event.getTeam1Score());
+            eventJson.addProperty("team2Score", event.getTeam2Score());
 
             eventsGroupedByJour
                     .computeIfAbsent(event.getJour(), k -> new JsonArray())
@@ -225,6 +227,16 @@ public class okresponses {
         okjson.addProperty("result", "ok");
         okjson.addProperty("status", "200");
         okjson.addProperty("message", "Player aligned correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getRLeagueTotalJours(int totalJours) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got total jours correctly");
+        okjson.addProperty("totalJours", totalJours);
+
         return ResponseEntity.ok(okjson.toString());
     }
 }

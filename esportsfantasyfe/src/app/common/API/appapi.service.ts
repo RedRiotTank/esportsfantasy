@@ -110,6 +110,18 @@ export class AppapiService {
     });
   }
 
+  public getRLeagueTotalJours(leagueuuid: string): Observable<any> {
+    return this.api
+      .sendRequest('realLeague/getRLeagueTotalJours', leagueuuid)
+      .pipe(
+        map((response) => response.totalJours),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
+
   //Leagues (Users)
 
   public joinLeague(leagueData: any) {

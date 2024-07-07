@@ -12,18 +12,20 @@ public class EventDTO {
 
     private EventId id;
     private Date date;
-    private UUID winner;
+    private String team1Score, team2Score;
 
-    public EventDTO(UUID realleagueuuid, UUID team1uuid, UUID team2uuid, int jour, Date date, UUID winner) {
+    public EventDTO(UUID realleagueuuid, UUID team1uuid, UUID team2uuid, int jour, Date date, String team1Score, String team2Score) {
         this.id = new EventId(realleagueuuid, team1uuid, team2uuid, jour);
         this.date = date;
-        this.winner = winner;
+        this.team1Score = team1Score;
+        this.team2Score = team2Score;
     }
 
     public EventDTO(Event event){
         this.id = event.getId();
         this.date = event.getDate();
-        this.winner = event.getWinner();
+        this.team1Score = event.getTeam1Score();
+        this.team2Score = event.getTeam2Score();
     }
 
     public EventDTO() {

@@ -12,8 +12,7 @@ import { AppapiService } from '../common/API/appapi.service';
 })
 export class TeamComponent implements OnInit {
   private league: string;
-  public jours: number[] = [];
-  public matchs: any = {};
+
   public selectedJour: number = 1;
 
   constructor(
@@ -25,21 +24,7 @@ export class TeamComponent implements OnInit {
 
   ngOnInit(): void {
     this.teamService.loadTeam();
-
-    this.appApiService
-      .getMatchSchedule(this.leaguelistService.getSelectedRLeagueUUID())
-      .subscribe((response) => {
-        const keys = Object.keys(response);
-
-        const numericKeys = keys
-          .filter((key) => !isNaN(Number(key)))
-          .map((key) => Number(key));
-        const highestKey = Math.max(...numericKeys);
-        this.jours = Array.from({ length: highestKey }, (_, i) => i + 1);
-
-        this.matchs = response;
-        console.log(this.matchs);
-      });
+    this.teamService.loadTotalJours();
 
     this.league = this.leaguelistService.getSelectedLeagueGame();
   }
@@ -85,5 +70,9 @@ export class TeamComponent implements OnInit {
         this.teamService.loadTeam();
       }
     });
+  }
+
+  getLeagueTotalJours() {
+    return Array.from({ length: this.teamService.totalJours }, (_, i) => i + 1);
   }
 }

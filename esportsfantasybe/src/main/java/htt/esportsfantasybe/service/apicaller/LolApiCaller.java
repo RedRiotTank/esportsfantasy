@@ -53,18 +53,29 @@ public class LolApiCaller extends ApiCaller{
     public Set<EventPOJO> getRLeaguesEvents(String overviewPage) {
 
 
-
         String overviewPageSeason = overviewPage + " Season";
-        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
+        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
 
         if (matchSchedule == null || matchSchedule.size() == 0)
-            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
+            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
 
         Set<EventPOJO> events = new HashSet<>();
 
         for (JsonElement match : matchSchedule){
             String team1 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team1").getAsString();
             String team2 = match.getAsJsonObject().get("title").getAsJsonObject().get("Team2").getAsString();
+
+            JsonElement jsont1Score = match.getAsJsonObject().get("title").getAsJsonObject().get("Team1Score");
+            JsonElement jsont2Score = match.getAsJsonObject().get("title").getAsJsonObject().get("Team2Score");
+
+            String team1Score, team2Score;
+
+            if(!jsont1Score.isJsonNull()) team1Score = jsont1Score.getAsString();
+            else team1Score = "null";
+
+            if(!jsont2Score.isJsonNull()) team2Score = jsont2Score.getAsString();
+            else team2Score = "null";
+
             String jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString();
 
             if(jour.equals("Tiebreakers"))
@@ -76,7 +87,7 @@ public class LolApiCaller extends ApiCaller{
 
             String dateTime_UTC = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
 
-            events.add(new EventPOJO(team1,team2,jour,dateTime_UTC));
+            events.add(new EventPOJO(team1,team2,jour,team1Score,team2Score,dateTime_UTC));
         }
 
         return events;

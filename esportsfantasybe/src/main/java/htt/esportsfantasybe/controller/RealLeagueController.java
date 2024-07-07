@@ -49,4 +49,16 @@ public class RealLeagueController {
             return koresponses.generateKO(e.getMessage());
         }
     }
+
+    @CrossOrigin
+    @PostMapping(value ="/getRLeagueTotalJours", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRLeagueTotalJours(@RequestBody String uuid){
+        try{
+            int totalJours = realLeagueService.getRLeagueTotalJours(uuid);
+
+            return okresponses.getRLeagueTotalJours(totalJours);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
 }

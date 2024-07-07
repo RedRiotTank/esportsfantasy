@@ -104,7 +104,7 @@ CREATE TABLE `bidup` (
 	playeruuid BINARY(16),
     leagueuuid BINARY(16),
     biduseruuid BINARY(16),
-    date date,
+    date DATETIME,
     state tinyint(1) NOT null,
     bid int,
 	primary key(playeruuid,leagueuuid, biduseruuid, date),
@@ -117,13 +117,14 @@ CREATE TABLE `event` (
 	realleagueuuid BINARY(16),
     team1uuid BINARY(16),
     team2uuid BINARY(16),
-    date date,
+    date DATETIME,
     jour int,
-    winner tinyint(1),
+    team1Score varchar(6),
+    team2Score varchar(6),
     primary key(realleagueuuid,team1uuid,team2uuid,jour),
     FOREIGN KEY (realleagueuuid) REFERENCES realleague(uuid),
     FOREIGN KEY (team1uuid) REFERENCES team(uuid),
-     FOREIGN KEY (team2uuid) REFERENCES team(uuid)
+	FOREIGN KEY (team2uuid) REFERENCES team(uuid)
 );
 
 insert into games(game) values ("LOL");

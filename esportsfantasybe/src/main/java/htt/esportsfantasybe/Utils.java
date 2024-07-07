@@ -102,6 +102,10 @@ public class Utils {
     }
 
 
-
-
+    public static Integer getIntOrNull(String str) {
+        if (str != null) {
+            return Integer.parseInt(str);
+        }
+        return null;
+    }
 }
