@@ -7,6 +7,7 @@ import { MarketComponent } from './market/market.component';
 import { MarketService } from './market/market.service';
 import { MoneyService } from './common/money.service';
 import { TeamService } from './team/team.service';
+import { MatchsService } from './matchs/matchs.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
     private leagueListService: LeagueListServiceService,
     private marketService: MarketService,
     private teamService: TeamService,
-    private moneyService: MoneyService
+    private moneyService: MoneyService,
+    private matchsService: MatchsService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit {
     this.leagueListService.setSelectedLeague(index);
     this.marketService.loadMarket();
     this.teamService.loadTeam();
+    this.matchsService.loadMatchs();
   }
 
   public getMoneyWithFormat() {
