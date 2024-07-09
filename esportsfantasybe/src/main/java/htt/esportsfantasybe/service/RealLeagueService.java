@@ -45,17 +45,27 @@ public class RealLeagueService {
         Utils.esfPrint("Initializing general cascade update");
 
         Set<RealLeagueDTO> filteredRLeagues = filterObtainedRLeagues(obtainAllRLeagues());
-        Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDB();
+        Set<RealLeagueDTO> rLeaguesDB = getRLeaguesDTODB();
         removeObsoleteLeagues(filteredRLeagues, rLeaguesDB);        //TODO: CHECK CASCADE
         addNewLeaguesCascade(filteredRLeagues, rLeaguesDB);
 
         Utils.esfPrint("Finished general cascade update");
     }
 
-    //@Scheduled(fixedRate = 7200000)   //2 hours
+    @Scheduled(fixedRate = 7200000)   //2 hours
     public void updateRLeaguesEvents(){
-        this.getRLeaguesDB().forEach(eventService::obtainRLeagueEvents);
+        this.getRLeaguesDTODB().forEach(eventService::obtainRLeagueEvents);
+    }
 
+    @Scheduled(fixedRate = 7200000) //2 hours
+    public void updateRLeaguesCurrentJour(){
+        Utils.esfPrint("Updating current jour for all leagues...");
+        this.getRLeaguesDB().forEach(league -> {
+            int currentJour = eventService.getCurrentJour(league.getUuid());
+            league.setCurrentjour(currentJour);
+            realLeagueRepository.save(league);
+        });
+        Utils.esfPrint("Current jour updated for all leagues");
     }
 
     private void removeObsoleteLeagues(Set<RealLeagueDTO> filteredRLeagues, Set<RealLeagueDTO> rLeaguesDB) {
@@ -105,24 +115,6 @@ public class RealLeagueService {
         return this.eventService.getRLeagueTotalJours(rl.getUuid());
     }
     // ------- OBTAIN ------- //
-
-    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000) //juju
-    public void updateLeagueJournal() {
-
-        this.getRLeaguesDB().forEach(league ->{
-            Optional<RealLeague> rlOptional = realLeagueRepository.findById(league.getUuid());
-
-            RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
-
-            int journal = lolApiCaller.getLeagueCurrentJour(rl.getOverviewpage() );
-
-            rl.setCurrentjour(journal);
-
-            realLeagueRepository.save(rl);
-
-        });
-
-    }
 
     private Set<RealLeagueDTO> obtainAllRLeagues() throws IOException {
         Set<RealLeagueDTO> allLeagues = new HashSet<>();
@@ -203,7 +195,7 @@ public class RealLeagueService {
 
 
     // ------- DATABASE ------- //
-    public Set<RealLeagueDTO> getRLeaguesDB() {
+    public Set<RealLeagueDTO> getRLeaguesDTODB() {
         Set<RealLeagueDTO> leaguesDTO = new HashSet<>();
 
         List<RealLeague> rLeagues = realLeagueRepository.findAll();
@@ -217,6 +209,9 @@ public class RealLeagueService {
         return leaguesDTO;
     }
 
+    public Set<RealLeague> getRLeaguesDB() {
+        return new HashSet<>(realLeagueRepository.findAll());
+    }
     public Set<RealLeagueDTO> getGameRLeaguesDB(String game) {
         Set<RealLeague> leagues;
 

@@ -12,10 +12,8 @@ import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class EventService {
@@ -103,5 +101,31 @@ public class EventService {
         });
     }
 
+    public int getCurrentJour(UUID realLeagueUuid){
+        Date now = new Date();
 
+        List<Event> events = eventRepository.findAllById_Realleagueuuid(realLeagueUuid);
+
+        Iterator<Event> iterator = events.iterator();
+        while (iterator.hasNext()) {
+            Event event = iterator.next();
+            if (event.getDate().before(now)) {
+                iterator.remove();
+            }
+        }
+
+        if (events.isEmpty()) return 0;
+
+        Event closestEvent = null;
+        long minDiff = Long.MAX_VALUE;
+
+        for (Event event : events) {
+            long diff = event.getDate().getTime() - now.getTime();
+            if (diff >= 0 && diff < minDiff) {
+                minDiff = diff;
+                closestEvent = event;
+            }
+        }
+        return closestEvent.getId().getJour();
+    }
 }
