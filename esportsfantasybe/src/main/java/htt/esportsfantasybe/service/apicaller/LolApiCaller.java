@@ -93,64 +93,6 @@ public class LolApiCaller extends ApiCaller{
         return events;
     }
 
-    public int getLeagueCurrentJour(String overviewPage)  {
-        int maxJour = 0;
-        Date currentDate = new Date();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String overviewPageSeason = overviewPage + " Season";
-        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
-
-        Set<TeamDTO> teams = new HashSet<>();
-        List<String> teamNames = new ArrayList<>();
-
-        if (matchSchedule == null || matchSchedule.size() == 0){
-            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,MatchDay,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
-        }
-
-
-        Date matchDate = null;
-
-        for (JsonElement match : matchSchedule){
-            String jour;
-
-            try{
-                jour = match.getAsJsonObject().get("title").getAsJsonObject().get("Tab").getAsString();
-            } catch (Exception e){
-                jour = "Playoffs";
-            }
-
-
-
-
-
-            String dateString = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
-
-            try {
-                matchDate = formatter.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return 0;
-            }
-            if(jour.equals("Tiebreakers"))  //50 if is in tierbreakers
-                jour = "50";
-            else if(jour.equals("Playoffs"))
-                jour = "100";
-            else
-                jour = jour.replaceAll("\\D", "");
-
-            if(jour.equals(""))  //100 if is in playoffs
-                System.out.println("JOUR IS EMPTY");
-
-            if (matchDate.before(currentDate) && Integer.parseInt(jour) > maxJour) {
-                maxJour = Integer.parseInt(jour);
-            }
-        }
-
-
-        return maxJour;
-    }
-
     public List<RealLeagueDTO> getAllLeagues(){ //with no teams
         JsonArray allLeaguesJson = cargoQuery("CurrentLeagues=CL", "Event,OverviewPage");
         List<RealLeagueDTO> allLeaguesDTO = new ArrayList<>();
