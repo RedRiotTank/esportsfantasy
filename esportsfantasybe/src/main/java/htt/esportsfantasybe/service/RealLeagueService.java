@@ -2,11 +2,13 @@ package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.EventService;
+import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,10 +32,13 @@ public class RealLeagueService {
 
     private final EventService eventService;
 
+    private final UserXLeagueXPlayerService userXLeagueXPlayerService;
+
     @Autowired
-    public RealLeagueService(TeamService teamService, EventService eventService) {
+    public RealLeagueService(TeamService teamService, EventService eventService, UserXLeagueXPlayerService userXLeagueXPlayerService) {
         this.teamService = teamService;
         this.eventService = eventService;
+        this.userXLeagueXPlayerService = userXLeagueXPlayerService;
     }
 
 
@@ -62,6 +67,11 @@ public class RealLeagueService {
         Utils.esfPrint("Updating current jour for all leagues...");
         this.getRLeaguesDB().forEach(league -> {
             int currentJour = eventService.getCurrentJour(league.getUuid());
+
+            if(currentJour == league.getCurrentjour()+1){
+                userXLeagueXPlayerService.playerOwnerJourExtension(league);
+            }
+
             league.setCurrentjour(currentJour);
             realLeagueRepository.save(league);
         });
@@ -113,6 +123,11 @@ public class RealLeagueService {
     public int getRLeagueTotalJours(String uuid) {
         RealLeague rl = getRLeague(uuid);
         return this.eventService.getRLeagueTotalJours(rl.getUuid());
+    }
+
+    public int getRLeagueCurrentJour(String uuid) {
+        RealLeague rl = getRLeague(uuid);
+        return this.eventService.getCurrentJour(rl.getUuid());
     }
     // ------- OBTAIN ------- //
 

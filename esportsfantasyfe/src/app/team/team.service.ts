@@ -10,6 +10,7 @@ import { Observable, map } from 'rxjs';
 export class TeamService {
   private teamPlayers: any[] = [];
   public totalJours: number = 1;
+  public currentJour: number = 1;
   constructor(
     private appApiservice: AppapiService,
     private leagueservice: LeagueListServiceService,
@@ -24,21 +25,21 @@ export class TeamService {
       )
       .subscribe((response) => {
         this.teamPlayers = response;
-        this.teamPlayers.forEach((player) => {
-          this.appApiservice
-            .getPlayerIcon(player.uuid)
-            .subscribe((response) => {
-              player.icon = response;
-            });
-        });
       });
   }
-
   public loadTotalJours() {
     this.appApiservice
       .getRLeagueTotalJours(this.leagueservice.getSelectedRLeagueUUID())
       .subscribe((response) => {
         this.totalJours = response;
+      });
+  }
+
+  public loadCurrentJour() {
+    this.appApiservice
+      .getRLeagueCurrentJour(this.leagueservice.getSelectedRLeagueUUID())
+      .subscribe((response) => {
+        this.currentJour = response;
       });
   }
 
@@ -55,7 +56,7 @@ export class TeamService {
         alignment
       )
       .subscribe((response) => {
-        //TODO: ACTUALIZAR FEED.
+        this.loadTeam();
       });
   }
 }

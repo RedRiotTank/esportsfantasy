@@ -6,10 +6,11 @@
       (selectionChange)="onSelectionChange($event)"
     >
       <mat-option
-        *ngFor="let number of getLeagueTotalJours()"
+        *ngFor="let number of getLeagueCurrentJourArray()"
         [value]="number"
-        >{{ "week " + number }}</mat-option
       >
+        {{ "week " + number }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
@@ -21,27 +22,38 @@
     <div
       class="in-team element-p pla-{{ index }}"
       [ngClass]="{
-        'non-aligned': this.getAligned(index) == null,
-        aligned: this.getAligned(index) != null
+        'non-aligned': !getPlayerByPosition(index),
+        aligned: !!getPlayerByPosition(index)
       }"
       (click)="openModal(index)"
     >
-      <i class="fa-solid fa-plus" *ngIf="this.getAligned(index) == null"></i>
+      <i
+        class="fa-solid fa-plus"
+        *ngIf="
+          getLeagueCurrentJour() == selectedJour && !getPlayerByPosition(index)
+        "
+      ></i>
 
       <img
-        [src]="this.getAligned(index).icon"
+        [src]="'data:image/png;base64,' + getPlayerByPosition(index)?.icon"
         alt=""
-        *ngIf="this.getAligned(index) != null"
+        *ngIf="getPlayerByPosition(index)"
       />
     </div>
   </div>
 </div>
 
 <div class="bench-team">
-  <div *ngFor="let player of getTeamPlayers()" class="element-p bench-element">
+  <div
+    *ngFor="let player of getBenchTeamPlayers()"
+    class="element-p bench-element"
+  >
     <div *ngIf="player['jour'] == selectedJour">
-      <img [src]="player.icon" alt="" class="avatar" />
-
+      <img
+        [src]="'data:image/png;base64,' + player.icon"
+        alt=""
+        class="avatar"
+      />
       <p>{{ player.username }}</p>
     </div>
   </div>

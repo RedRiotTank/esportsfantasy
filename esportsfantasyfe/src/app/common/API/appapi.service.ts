@@ -122,6 +122,18 @@ export class AppapiService {
       );
   }
 
+  public getRLeagueCurrentJour(leagueuuid: string): Observable<any> {
+    return this.api
+      .sendRequest('realLeague/getRLeagueCurrentJour', leagueuuid)
+      .pipe(
+        map((response) => response.currentJour),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
+
   //Leagues (Users)
 
   public joinLeague(leagueData: any) {

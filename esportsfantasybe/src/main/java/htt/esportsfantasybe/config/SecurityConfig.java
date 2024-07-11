@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/events/getEvents").permitAll()
                 .requestMatchers("/api/user/loginWithToken").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueTotalJours").permitAll()
+                .requestMatchers("/api/realLeague/getRLeagueCurrentJour").permitAll()
                 .requestMatchers("")
                 .permitAll()
                 .anyRequest()

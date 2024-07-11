@@ -48,39 +48,9 @@ public class MarketService {
 
 
     public void updateMarket(LeagueDTO league){
-
-        league.getRealLeagueDTO().getTeams().forEach(team -> {
-            team.getPlayers().forEach(player -> {
-                Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(league.getUuid(), player.getUuid());
-
-                if (market == null) market = new Market(new MarketId(player.getUuid(), league.getUuid()), null, 0, false, player.getValue() );      //TODO: nuevo jugador. debería marcarse.    calcualr clausula.
-
-                marketRepository.save(market);
-
-            });
-        });
-
-        /*
-        marketRepository.findAllWithBidUserNotNull().forEach(marketEntry -> {
-
-            userXLeagueService.discountMoney(marketEntry.getBiduseruuid(), league.getUuid(), marketEntry.getMaxbid());
-
-            System.out.println("A");
-            userXLeagueXPlayerService.linkUserLeaguePlayer(marketEntry.getBiduseruuid(), league.getUuid(), marketEntry.getId().getPlayeruuid());
-            System.out.println("B");
-            marketEntry.setOwneruuid(marketEntry.getBiduseruuid());
-            marketEntry.setInsell(false);
-
-            marketRepository.save(marketEntry);
-
-        });
-
-        */
-
         List<Market> leagueMarketEntriesNoSell = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(league.getUuid(), false);   //TODO: añadir que no coja a los jugadores que tengan dueño.
 
         List<Market> leagueMarketEntriesInSell = marketRepository.findMarketsById_LeagueuuidAndInsell(league.getUuid(), true);
-
 
         //--- actualizacion de pujas
 
@@ -93,12 +63,12 @@ public class MarketService {
                 userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid(),league.getRealLeagueDTO().getCurrentjour());
                 bidUpService.closeBidUp(maxBidUp);
 
-                for (BidUp bidUp : bidUpList) {
-                    if(bidUp.getId().getBiduseruuid() != maxBidUp.getId().getBiduseruuid()){
-                        userXLeagueService.addMoney(bidUp.getId().getBiduseruuid(), league.getUuid(), bidUp.getBid());
-                        bidUpService.closeBidUp(bidUp);
-                    }
-                }
+                bidUpList.remove(maxBidUp);
+
+                bidUpList.forEach(bidUp -> {
+                    userXLeagueService.addMoney(bidUp.getId().getBiduseruuid(), league.getUuid(), bidUp.getBid());
+                    bidUpService.closeBidUp(bidUp);
+                });
 
             }
 
@@ -107,10 +77,7 @@ public class MarketService {
 
         //--- fin actualizacion de pujas
 
-
-
         Collections.shuffle(leagueMarketEntriesNoSell);
-
 
         List<Market> selectedMarkets = new ArrayList<>();
 

@@ -213,6 +213,7 @@ public class okresponses {
             playerJson.addProperty("role", player.getRole());
             playerJson.addProperty("jour", player.getJour());
             playerJson.addProperty("aligned", player.getAligned());
+            playerJson.addProperty("icon", player.getIcon());
             playersArray.add(playerJson);
         });
 
@@ -236,6 +237,16 @@ public class okresponses {
         okjson.addProperty("status", "200");
         okjson.addProperty("message", "got total jours correctly");
         okjson.addProperty("totalJours", totalJours);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getRLeagueCurrentJour(int currentJour) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got current jour correctly");
+        okjson.addProperty("currentJour", currentJour);
 
         return ResponseEntity.ok(okjson.toString());
     }

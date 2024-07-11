@@ -76,6 +76,7 @@ export class AppComponent implements OnInit {
     this.marketService.loadMarket();
     this.teamService.loadTeam();
     this.matchsService.loadMatchs();
+    this.teamService.loadCurrentJour();
   }
 
   public getMoneyWithFormat() {

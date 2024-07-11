@@ -61,4 +61,16 @@ public class RealLeagueController {
             return koresponses.generateKO(e.getMessage());
         }
     }
+
+    @CrossOrigin
+    @PostMapping(value ="/getRLeagueCurrentJour", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRLeagueCurrentJour(@RequestBody String uuid){
+        try{
+            int currentJour = realLeagueService.getRLeagueCurrentJour(uuid);
+
+            return okresponses.getRLeagueCurrentJour(currentJour);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Entity
@@ -22,6 +24,12 @@ public class UserXLeagueXPlayer {
         this.id = id;
         this.aligned = aligned;
     }
+
+    public UserXLeagueXPlayer(UUID playeruuid, UUID leagueuuid, UUID useruuid, int jour, int aligned){
+        this.id = new UserXLeagueXPlayerId(playeruuid,leagueuuid,useruuid,jour);
+        this.aligned = aligned;
+    }
+
 
     public UserXLeagueXPlayer() {
     }

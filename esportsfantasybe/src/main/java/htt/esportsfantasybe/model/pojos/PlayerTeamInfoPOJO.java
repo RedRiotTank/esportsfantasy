@@ -15,14 +15,16 @@ public class PlayerTeamInfoPOJO {
     private String role;
     private int jour;
     private int aligned;
+    private String icon;
 
-    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role,int jour, int aligned) {
+    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role,int jour, int aligned, String icon) {
         this.playeruuid = playeruuid;
         this.username = username;
         this.fullname = fullname;
         this.role = role;
         this.jour = jour;
         this.aligned = aligned;
+        this.icon = icon;
     }
 
 }

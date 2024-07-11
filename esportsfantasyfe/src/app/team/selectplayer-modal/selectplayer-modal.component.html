@@ -1,7 +1,19 @@
 <div class="bench-team">
-    <div *ngFor="let player of this.players" class="element-p bench-element" (click)="selectPlayer(player)">
-        <img [src]="player.icon" alt="" class="avatar">
+  <div
+    class="element-p bench-element"
+    *ngIf="this.data.selectedPlayer != null"
+    (click)="removePlayer()"
+  >
+    <i class="fa-solid fa-xmark"></i>
+  </div>
 
-        <p>{{player.username}}</p>
-    </div>
+  <div
+    *ngFor="let player of this.players"
+    class="element-p bench-element"
+    (click)="selectPlayer(player)"
+  >
+    <img [src]="'data:image/png;base64,' + player.icon" alt="" class="avatar" />
+
+    <p>{{ player.username }}</p>
+  </div>
 </div>
