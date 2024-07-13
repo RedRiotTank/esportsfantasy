@@ -121,10 +121,22 @@ CREATE TABLE `event` (
     jour int,
     team1Score varchar(6),
     team2Score varchar(6),
+    matchid varchar(100),
+    mvp varchar(100),
     primary key(realleagueuuid,team1uuid,team2uuid,jour),
     FOREIGN KEY (realleagueuuid) REFERENCES realleague(uuid),
     FOREIGN KEY (team1uuid) REFERENCES team(uuid),
-	FOREIGN KEY (team2uuid) REFERENCES team(uuid)
+	FOREIGN KEY (team2uuid) REFERENCES team(uuid),
+    UNIQUE(matchid)
+);
+
+CREATE TABLE `playerpoints` (
+    matchid varchar(100),
+    playeruuid BINARY(16),
+    points int,
+    PRIMARY KEY (matchid, playeruuid),
+    FOREIGN KEY (matchid) REFERENCES event(matchid),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid)
 );
 
 insert into games(game) values ("LOL");

@@ -9,6 +9,7 @@ import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.pojos.EventPOJO;
+import htt.esportsfantasybe.model.pojos.PlayerEventStatPOJO;
 import htt.esportsfantasybe.service.PlayerService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -54,10 +55,10 @@ public class LolApiCaller extends ApiCaller{
 
 
         String overviewPageSeason = overviewPage + " Season";
-        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC","&where=OverviewPage=\""+ overviewPageSeason + "\"");
+        JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC,MatchId,MVP","&where=OverviewPage=\""+ overviewPageSeason + "\"");
 
         if (matchSchedule == null || matchSchedule.size() == 0)
-            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC","&where=OverviewPage=\""+ overviewPage + "\"");
+            matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC,MatchId,MVP","&where=OverviewPage=\""+ overviewPage + "\"");
 
         Set<EventPOJO> events = new HashSet<>();
 
@@ -87,7 +88,16 @@ public class LolApiCaller extends ApiCaller{
 
             String dateTime_UTC = match.getAsJsonObject().get("title").getAsJsonObject().get("DateTime UTC").getAsString();
 
-            events.add(new EventPOJO(team1,team2,jour,team1Score,team2Score,dateTime_UTC));
+            String matchId = match.getAsJsonObject().get("title").getAsJsonObject().get("MatchId").getAsString();
+
+            String mvp = "null";
+
+            JsonElement mvpElement = match.getAsJsonObject().get("title").getAsJsonObject().get("MVP");
+
+            if(mvpElement != null && !mvpElement.isJsonNull())
+                mvp = match.getAsJsonObject().get("title").getAsJsonObject().get("MVP").getAsString();
+
+            events.add(new EventPOJO(team1,team2,jour,team1Score,team2Score,dateTime_UTC, matchId, mvp));
         }
 
         return events;
@@ -184,6 +194,36 @@ public class LolApiCaller extends ApiCaller{
         }
 
         return players;
+    }
+
+    public Set<PlayerEventStatPOJO> getPlayerEventStats(String matchId) {
+        Set<PlayerEventStatPOJO> playerEventStatsSet = new HashSet<>();
+
+        JsonArray playerEventStatsJson = this.cargoQuery("ScoreboardPlayers",
+                "Name,Champion,Kills,Deaths,Assists,CS,Gold,DamageToChampions,VisionScore,TeamKills,TeamGold,PlayerWin,Role",
+                        "&where=matchid=\""+ matchId + "\"");
+
+        for(int i=0; i<playerEventStatsJson.size(); i++) {
+            playerEventStatsSet.add(
+                    new PlayerEventStatPOJO(
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Name").getAsString(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Champion").getAsString(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Kills").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Deaths").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Assists").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("CS").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Gold").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("DamageToChampions").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("VisionScore").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("TeamKills").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("TeamGold").getAsInt(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("PlayerWin").getAsBoolean(),
+                            playerEventStatsJson.get(i).getAsJsonObject().get("title").getAsJsonObject().get("Role").getAsString()
+                    )
+            );
+        }
+
+        return playerEventStatsSet;
     }
 
 

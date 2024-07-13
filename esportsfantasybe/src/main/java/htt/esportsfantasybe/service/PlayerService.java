@@ -78,6 +78,10 @@ public class PlayerService {
         return new PlayerDTO(playerRepository.findById(uuid).orElseThrow(RuntimeException::new));
     }
 
+    public Player getPlayer(String username){
+        return playerRepository.findPlayerByUsername(username);
+    }
+
     public byte[] getPlayerIcon(String uuid){
         Optional<Player> playerOptional = playerRepository.findById(UUID.fromString(uuid));
 

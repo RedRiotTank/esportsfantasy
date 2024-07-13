@@ -13,12 +13,16 @@ public class EventDTO {
     private EventId id;
     private Date date;
     private String team1Score, team2Score;
+    private String matchId;
+    private String mvp;
 
-    public EventDTO(UUID realleagueuuid, UUID team1uuid, UUID team2uuid, int jour, Date date, String team1Score, String team2Score) {
+    public EventDTO(UUID realleagueuuid, UUID team1uuid, UUID team2uuid, int jour, Date date, String team1Score, String team2Score, String matchId, String mvp) {
         this.id = new EventId(realleagueuuid, team1uuid, team2uuid, jour);
         this.date = date;
         this.team1Score = team1Score;
         this.team2Score = team2Score;
+        this.matchId = matchId;
+        this.mvp = mvp;
     }
 
     public EventDTO(Event event){

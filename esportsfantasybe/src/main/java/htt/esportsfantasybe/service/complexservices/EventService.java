@@ -23,10 +23,12 @@ public class EventService {
     private final LolApiCaller lolApiCaller = new LolApiCaller();
 
     private final TeamService teamService;
+    private final PlayerPointsService playerPointsService;
 
     @Autowired
-    public EventService(TeamService teamService) {
+    public EventService(TeamService teamService, PlayerPointsService playerPointsService) {
         this.teamService = teamService;
+        this.playerPointsService = playerPointsService;
     }
 
 
@@ -84,6 +86,9 @@ public class EventService {
 
             if(team1 == null || team2 == null) return;
 
+            if(ev.getJour().isEmpty())
+                ev.setJour("-33");
+
             EventDTO eventDTO = new EventDTO(
                     realLeagueDTO.getUuid(),
                     team1.getUuid(),
@@ -91,11 +96,16 @@ public class EventService {
                     Integer.parseInt(ev.getJour()),
                     ev.getDateTime(),
                     ev.getTeam1Score(),
-                    ev.getTeam2Score()
+                    ev.getTeam2Score(),
+                    ev.getMatchId(),
+                    ev.getMvp()
 
             );
 
-            eventRepository.save(new Event(eventDTO));
+            Event savedEv = eventRepository.save(new Event(eventDTO));
+
+            if(savedEv.getTeam1Score() != "null" && savedEv.getTeam2Score() != "null")
+                playerPointsService.obtainPoints(savedEv);
 
 
         });

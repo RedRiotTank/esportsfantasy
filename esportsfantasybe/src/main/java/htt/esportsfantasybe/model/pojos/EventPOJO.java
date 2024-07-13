@@ -16,8 +16,11 @@ public class EventPOJO {
     private String team2Score;
     private String jour;
     private Date dateTime;
+    private String matchId;
+    private String mvp;
 
-    public EventPOJO(String team1, String team2, String jour,String team1Score, String team2Score ,String dateTime_UTC) {
+
+    public EventPOJO(String team1, String team2, String jour,String team1Score, String team2Score ,String dateTime_UTC, String matchId, String mvp) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         this.team1 = team1;
@@ -25,6 +28,8 @@ public class EventPOJO {
         this.jour = jour;
         this.team1Score = team1Score;
         this.team2Score = team2Score;
+        this.matchId = matchId;
+        this.mvp = mvp;
 
         try {
             formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
