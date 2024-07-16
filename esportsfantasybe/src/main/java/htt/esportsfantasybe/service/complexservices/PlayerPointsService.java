@@ -11,6 +11,7 @@ import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -29,6 +30,10 @@ public class PlayerPointsService {
     @Autowired
     public PlayerPointsService(PlayerService playerService) {
         this.playerService = playerService;
+    }
+
+    public List<PlayerPoints> getpointsByPlayer(UUID playeruuid){
+        return playerPointsRepository.findAllById_Playeruuid(playeruuid);
     }
 
     public void obtainPoints(Event event){

@@ -14,6 +14,7 @@ import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
 import htt.esportsfantasybe.repository.LeagueRepository;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
+import htt.esportsfantasybe.service.complexservices.EventService;
 import htt.esportsfantasybe.service.complexservices.MarketService;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class LeagueService {
     private MarketService marketService;
     private PlayerService playerService;
 
+    private EventService eventService;
+
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
     private final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -47,12 +50,13 @@ public class LeagueService {
 
 
     @Autowired
-    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService, PlayerService playerService) {
+    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService, PlayerService playerService, EventService eventService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
         this.marketService = marketService;
         this.playerService = playerService;
+        this.eventService = eventService;
 
     }
 
@@ -214,7 +218,8 @@ public class LeagueService {
                             ownerUsername,
                             marketEntry.getMarketvalue(),
                             11,
-                            250
+                            250,
+                            eventService.getPlayerPointsHistory(playerDTO.getUuid())
                     )
             );
         });

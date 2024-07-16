@@ -1,85 +1,107 @@
 .container {
-    width: 75%;
+  width: 75%;
 
-    .playerContainer {
+  .playerContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    background-color: rgb(242, 243, 247);
+
+    .playerIcon {
+      width: 150px;
+      height: auto;
+      background-color: rgb(242, 243, 247);
+    }
+
+    .playerInfo {
+      display: flex;
+      flex-direction: column;
+      margin: 0.5vw 0.5vw;
+
+      .playerUsername {
+        font-size: 1vw;
+        font-weight: bold;
+      }
+
+      .rtrow {
         display: flex;
         flex-direction: row;
-        margin-top: 20px;
-        background-color: rgb(242, 243, 247);
+        gap: 0.7vw;
 
-        .playerIcon {
-            width: 150px;
-            height: auto;
-            background-color: rgb(242, 243, 247);
+        .role {
+          background-color: red;
+          border-radius: 5px;
+          padding: 0.2vw 0.5vw;
+          color: black;
+          font-weight: bold;
+          margin: auto 0;
         }
 
-        .playerInfo {
-            display: flex;
-            flex-direction: column;
-            margin: 0.5vw 0.5vw;
-
-            .playerUsername {
-                font-size: 1vw;
-                font-weight: bold;
-            }
-
-            .rtrow {
-                display: flex; 
-                flex-direction: row; 
-                gap: 0.7vw;
-
-                .role {
-                    background-color: red;
-                    border-radius: 5px;
-                    padding: 0.2vw 0.5vw;
-                    color: black;
-                    font-weight: bold;
-                    margin: auto 0;
-                }
-
-                .role.top {
-                    background-color: red;
-                }
-                .role.jungle {
-                    background-color: green;
-                }
-                .role.mid {
-                    background-color: purple;
-                }
-                .role.bot {
-                    background-color: blue;
-                }
-                .role.support {
-                    background-color: yellow;
-                }
-
-                .ownerSpan {
-                    font-weight: bold;
-                }
-
-                .teamicon {
-                    width: auto;
-                    height: 40px;
-                    // vertical-align: center; // No es necesario
-                }
-            }
-
-            .points {
-                background-color: lightblue;
-                border-radius: 5px;
-                color: black;
-                font-weight: bold;
-                width: 25%;
-                text-align: center;
-            }
+        .role.top {
+          background-color: red;
+        }
+        .role.jungle {
+          background-color: green;
+        }
+        .role.mid {
+          background-color: purple;
+        }
+        .role.bot {
+          background-color: blue;
+        }
+        .role.support {
+          background-color: yellow;
         }
 
-        .price {
-            // vertical-align: middle; // No es necesario
-            margin: auto;
-            border-radius: 5px;
-            border: none;
-            background-color: red;
+        .ownerSpan {
+          font-weight: bold;
         }
+
+        .teamicon {
+          width: auto;
+          height: 40px;
+          // vertical-align: center; // No es necesario
+        }
+      }
+
+      .PlayerPoints {
+        display: flex;
+        flex-direction: row;
+
+        .points {
+          border-radius: 5px;
+          color: black;
+          font-weight: bold;
+          width: 25%;
+          text-align: center;
+          padding: 3% 5%;
+          margin: 0 5px;
+        }
+
+        .points-green {
+          background-color: green;
+        }
+
+        .points-orange {
+          background-color: orange;
+        }
+
+        .points-red {
+          background-color: red;
+        }
+
+        .points-gray {
+          background-color: gray;
+        }
+      }
     }
+
+    .price {
+      // vertical-align: middle; // No es necesario
+      margin: auto;
+      border-radius: 5px;
+      border: none;
+      background-color: red;
+    }
+  }
 }

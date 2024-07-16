@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.yaml.snakeyaml.error.Mark;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -24,8 +25,9 @@ public class PlayerInfoPOJO {
     private int price;
     private int points;
     private int clause;
+    private ArrayList<Integer> pointsHistory;
 
-    public PlayerInfoPOJO(UUID uuid, String name, String role, Set<TeamDTO> teamsDTO, UUID ownerUUID, String ownerUsername, int price, int points, int clause) {
+    public PlayerInfoPOJO(UUID uuid, String name, String role, Set<TeamDTO> teamsDTO, UUID ownerUUID, String ownerUsername, int price, int points, int clause, ArrayList<Integer> pointsHistory) {
         this.uuid = uuid;
         this.name = name;
         this.role = role;
@@ -35,6 +37,7 @@ public class PlayerInfoPOJO {
         this.price = price;
         this.points = points;
         this.clause = clause;
+        this.pointsHistory = pointsHistory;
     }
 
 

@@ -179,6 +179,11 @@ public class okresponses {
             playerJson.addProperty("price", player.getPrice());
             playerJson.addProperty("points", player.getPoints());
             playerJson.addProperty("clause", player.getClause());
+
+            JsonArray pointsArray = new JsonArray();
+            player.getPointsHistory().forEach(pointsArray::add);
+            playerJson.add("pointsHistory", pointsArray);
+
             playersArray.add(playerJson);
         });
 

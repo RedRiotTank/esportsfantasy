@@ -1,40 +1,69 @@
-
-
-
-
 <div class="container">
+  <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
+    <img src="{{ player.icon }}" alt="" class="playerIcon" />
 
-    <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
-        <img src="{{player.icon}}" alt="" class="playerIcon">
+    <div class="playerInfo">
+      <p class="playerUsername">{{ player.name }}</p>
 
-        <div class="playerInfo">
-            <p class="playerUsername">{{player.name}}</p>
-            
-            <div class="rtrow">
-                <p class="role" 
-                    [class.top] = "player.role == 'Top'"
-                    [class.jungle] = "player.role == 'Jungle'"
-                    [class.mid] = "player.role == 'Mid'"
-                    [class.bot] = "player.role == 'Bot'"
-                    [class.support] = "player.role == 'Support'">
-                    {{player.role}}
-                </p>
-                
-                <img src="{{player.teamicon}}" alt="" class="teamicon">
-            </div>
+      <div class="rtrow">
+        <p
+          class="role"
+          [class.top]="player.role == 'Top'"
+          [class.jungle]="player.role == 'Jungle'"
+          [class.mid]="player.role == 'Mid'"
+          [class.bot]="player.role == 'Bot'"
+          [class.support]="player.role == 'Support'"
+        >
+          {{ player.role }}
+        </p>
 
-            <div class="rtrow">
-                <p> <span class="ownerSpan"> Owner: </span>{{player.ownerUsername}}</p>
-            </div>
+        <img src="{{ player.teamicon }}" alt="" class="teamicon" />
+      </div>
 
-            <p class="points"> {{player.points}} </p>
-        </div>
-    
-        
-        <button class="price" (click)="openModal(player)">{{player.price}}</button>
-        
+      <div class="rtrow">
+        <p><span class="ownerSpan"> Owner: </span>{{ player.ownerUsername }}</p>
+      </div>
 
-        <!--
+      <div class="PlayerPoints">
+        <ng-container
+          *ngIf="player.pointsHistory && player.pointsHistory.length > 0"
+        >
+          <ng-container *ngFor="let index of [0, 1, 2, 3, 4]">
+            <p
+              class="points"
+              [ngClass]="{
+                'points-red':
+                  index < player.pointsHistory.length &&
+                  player.pointsHistory[index] > 0 &&
+                  player.pointsHistory[index] <= 30,
+                'points-orange':
+                  index < player.pointsHistory.length &&
+                  player.pointsHistory[index] > 30 &&
+                  player.pointsHistory[index] <= 50,
+                'points-green':
+                  index < player.pointsHistory.length &&
+                  player.pointsHistory[index] > 50,
+                'points-gray': index >= player.pointsHistory.length
+              }"
+            >
+              {{ player.pointsHistory[index] || "-" }}
+            </p>
+          </ng-container>
+        </ng-container>
+        <ng-container
+          *ngIf="!player.pointsHistory || player.pointsHistory.length === 0"
+        >
+          <ng-container *ngFor="let index of [0, 1, 2, 3, 4]">
+            <p class="points points-gray">-</p>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <button class="price" (click)="openModal(player)">
+        {{ player.price }}
+      </button>
+
+      <!--
 
 
         <div class="playerInfo">
@@ -46,9 +75,6 @@
             <p>{{player.points}}</p>
         </div>
         -->
-        
     </div>
-
+  </div>
 </div>
-
-

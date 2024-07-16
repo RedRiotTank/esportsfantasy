@@ -4,6 +4,7 @@ import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.model.complexentities.Event;
+import htt.esportsfantasybe.model.complexentities.PlayerPoints;
 import htt.esportsfantasybe.model.pojos.EventInfoPOJO;
 import htt.esportsfantasybe.model.pojos.EventPOJO;
 import htt.esportsfantasybe.repository.complexrepositories.EventRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -137,5 +139,26 @@ public class EventService {
             }
         }
         return closestEvent.getId().getJour();
+    }
+
+    public ArrayList<Integer> getPlayerPointsHistory(UUID playerUUID) {
+        List<PlayerPoints> playerPointsList = playerPointsService.getpointsByPlayer(playerUUID);
+
+        List<String> matchIds = playerPointsList.stream()
+                .map(playerPoints -> playerPoints.getId().getMatchid())
+                .collect(Collectors.toList());
+
+        List<Event> events = eventRepository.findByMatchidIn(matchIds);
+
+        Map<String, Date> matchDateMap = events.stream()
+                .collect(Collectors.toMap(Event::getMatchid, Event::getDate));
+
+        playerPointsList.sort((pp1, pp2) -> matchDateMap.get(pp2.getId().getMatchid()).compareTo(matchDateMap.get(pp1.getId().getMatchid())));
+
+        ArrayList<Integer> pointsHistory = playerPointsList.stream()
+                .map(PlayerPoints::getPoints)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return pointsHistory;
     }
 }
