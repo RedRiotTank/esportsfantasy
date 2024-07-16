@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PlayerService {
@@ -79,7 +76,21 @@ public class PlayerService {
     }
 
     public Player getPlayer(String username){
-        return playerRepository.findPlayerByUsername(username);
+        Set<Player> player = playerRepository.findPlayerByUsername(username);
+
+        if(player == null || player.isEmpty())
+            return null;
+
+        return player.stream().findFirst().get();
+    }
+
+    public Player getPlayer(String username, String role){
+        Set<Player> player = playerRepository.findPlayerByUsernameAndRole(username, role);
+
+        if(player == null || player.isEmpty())
+            return null;
+
+        return player.stream().findFirst().get();
     }
 
     public byte[] getPlayerIcon(String uuid){

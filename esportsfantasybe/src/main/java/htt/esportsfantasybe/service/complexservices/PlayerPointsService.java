@@ -32,11 +32,26 @@ public class PlayerPointsService {
     }
 
     public void obtainPoints(Event event){
+
+        if(playerPointsRepository.existsById_Matchid(event.getMatchid()))
+            return;
+
+
+
+
         Utils.esfPrint("Obtaining points for event: " + event.getMatchid());
+
+        if(event.getMatchid().contains("PCL"))
+            System.out.println("PCL");
+
         Set<PlayerEventStatPOJO> set = lolApiCaller.getPlayerEventStats(event.getMatchid());
 
         Map<String, Set<PlayerEventStatPOJO>> groupedByPlayer = set.stream()
                 .collect(Collectors.groupingBy(PlayerEventStatPOJO::getName, Collectors.toSet()));
+
+
+        if(event.getMatchid() == "LVP SuperLiga/2024 Season/Summer Season_Week 9_3")
+            System.out.println("LVP SuperLiga/2024 Season/Summer Season_Week 9_3");
 
         groupedByPlayer.forEach((name, playerStats) -> {
             int points = calculatePoints(playerStats);
@@ -46,7 +61,16 @@ public class PlayerPointsService {
             if(event.getMvp().equals(name))
                 points += 20;
 
-            Player player = playerService.getPlayer(name);
+            Player player;
+
+            player = playerService.getPlayer(name, playerStats.stream().findFirst().get().getRole());
+
+            if(player == null)
+                player = playerService.getPlayer(name);
+
+            if(player == null)
+                return;
+
 
 
             playerPointsRepository.save(new PlayerPoints(event.getMatchid(), player.getUuid(), points));

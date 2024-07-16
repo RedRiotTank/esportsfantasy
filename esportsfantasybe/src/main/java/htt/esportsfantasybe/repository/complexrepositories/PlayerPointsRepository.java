@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlayerPointsRepository extends JpaRepository<PlayerPoints, PlayerPointsId> {
+
+    boolean existsById_Matchid(String matchid);
+
+
 }
