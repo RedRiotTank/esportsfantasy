@@ -28,29 +28,13 @@
         flex-direction: row;
         gap: 0.7vw;
 
-        .role {
-          background-color: red;
-          border-radius: 5px;
-          padding: 0.2vw 0.5vw;
-          color: black;
-          font-weight: bold;
-          margin: auto 0;
+        .role-icon {
+          width: auto;
+          height: 40px;
         }
 
-        .role.top {
-          background-color: red;
-        }
-        .role.jungle {
-          background-color: green;
-        }
-        .role.mid {
-          background-color: purple;
-        }
-        .role.bot {
-          background-color: blue;
-        }
-        .role.support {
-          background-color: yellow;
+        .role-noicon {
+          background-color: gray;
         }
 
         .ownerSpan {

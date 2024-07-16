@@ -6,13 +6,23 @@
       <p class="playerUsername">{{ player.name }}</p>
 
       <div class="rtrow">
+        <img
+          *ngIf="checkImageExists(player)"
+          [ngClass]="{
+            'role-icon': checkImageExists(player),
+            'role-icon-unknown': !checkImageExists(player)
+          }"
+          [src]="'assets/positions-icons/' + player.role + '.webp'"
+          [alt]="player.role"
+          class="role-icon"
+        />
+
         <p
           class="role"
-          [class.top]="player.role == 'Top'"
-          [class.jungle]="player.role == 'Jungle'"
-          [class.mid]="player.role == 'Mid'"
-          [class.bot]="player.role == 'Bot'"
-          [class.support]="player.role == 'Support'"
+          *ngIf="!checkImageExists(player)"
+          [ngClass]="{
+            'role-noicon': !checkImageExists(player)
+          }"
         >
           {{ player.role }}
         </p>
