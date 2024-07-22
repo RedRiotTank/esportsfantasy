@@ -36,7 +36,7 @@ public class JwtService {
      * @param token String.
      * @return String.
      */
-    public static String extractUserEmail(String token){
+    public String extractUserEmail(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -45,7 +45,7 @@ public class JwtService {
      * @param userDTO UserDTO.
      * @return String.
      */
-    public static String generateToken(UserDTO userDTO){
+    public String generateToken(UserDTO userDTO){
        return generateToken(new HashMap<>(),userDTO);
     }
 
@@ -54,7 +54,7 @@ public class JwtService {
      * @param socialUserDTO SocialUserDTO.
      * @return String.
      */
-    public static String generateToken(SocialUserDTO socialUserDTO){
+    public String generateToken(SocialUserDTO socialUserDTO){
 
         UserDTO userDTO = new UserDTO(socialUserDTO);
 
@@ -66,7 +66,7 @@ public class JwtService {
      * @param userDTO UserDTO.
      * @return String.
      */
-    public static String generateToken(Map<String, Object> extraClaims, UserDTO userDTO){
+    public String generateToken(Map<String, Object> extraClaims, UserDTO userDTO){
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDTO.getMail())
@@ -85,7 +85,7 @@ public class JwtService {
      * @param <T> T.
      * @return T.
      */
-    public static <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims =  extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -95,7 +95,7 @@ public class JwtService {
      * @param token String.
      * @return Claims.
      */
-    private static Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token){
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -108,7 +108,7 @@ public class JwtService {
      * @return Key.
      */
 
-    private static Key getSignInKey() {
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -119,11 +119,10 @@ public class JwtService {
      * @param user UserDetails.
      * @return boolean.
      */
-    public static boolean isTokenValid(String token, UserDetails user){
+    public boolean isTokenValid(String token, UserDetails user){
         final String usermail = extractUserEmail(token);
 
-        String a = user.getUsername();
-        return (usermail.equals(a)) && !isTokenExpired(token);
+        return (!isTokenExpired(token));
 
     }
 
@@ -132,7 +131,7 @@ public class JwtService {
      * @param token String.
      * @return boolean.
      */
-    private static boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -141,7 +140,7 @@ public class JwtService {
      * @param token String.
      * @return Date.
      */
-    private static Date extractExpiration(String token) {
+    private Date extractExpiration(String token) {
        return extractClaim(token, Claims::getExpiration);
     }
 
@@ -153,7 +152,7 @@ public class JwtService {
      * @param idTokenString String.
      * @return boolean.
      */
-    public static boolean verifyGoogleToken(String idTokenString) {
+    public boolean verifyGoogleToken(String idTokenString) {
         try {
             String GOOGLE_CLIENT_ID = ".googleclientID";
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())

@@ -23,8 +23,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static htt.esportsfantasybe.config.JwtService.extractUserEmail;
-
 /**
  * This class is a service class that handles the business logic of the User entity.
  * It is used to interact with the User repository.
@@ -32,8 +30,16 @@ import static htt.esportsfantasybe.config.JwtService.extractUserEmail;
  */
 @Service
 public class UserService {
-    @Autowired
+
     private UserRepository userRepository;
+
+    private final JwtService jwtService;
+
+    @Autowired
+    public UserService(UserRepository userRepository, JwtService jwtService) {
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+    }
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -82,13 +88,13 @@ public class UserService {
 
         newUserDTO.setUuid(loginUser.get().getUuid());
 
-        return JwtService.generateToken(newUserDTO);
+        return jwtService.generateToken(newUserDTO);
     }
 
     public String loginWithToken(String token){
-        String userEmail = JwtService.extractUserEmail(token);
+        String userEmail = jwtService.extractUserEmail(token);
         UserDetails user = userRepository.findByMail(userEmail).orElseThrow(() -> new RuntimeException("1001"));
-        boolean validToken = JwtService.isTokenValid(token, user);
+        boolean validToken = jwtService.isTokenValid(token, user);
         if (!validToken) throw new RuntimeException("1003");
 
         return token;
@@ -106,7 +112,7 @@ public class UserService {
         String credentialMail = newSocialUserDTO.getMail();
         String credentialToken = newSocialUserDTO.getIdToken();
 
-        boolean validToken = JwtService.verifyGoogleToken(credentialToken);
+        boolean validToken = jwtService.verifyGoogleToken(credentialToken);
         if(!validToken) throw new RuntimeException("1003");
 
         Optional<User> loginUser = userRepository.findByMail(credentialMail);
@@ -116,7 +122,7 @@ public class UserService {
             userRepository.save(newUser);
         } else if(loginUser.get().getPass() != null) throw new RuntimeException("1004");
 
-        return JwtService.generateToken(newSocialUserDTO);
+        return jwtService.generateToken(newSocialUserDTO);
     }
 
     /**

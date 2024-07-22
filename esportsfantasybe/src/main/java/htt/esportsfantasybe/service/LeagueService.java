@@ -105,14 +105,14 @@ public class LeagueService {
         return codeBuilder.toString();
     }
 
-    public void joinLeague(JoinLeaguePOJO joinLeaguePOJO){
+    public void joinLeague(JoinLeaguePOJO joinLeaguePOJO) {
 
         UserDTO userDTO = userService.getUser(joinLeaguePOJO.getUserMail());
 
         //TODO: modificar dinero en funciónj de opción elegida.
         int money = 8000000;
 
-        switch (joinLeaguePOJO.getLeagueType()){
+        switch (joinLeaguePOJO.getLeagueType()) {
             case 1:
 
                 RealLeague rl = realLeagueService.getRLeague(joinLeaguePOJO.getCompetition());
@@ -133,13 +133,13 @@ public class LeagueService {
                 League randomLeague;
                 int trycount = 0;
 
-                do{
+                do {
                     int randomLeagueIndex = (int) (Math.random() * leagues.size());
                     randomLeague = leagues.stream().toList().get(randomLeagueIndex);
                     trycount++;
-                }while(userXLeagueService.isUserInLeague(userDTO.getUuid(), randomLeague.getUuid()) && trycount < 5);
+                } while (userXLeagueService.isUserInLeague(userDTO.getUuid(), randomLeague.getUuid()) && trycount < 5);
 
-                if(trycount == 5) throw new RuntimeException("1011");
+                if (trycount == 5) throw new RuntimeException("1011");
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false, money);
 
@@ -147,15 +147,16 @@ public class LeagueService {
 
             case 3:
 
-               UUID leagueuuid = this.invitationCodes.get(joinLeaguePOJO.getCode());
+                UUID leagueuuid = this.invitationCodes.get(joinLeaguePOJO.getCode());
 
-               if(leagueuuid == null) throw new RuntimeException("1012");
+                if (leagueuuid == null) throw new RuntimeException("1012");
 
-               League leagueUnionByCode = leagueRepository.findById(leagueuuid).orElse(null);
+                League leagueUnionByCode = leagueRepository.findById(leagueuuid).orElse(null);
 
-                if(leagueUnionByCode == null) throw new RuntimeException("1013");
+                if (leagueUnionByCode == null) throw new RuntimeException("1013");
 
-                if(userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid())) throw new RuntimeException("1014");
+                if (userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid()))
+                    throw new RuntimeException("1014");
 
                 userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false, money);
 
@@ -163,7 +164,6 @@ public class LeagueService {
             default:
                 System.out.println("Invalid league type");
         }
-
 
 
     }
@@ -180,6 +180,9 @@ public class LeagueService {
         return leagues;
     }
 
+    public void setInvCodes(HashMap<String, UUID> invitationCodes) {
+        this.invitationCodes = invitationCodes;
+    }
 
     //@Scheduled(fixedRate = 12 * 60 * 60 * 1000) // 12h for normal use
     @Scheduled(fixedRate =  30 * 1000) // 30s for testing
@@ -231,4 +234,7 @@ public class LeagueService {
         return this.leagueRepository.findById(leagueuuid).orElseThrow(RuntimeException::new);
     }
 
+    public void getInvitationCodes() {
+        invitationCodes.forEach((key, value) -> System.out.println(key + " -> " + value));
+    }
 }

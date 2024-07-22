@@ -25,6 +25,7 @@ import java.io.IOException;
 public class JwtAutheticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtService jwtService;
     /**
      * Method that filters the request.
      * @param request HttpServletRequest.
@@ -48,10 +49,10 @@ public class JwtAutheticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = JwtService.extractUserEmail(jwt);
+        userEmail = jwtService.extractUserEmail(jwt);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if(JwtService.isTokenValid(jwt,userDetails)){
+            if(jwtService.isTokenValid(jwt,userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

@@ -46,6 +46,7 @@ public class User implements UserDetails {
      * @param newUserDTO UserDTO object with the information of the new user.
      */
     public User(UserDTO newUserDTO){
+        this.uuid = newUserDTO.getUuid();
         this.mail = newUserDTO.getMail();
         this.pass = newUserDTO.getPass();
         this.username = newUserDTO.getUsername();
