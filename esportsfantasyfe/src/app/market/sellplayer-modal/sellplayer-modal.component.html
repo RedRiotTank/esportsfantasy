@@ -1,0 +1,14 @@
+<div class="esf-modal">
+  <h1 mat-dialog-title>Sell a Player</h1>
+
+  <div *ngFor="let player of getPlayers()">
+    <div *ngIf="player['jour'] == 5">
+      <img
+        [src]="'data:image/png;base64,' + player.icon"
+        alt=""
+        class="avatar"
+      />
+      <p>{{ player.username }}</p>
+    </div>
+  </div>
+</div>

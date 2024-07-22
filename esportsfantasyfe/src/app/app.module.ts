@@ -36,6 +36,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatchsComponent } from './matchs/matchs.component';
+import { SellplayerModalComponent } from './market/sellplayer-modal/sellplayer-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { MatchsComponent } from './matchs/matchs.component';
     BidupModalComponent,
     SelectplayerModalComponent,
     MatchsComponent,
+    SellplayerModalComponent,
   ],
   imports: [
     BrowserModule,

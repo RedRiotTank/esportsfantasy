@@ -1,4 +1,11 @@
 <div class="container">
+  <div class="playerContainer sellButton" (click)="sellPlayerOpenModal()">
+    <img [src]="'assets/icons/+.png'" alt="" class="playerIcon" />
+    <div class="playerInfo">
+      <p class="playerUsername">Add player</p>
+    </div>
+  </div>
+
   <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
     <img src="{{ player.icon }}" alt="" class="playerIcon" />
 
@@ -69,10 +76,6 @@
         </ng-container>
       </div>
 
-      <button class="price" (click)="openModal(player)">
-        {{ player.price }}
-      </button>
-
       <!--
 
 
@@ -86,5 +89,9 @@
         </div>
         -->
     </div>
+
+    <button class="price" (click)="openModal(player)">
+      {{ player.price }}
+    </button>
   </div>
 </div>

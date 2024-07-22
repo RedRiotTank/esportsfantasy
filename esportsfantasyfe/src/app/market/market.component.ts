@@ -4,6 +4,7 @@ import { LeagueListServiceService } from '../league-list-service.service';
 import { MarketService } from './market.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BidupModalComponent } from './bidup-modal/bidup-modal.component';
+import { SellplayerModalComponent } from './sellplayer-modal/sellplayer-modal.component';
 
 @Component({
   selector: 'app-market',
@@ -35,6 +36,13 @@ export class MarketComponent implements OnInit {
           //console.log("Bid up success");
         });
       }
+    });
+  }
+
+  sellPlayerOpenModal(): void {
+    const dialogRef = this.dialog.open(SellplayerModalComponent, {
+      width: '400px',
+      data: { name: 'Sell Player', uuid: '', price: 0 },
     });
   }
 

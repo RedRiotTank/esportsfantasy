@@ -1,6 +1,10 @@
 .container {
   width: 75%;
 
+  .sellButton:hover {
+    cursor: pointer;
+  }
+
   .playerContainer {
     display: flex;
     flex-direction: row;
