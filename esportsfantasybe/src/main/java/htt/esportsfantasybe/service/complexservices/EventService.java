@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -106,8 +105,14 @@ public class EventService {
 
             Event savedEv = eventRepository.save(new Event(eventDTO));
 
-            if(savedEv.getTeam1Score() != "null" && savedEv.getTeam2Score() != "null")
-                playerPointsService.obtainPoints(savedEv);
+            if(savedEv.getTeam1Score() != "null" && savedEv.getTeam2Score() != "null"){
+                switch (realLeagueDTO.getGame()){
+                    case "LOL":
+                        playerPointsService.obtainLOLPoints(savedEv);
+                        break;
+
+                }
+            }
 
 
         });

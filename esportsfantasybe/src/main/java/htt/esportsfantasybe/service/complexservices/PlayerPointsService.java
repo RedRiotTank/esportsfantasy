@@ -36,7 +36,7 @@ public class PlayerPointsService {
         return playerPointsRepository.findAllById_Playeruuid(playeruuid);
     }
 
-    public void obtainPoints(Event event){
+    public void obtainLOLPoints(Event event){
 
         if(playerPointsRepository.existsById_Matchid(event.getMatchid()))
             return;
@@ -59,7 +59,7 @@ public class PlayerPointsService {
             System.out.println("LVP SuperLiga/2024 Season/Summer Season_Week 9_3");
 
         groupedByPlayer.forEach((name, playerStats) -> {
-            int points = calculatePoints(playerStats);
+            int points = calculateLOLPoints(playerStats);
 
             //System.out.println(playerStats.stream().findFirst().get().getRole() + " " + name + " " + points);
 
@@ -83,7 +83,7 @@ public class PlayerPointsService {
 
     }
 
-    public static int calculatePoints(Set<PlayerEventStatPOJO> games) {
+    public static int calculateLOLPoints(Set<PlayerEventStatPOJO> games) {
         if (games.isEmpty()) {
             return 0;
         }

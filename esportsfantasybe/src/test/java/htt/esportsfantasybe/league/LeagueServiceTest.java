@@ -1,4 +1,4 @@
-package htt.esportsfantasybe.user;
+package htt.esportsfantasybe.league;
 
 import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
