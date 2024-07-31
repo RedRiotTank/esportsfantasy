@@ -1,5 +1,5 @@
 <div class="feed">
-  <div *ngFor="let jour of getJours()">
+  <div class="week-container" *ngFor="let jour of getJours()">
     <h2 class="week-title">Week {{ jour }}</h2>
     <div class="events">
       <div *ngFor="let match of getMatchs()[jour]" class="match">

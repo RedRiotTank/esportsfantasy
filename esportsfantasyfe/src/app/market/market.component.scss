@@ -17,6 +17,39 @@
       background-color: rgb(242, 243, 247);
     }
 
+    .offerButtons {
+      margin: auto 0.5vw;
+      button {
+        margin-inline: 0.5vw;
+        padding: 0.5vw;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+      .accept {
+        background-color: green;
+        color: white;
+      }
+
+      .reject {
+        background-color: red;
+        color: white;
+      }
+    }
+
+    .offer {
+      margin: auto 4vw;
+      .offerText {
+        font-size: 1vw;
+        font-weight: bold;
+      }
+
+      .offerValue {
+        font-size: 1vw;
+        font-weight: bold;
+      }
+    }
+
     .playerInfo {
       display: flex;
       flex-direction: column;
@@ -90,6 +123,15 @@
       border-radius: 5px;
       border: none;
       background-color: red;
+    }
+
+    .bin {
+      margin: auto;
+      border-radius: 5px;
+      border: none;
+      background-color: green;
+      color: white;
+      padding: 5px 10px;
     }
   }
 }

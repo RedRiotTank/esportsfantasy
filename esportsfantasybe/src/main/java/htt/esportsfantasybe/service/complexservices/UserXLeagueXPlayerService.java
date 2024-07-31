@@ -38,6 +38,19 @@ public class UserXLeagueXPlayerService {
         userXLeagueXPlayerRepository.save(new UserXLeagueXPlayer(new UserXLeagueXPlayerId(playerID, leagueID, userID,jour), 0));
     }
 
+    public void changeProperty(UUID oldUser, UUID newUser, UUID leagueID, UUID playerID, int jour) {
+
+        UserXLeagueXPlayer oldprop = userXLeagueXPlayerRepository.findById_PlayeruuidAndId_LeagueuuidAndId_UseruuidAndId_Jour(
+                playerID, leagueID, oldUser, jour);
+
+        UserXLeagueXPlayer newprop = new UserXLeagueXPlayer(new UserXLeagueXPlayerId(playerID, leagueID, newUser, jour), 0);
+
+        userXLeagueXPlayerRepository.delete(oldprop);
+         
+        userXLeagueXPlayerRepository.save(newprop);
+
+    }
+
     public Set<PlayerTeamInfoPOJO> getUserXLeagueTeam(UUID userID, UUID leagueID) {
         List<UserXLeagueXPlayer> teamres = this.userXLeagueXPlayerRepository.findAllById_LeagueuuidAndId_Useruuid(leagueID, userID);
 
@@ -49,7 +62,16 @@ public class UserXLeagueXPlayerService {
 
             String playericonB64 = Base64.getEncoder().encodeToString(playerService.getPlayerIcon(playerUUID.toString()));
 
-            PlayerTeamInfoPOJO ptInfoPOJo = new PlayerTeamInfoPOJO(player.getUuid(), player.getUsername(), player.getFullname(), player.getRole(), tentry.getId().getJour(),tentry.getAligned(),playericonB64);
+            PlayerTeamInfoPOJO ptInfoPOJo = new PlayerTeamInfoPOJO(
+                    player.getUuid(),
+                    player.getUsername(),
+                    player.getFullname(),
+                    player.getRole(),
+                    player.getValue(),
+                    tentry.getId().getJour(),
+                    tentry.getAligned(),
+                    playericonB64
+            );
             team.add(ptInfoPOJo);
         });
         return team;

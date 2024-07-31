@@ -7,16 +7,10 @@ import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
-import htt.esportsfantasybe.model.pojos.EventInfoPOJO;
-import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
-import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
-import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
+import htt.esportsfantasybe.model.pojos.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /** This class contains the responses for the successful requests.
  * @author Alberto Plaza Montes
@@ -216,6 +210,7 @@ public class okresponses {
             playerJson.addProperty("username", player.getUsername());
             playerJson.addProperty("fullname", player.getFullname());
             playerJson.addProperty("role", player.getRole());
+            playerJson.addProperty("value", player.getValue());
             playerJson.addProperty("jour", player.getJour());
             playerJson.addProperty("aligned", player.getAligned());
             playerJson.addProperty("icon", player.getIcon());
@@ -253,6 +248,70 @@ public class okresponses {
         okjson.addProperty("message", "got current jour correctly");
         okjson.addProperty("currentJour", currentJour);
 
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> sell(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "sell created correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> cancelSell(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "cancel sell created correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getOffers(List<UserOffer> offers){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "get offers correctly");
+
+        JsonArray offersArray = new JsonArray();
+        offers.forEach(offer -> {
+            JsonObject offerJson = new JsonObject();
+            offerJson.addProperty("userUuid", offer.getUserUuid().toString());
+            offerJson.addProperty("userName", offer.getUserName());
+            offerJson.addProperty("userIcon", offer.getUserIcon());
+            offerJson.addProperty("playerUuid", offer.getPlayerUuid().toString());
+            offerJson.addProperty("playerUsername", offer.getPlayerUsername());
+            offerJson.addProperty("playerIcon", offer.getPlayerIcon());
+            offerJson.addProperty("playerRole", offer.getPlayerRole());
+            offerJson.addProperty("value", offer.getValue());
+            offerJson.addProperty("offerValue", offer.getOfferValue());
+
+            JsonArray pointsArray = new JsonArray();
+            offer.getPoints().forEach(pointsArray::add);
+            offerJson.add("points", pointsArray);
+
+            offersArray.add(offerJson);
+        });
+
+        okjson.add("offers", offersArray);
+
+        return ResponseEntity.ok(okjson.toString());
+
+    }
+
+    public static ResponseEntity<?> acceptOffer(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "offer accepted correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> rejectOffer(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "offer rejected correctly");
         return ResponseEntity.ok(okjson.toString());
     }
 }

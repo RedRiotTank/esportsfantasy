@@ -13,6 +13,8 @@ public interface UserXLeagueXPlayerRepository extends JpaRepository<UserXLeagueX
 
     UserXLeagueXPlayer findByIdAndAligned(UserXLeagueXPlayerId id, int aligned);
 
+    UserXLeagueXPlayer findById_PlayeruuidAndId_LeagueuuidAndId_UseruuidAndId_Jour(UUID playeruuid, UUID leagueuuid, UUID useruuid, int jour);
+
     UserXLeagueXPlayer findById_LeagueuuidAndId_UseruuidAndId_JourAndAligned(UUID leagueuuid, UUID useruuid, int jour, int aligned);
 
     List<UserXLeagueXPlayer> findAllById_Leagueuuid(UUID uuid);

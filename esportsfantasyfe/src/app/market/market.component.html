@@ -6,6 +6,66 @@
     </div>
   </div>
 
+  <div class="playerContainer" *ngFor="let offer of this.getOffers()">
+    <img
+      [src]="'data:image/png;base64,' + offer.playerIcon"
+      alt=""
+      class="playerIcon"
+    />
+
+    <div class="playerInfo">
+      <p class="playerUsername">{{ offer.playerUsername }}</p>
+
+      <div class="rtrow">
+        <p><span class="ownerSpan"> bidder: </span>{{ offer.userName }}</p>
+      </div>
+
+      <div class="PlayerPoints">
+        <ng-container *ngIf="offer.points && offer.points.length > 0">
+          <ng-container *ngFor="let index of [0, 1, 2, 3, 4]">
+            <p
+              class="points"
+              [ngClass]="{
+                'points-red':
+                  index < offer.points.length &&
+                  offer.points[index] > 0 &&
+                  offer.points[index] <= 30,
+                'points-orange':
+                  index < offer.points.length &&
+                  offer.points > 30 &&
+                  offer.points <= 50,
+                'points-green':
+                  index < offer.points.length && offer.points[index] > 50,
+                'points-gray': index >= offer.points.length
+              }"
+            >
+              {{ offer.points[index] || "-" }}
+            </p>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!offer.points || offer.points.length === 0">
+          <ng-container *ngFor="let index of [0, 1, 2, 3, 4]">
+            <p class="points points-gray">-</p>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="offer">
+      <p class="offerText">Offers you</p>
+      <p class="offerValue">{{ offer.offerValue }} 💵</p>
+    </div>
+
+    <div class="offerButtons">
+      <button class="accept" (click)="acceptOffer(offer)">
+        <i class="fa-solid fa-check"></i>
+      </button>
+      <button class="reject" (click)="rejectOffer(offer)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
   <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
     <img src="{{ player.icon }}" alt="" class="playerIcon" />
 
@@ -90,8 +150,20 @@
         -->
     </div>
 
-    <button class="price" (click)="openModal(player)">
+    <button
+      class="price"
+      (click)="openModal(player)"
+      *ngIf="player.ownerUUID != credentialsService.getUserUUID()"
+    >
       {{ player.price }}
+    </button>
+
+    <button
+      class="bin"
+      (click)="cancelSell(player)"
+      *ngIf="player.ownerUUID == credentialsService.getUserUUID()"
+    >
+      <i class="fa-solid fa-xmark"></i>
     </button>
   </div>
 </div>

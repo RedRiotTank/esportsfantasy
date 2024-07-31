@@ -1,17 +1,25 @@
 package htt.esportsfantasybe.service.complexservices;
 
 import htt.esportsfantasybe.DTO.LeagueDTO;
+import htt.esportsfantasybe.DTO.PlayerDTO;
+import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.model.League;
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.complexkeysmodels.MarketId;
+import htt.esportsfantasybe.model.pojos.OfferResponsePOJO;
+import htt.esportsfantasybe.model.pojos.UserOffer;
 import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
 import htt.esportsfantasybe.service.LeagueService;
+import htt.esportsfantasybe.service.PlayerService;
+import htt.esportsfantasybe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.error.Mark;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -24,15 +32,29 @@ public class MarketService {
     private UserXLeagueXPlayerService userXLeagueXPlayerService;
 
     private BidUpService bidUpService;
+    private UserService userService;
+
+    private PlayerService playerService;
+    private EventService eventService;
 
 
     private static final int MARKET_REGULAR_NUMBER = 8;
 
     @Autowired
-    public MarketService(UserXLeagueService userXLeagueService, UserXLeagueXPlayerService userXLeagueXPlayerService, BidUpService bidUpService) {
+    public MarketService(
+        UserXLeagueService userXLeagueService,
+        UserXLeagueXPlayerService userXLeagueXPlayerService,
+        BidUpService bidUpService,
+        UserService userService,
+        PlayerService playerService,
+        EventService eventService
+    ) {
         this.userXLeagueService = userXLeagueService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
         this.bidUpService = bidUpService;
+        this.userService = userService;
+        this.playerService = playerService;
+        this.eventService = eventService;
     }
 
     public void initMarket(LeagueDTO league){
@@ -48,13 +70,15 @@ public class MarketService {
 
 
     public void updateMarket(LeagueDTO league){
-        List<Market> leagueMarketEntriesNoSell = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(league.getUuid(), false);   //TODO: añadir que no coja a los jugadores que tengan dueño.
+        List<Market> leagueMarketEntriesNoSell = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(league.getUuid(), false);
 
-        List<Market> leagueMarketEntriesInSell = marketRepository.findMarketsById_LeagueuuidAndInsell(league.getUuid(), true);
+        List<Market> leagueMarketEntriesInSellWithOwner = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidNotNull(league.getUuid(),true);
+
+        List<Market> leagueMarketEntriesInSellNoOwner = marketRepository.findMarketsById_LeagueuuidAndInsellAndOwneruuidIsNull(league.getUuid(), true);
 
         //--- actualizacion de pujas
 
-        leagueMarketEntriesInSell.forEach(market ->{
+        leagueMarketEntriesInSellNoOwner.forEach(market ->{
             List<BidUp> bidUpList = bidUpService.getBidUpByLeagueAndPlayer(league.getUuid(), market.getId().getPlayeruuid(),true);
 
             if(!bidUpList.isEmpty()){
@@ -62,6 +86,8 @@ public class MarketService {
 
                 userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid(),league.getRealLeagueDTO().getCurrentjour());
                 bidUpService.closeBidUp(maxBidUp);
+
+                market.setOwneruuid(maxBidUp.getId().getBiduseruuid());
 
                 bidUpList.remove(maxBidUp);
 
@@ -90,11 +116,13 @@ public class MarketService {
             if (selectedMarkets.size() == 8) break;
         }
 
-        leagueMarketEntriesInSell.forEach(market -> {
+        selectedMarkets.addAll(leagueMarketEntriesInSellWithOwner);
+
+        leagueMarketEntriesInSellNoOwner.forEach(market -> {
             market.setInsell(false);
         });
 
-        marketRepository.saveAll(leagueMarketEntriesInSell);
+        marketRepository.saveAll(leagueMarketEntriesInSellNoOwner);
         marketRepository.saveAll(selectedMarkets);
 
     }
@@ -123,5 +151,107 @@ public class MarketService {
 
     }
 
+    public void sell(UUID playerUUID, UUID leagueUUID, UUID userUUID, int value){
+        Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueUUID, playerUUID);
+        market.setInsell(true);
+        marketRepository.save(market);
 
+
+
+
+    }
+
+    public void cancelSell(UUID playerUUID, UUID leagueUUID, UUID userUUID, int value){
+        Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueUUID, playerUUID);
+        market.setInsell(false);
+        marketRepository.save(market);
+    }
+
+    public List<UserOffer> getOffers(UUID userUUID, UUID leagueUUID){
+
+        List<UserOffer> userOffers = new ArrayList<>();
+
+        List<Market> leagueMarketEntriesInSellWithOwner = marketRepository.findMarketsById_LeagueuuidAndOwneruuidIsNotNullAndOwneruuidEquals(leagueUUID, userUUID);
+
+        leagueMarketEntriesInSellWithOwner.forEach(market -> {
+            bidUpService.getBidUpByLeagueAndPlayer(leagueUUID, market.getId().getPlayeruuid(), true).forEach(bidUp -> {
+
+                UserDTO user = userService.getUser(bidUp.getId().getBiduseruuid());
+
+                byte[] usericon = new byte[0];
+                try {
+                    usericon = userService.getUserPfp(user.getMail());
+                } catch (IOException e) {
+                    //throw new RuntimeException(e);
+                }
+
+                String usericonb64 = Base64.getEncoder().encodeToString(usericon);
+
+                PlayerDTO player = playerService.getPlayer(bidUp.getId().getPlayeruuid());
+
+                byte[] playericon = new byte[0];
+                playericon = playerService.getPlayerIcon(player.getUuid().toString());
+                String playericonb64 = Base64.getEncoder().encodeToString(playericon);
+
+                userOffers.add(
+                        new UserOffer(
+                            bidUp.getId().getBiduseruuid(),
+                            user.getUsername(),
+                            usericonb64,
+                            market.getId().getPlayeruuid(),
+                            player.getUsername(),
+                            playericonb64,
+                            player.getRole(),
+                            player.getValue(),
+                            eventService.getPlayerPointsHistory(player.getUuid()),
+                            bidUp.getBid()
+                        )
+                );
+            });
+
+        });
+
+
+
+        return userOffers;
+    }
+
+    private void changeProperty(UUID oldUser, UUID newUser, UUID leagueID, UUID playerID, int jour) {
+        userXLeagueXPlayerService.changeProperty(oldUser, newUser, leagueID, playerID, jour);
+
+        Market oldmarket = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueID, playerID);
+
+        oldmarket.setOwneruuid(newUser);
+        oldmarket.setInsell(false);
+        marketRepository.save(oldmarket);
+    }
+
+    public void acceptOffer(OfferResponsePOJO offerResponsePOJO){
+        List<BidUp> bidups = bidUpService.getActiveBidUpByLeagueAndPlayer(offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid());
+
+        bidups.forEach(bidUp -> {
+            if(bidUp.getId().getBiduseruuid().equals(offerResponsePOJO.getBiduseruuid())){
+
+                changeProperty(offerResponsePOJO.getUseruuid(), bidUp.getId().getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid(), offerResponsePOJO.getJour());
+
+                userXLeagueXPlayerService.linkUserLeaguePlayer(offerResponsePOJO.getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid(), offerResponsePOJO.getJour());
+                userXLeagueService.addMoney(offerResponsePOJO.getUseruuid(),offerResponsePOJO.getLeagueuuid() ,bidUp.getBid());
+                bidUpService.closeBidUp(bidUp);
+            }else{
+                userXLeagueService.addMoney(bidUp.getId().getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), bidUp.getBid());
+                bidUpService.closeBidUp(bidUp);
+            }
+        });
+
+
+    }
+
+    public void rejectOffer(OfferResponsePOJO offerResponsePOJO){
+
+        BidUp bidUp = bidUpService.activeBidUp(offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid(), offerResponsePOJO.getBiduseruuid());
+        userXLeagueService.addMoney(bidUp.getId().getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), bidUp.getBid());
+        bidUpService.closeBidUp(bidUp);
+
+
+    }
 }

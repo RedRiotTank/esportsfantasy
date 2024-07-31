@@ -1,14 +1,37 @@
 <div class="esf-modal">
   <h1 mat-dialog-title>Sell a Player</h1>
 
-  <div *ngFor="let player of getPlayers()">
-    <div *ngIf="player['jour'] == 5">
-      <img
-        [src]="'data:image/png;base64,' + player.icon"
-        alt=""
-        class="avatar"
-      />
-      <p>{{ player.username }}</p>
+  <div class="players-container">
+    <div *ngFor="let player of getPlayers()">
+      <div
+        *ngIf="player['jour'] == this.lastJour"
+        [class.selected]="player.selected"
+        class="player"
+        (click)="clickSellPlayer(player)"
+      >
+        <img
+          [src]="'data:image/png;base64,' + player.icon"
+          alt=""
+          class="avatar"
+        />
+        <p class="player-username">{{ player.username }}</p>
+      </div>
     </div>
+  </div>
+
+  <div mat-dialog-content>
+    <div class="input-div">
+      <input type="text" pInputText [(ngModel)]="value" class="w-full mb-3" />
+      <p-slider
+        [(ngModel)]="value"
+        [min]="this.playerMinValue"
+        [max]="this.playerMinValue * 100"
+        styleClass="custom-slider"
+      ></p-slider>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="sell()">Sell</button>
   </div>
 </div>

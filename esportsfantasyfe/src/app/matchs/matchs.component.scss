@@ -1,8 +1,14 @@
 .feed {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
+}
+
+.week-container {
+  flex: 1 1 30%;
+  box-sizing: border-box;
+  margin: 1rem;
 }
 
 .week-title {
@@ -55,14 +61,14 @@
   margin: 0 1rem;
 }
 
+.separator .vsimg {
+  height: 10vh;
+  width: auto;
+}
+
 .separator {
-  .vsimg {
-    height: 10vh;
-    width: auto;
-  }
   height: 2%;
   width: auto;
-
   margin: 0 1rem;
 }
 

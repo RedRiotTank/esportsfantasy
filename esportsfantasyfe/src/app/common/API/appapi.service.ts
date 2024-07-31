@@ -349,4 +349,53 @@ export class AppapiService {
         })
       );
   }
+
+  public sellPlayer(
+    playerUUID: String,
+    leagueUUID: String,
+    userUUID: String,
+    value: number
+  ): Observable<any> {
+    return this.api.sendRequest('Market/sell', {
+      playeruuid: playerUUID,
+      leagueuuid: leagueUUID,
+      useruuid: userUUID,
+      value: value,
+    });
+  }
+
+  public cancelSell(
+    playerUUID: String,
+    leagueUUID: String,
+    userUUID: String
+  ): Observable<any> {
+    return this.api.sendRequest('Market/cancelSell', {
+      playeruuid: playerUUID,
+      leagueuuid: leagueUUID,
+      useruuid: userUUID,
+    });
+  }
+
+  public getOffers(leagueUUID: string, userUUID: string): Observable<any> {
+    return this.api
+      .sendRequest('Market/getOffers', {
+        leagueuuid: leagueUUID,
+        useruuid: userUUID,
+      })
+      .pipe(
+        map((response) => response.offers),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
+
+  public acceptOffer(offer: any): Observable<any> {
+    return this.api.sendRequest('Market/acceptOffer', offer);
+  }
+
+  public rejectOffer(offer: any): Observable<any> {
+    return this.api.sendRequest('Market/rejectOffer', offer);
+  }
 }

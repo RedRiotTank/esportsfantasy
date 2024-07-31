@@ -1,5 +1,6 @@
 .esf-modal {
   background-color: rgb(255, 255, 255);
+
   h1 {
     text-align: center;
     font-weight: 600;
@@ -16,7 +17,6 @@
     border: none;
     font-size: 1rem;
     outline: none;
-    outline: none;
     border-bottom: 2px solid transparent;
     transition: border-bottom-color 0.3s;
   }
@@ -24,6 +24,7 @@
   input:focus {
     border-bottom-color: rgb(229, 80, 0);
   }
+
   button {
     background-color: rgb(229, 80, 0);
     color: white;
@@ -40,5 +41,42 @@
 
   button:hover {
     background-color: rgb(255, 80, 0);
+  }
+
+  .players-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .player {
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .player.selected {
+    background-color: grey;
+    border-color: grey;
+  }
+
+  .player:hover {
+    border-color: black;
+  }
+
+  .player img.avatar {
+    display: block;
+    margin: 0 auto 10px auto;
+    width: 50px; /* Ajusta el tamaño según sea necesario */
+    height: 50px; /* Ajusta el tamaño según sea necesario */
+  }
+
+  .player-username {
+    font-weight: bold;
   }
 }

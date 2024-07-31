@@ -42,7 +42,7 @@ public class UserXLeagueXPlayerServiceTest {
     }
 
     @Test
-    public void setAlignedTest() {
+    public void testSetAligned() {
         UUID userID = UUID.randomUUID();
         UUID leagueID = UUID.randomUUID();
         UUID playerID = UUID.randomUUID();

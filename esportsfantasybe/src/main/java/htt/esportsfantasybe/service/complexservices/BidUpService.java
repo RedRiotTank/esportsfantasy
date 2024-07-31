@@ -23,6 +23,14 @@ public class BidUpService {
         return bidUpRepository.findAllById_LeagueuuidAndId_PlayeruuidAndState(leagueUUID, playerUUID,state);
     }
 
+    public ArrayList<BidUp> getActiveBidUpByLeagueAndPlayer(UUID leagueUUID, UUID playerUUID) {
+        return bidUpRepository.findAllById_LeagueuuidAndId_PlayeruuidAndState(leagueUUID, playerUUID,true);
+    }
+
+    public BidUp activeBidUp(UUID leagueUUID, UUID playerUUID, UUID userUUID) {
+        return bidUpRepository.findById_LeagueuuidAndId_PlayeruuidAndId_BiduseruuidAndState(leagueUUID, playerUUID, userUUID, true);
+    }
+
     public void closeBidUp(BidUp bidUp) {
         bidUp.setState(false);
         bidUpRepository.save(bidUp);
