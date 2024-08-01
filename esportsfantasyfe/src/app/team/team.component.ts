@@ -13,7 +13,7 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
 })
 export class TeamComponent implements OnInit {
   private league: string;
-  public selectedJour: number = 1;
+  public selectedJour: number = this.teamService.currentJour;
 
   constructor(
     private teamService: TeamService,
@@ -96,7 +96,7 @@ export class TeamComponent implements OnInit {
   getLeagueCurrentJourArray() {
     return Array.from(
       { length: this.teamService.currentJour },
-      (_, i) => i + 1
+      (_, i) => this.teamService.currentJour - i
     );
   }
 }

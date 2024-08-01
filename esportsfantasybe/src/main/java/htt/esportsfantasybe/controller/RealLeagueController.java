@@ -66,7 +66,7 @@ public class RealLeagueController {
     @PostMapping(value ="/getRLeagueCurrentJour", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRLeagueCurrentJour(@RequestBody String uuid){
         try{
-            int currentJour = realLeagueService.getRLeagueCurrentJour(uuid);
+            int currentJour = realLeagueService.getRLeagueCurrentJour(uuid) + 1;
 
             return okresponses.getRLeagueCurrentJour(currentJour);
         } catch (Exception e){

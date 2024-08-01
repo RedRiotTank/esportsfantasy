@@ -68,9 +68,10 @@ public class RealLeagueService {
         this.getRLeaguesDB().forEach(league -> {
             int currentJour = eventService.getCurrentJour(league.getUuid());
 
-            if(currentJour == league.getCurrentjour()+1){
+            if(currentJour + 1 == league.getCurrentjour()+1){
                 userXLeagueXPlayerService.playerOwnerJourExtension(league);
             }
+            //currentJour++;
 
             league.setCurrentjour(currentJour);
             realLeagueRepository.save(league);

@@ -78,7 +78,7 @@ public class UserXLeagueXPlayerService {
     }
 
     public void setAligned(UUID userID, UUID leagueID, UUID playerID, int aligned) {
-        int currentJour = leagueRepository.findById(leagueID).get().getRealLeague().getCurrentjour();
+        int currentJour = leagueRepository.findById(leagueID).get().getRealLeague().getCurrentjour() + 1;
 
         UserXLeagueXPlayer old = userXLeagueXPlayerRepository.findById_LeagueuuidAndId_UseruuidAndId_JourAndAligned(leagueID, userID, currentJour, aligned);
 
@@ -95,6 +95,8 @@ public class UserXLeagueXPlayerService {
     }
 
     public void playerOwnerJourExtension(RealLeague rLeague){
+        System.out.println("Jour player extension");
+
         Set<League> leagueset = leagueRepository.findAllByRealLeague(rLeague);
 
         leagueset.forEach(league -> {
@@ -104,7 +106,7 @@ public class UserXLeagueXPlayerService {
                                 userXLeagueXPlayer.getId().getPlayeruuid(),
                                 userXLeagueXPlayer.getId().getLeagueuuid(),
                                 userXLeagueXPlayer.getId().getUseruuid(),
-                                userXLeagueXPlayer.getId().getJour(),
+                                userXLeagueXPlayer.getId().getJour() + 1,
                                 userXLeagueXPlayer.getAligned()
                         );
 

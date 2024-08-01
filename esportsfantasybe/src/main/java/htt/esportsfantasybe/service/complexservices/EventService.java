@@ -123,13 +123,7 @@ public class EventService {
 
         List<Event> events = eventRepository.findAllById_Realleagueuuid(realLeagueUuid);
 
-        Iterator<Event> iterator = events.iterator();
-        while (iterator.hasNext()) {
-            Event event = iterator.next();
-            if (event.getDate().before(now)) {
-                iterator.remove();
-            }
-        }
+        events.removeIf(event -> event.getDate().before(now));
 
         if (events.isEmpty()) return 0;
 
@@ -143,7 +137,7 @@ public class EventService {
                 closestEvent = event;
             }
         }
-        return closestEvent.getId().getJour();
+        return (closestEvent.getId().getJour());
     }
 
     public ArrayList<Integer> getPlayerPointsHistory(UUID playerUUID) {
