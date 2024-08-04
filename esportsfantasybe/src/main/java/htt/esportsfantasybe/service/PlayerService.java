@@ -8,9 +8,19 @@ import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
+import htt.esportsfantasybe.model.complexentities.Market;
+import htt.esportsfantasybe.model.complexentities.PlayerPoints;
+import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
+import htt.esportsfantasybe.model.pojos.PlayerLeaguePOJO;
 import htt.esportsfantasybe.repository.PlayerRepository;
+import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
+import htt.esportsfantasybe.repository.complexrepositories.PlayerPointsRepository;
+import htt.esportsfantasybe.repository.complexrepositories.UserXLeagueXPlayerRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import htt.esportsfantasybe.service.complexservices.PlayerPointsService;
 import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
+import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +39,29 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
+    private PlayerPointsRepository playerPointsRepository;
+    private UserXLeagueXPlayerRepository userXLeagueXPlayerRepository;
+    private MarketRepository marketRepository;
+
     private LolApiCaller lolApiCaller = new LolApiCaller();
 
 
     private final TeamXPlayerService teamXPlayerService;
 
+    private final UserService userService;
+
     @Autowired
-    public PlayerService(TeamXPlayerService teamXPlayerService) {
+    public PlayerService(
+        TeamXPlayerService teamXPlayerService,
+        PlayerPointsRepository playerPointsRepository,
+        UserXLeagueXPlayerRepository userXLeagueXPlayerRepository,
+        MarketRepository marketRepository,
+        UserService userService) {
         this.teamXPlayerService = teamXPlayerService;
+        this.playerPointsRepository = playerPointsRepository;
+        this.userXLeagueXPlayerRepository = userXLeagueXPlayerRepository;
+        this.marketRepository = marketRepository;
+        this.userService = userService;
     }
 
     public void updatePlayers(Team team) {
@@ -57,7 +82,59 @@ public class PlayerService {
 
     }
 
+    public PlayerInfoPOJO getPlayerInfo(PlayerLeaguePOJO playerLeaguePOJO) throws IOException {
 
+        Player player = playerRepository.findById(UUID.fromString(playerLeaguePOJO.getPlayeruuid()))
+                .orElseThrow(() -> new RuntimeException("1008"));
+
+        String playericonB64 = Base64.getEncoder().encodeToString(this.getPlayerIcon(player.getUuid().toString()));
+
+        String ownericonB64 = null;
+        List<UserXLeagueXPlayer> ownerList = null;
+        UserXLeagueXPlayer owner = null;
+        Market market = null;
+
+        if(playerLeaguePOJO.getLeagueuuid() != null) {
+            ownerList = userXLeagueXPlayerRepository.findById_LeagueuuidAndId_Playeruuid(
+                    UUID.fromString(playerLeaguePOJO.getLeagueuuid()),
+                    UUID.fromString(playerLeaguePOJO.getPlayeruuid())
+            );
+
+            //obtain the owner with the biggest jour
+
+            for (UserXLeagueXPlayer userXLeagueXPlayer : ownerList) {
+                if(owner == null || userXLeagueXPlayer.getId().getJour() > owner.getId().getJour())
+                    owner = userXLeagueXPlayer;
+            }
+
+
+
+            ownericonB64 = Base64.getEncoder().encodeToString(userService.getUserPfp(owner.getId().getUseruuid()));
+
+            market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(
+                    UUID.fromString(playerLeaguePOJO.getLeagueuuid()),
+                    UUID.fromString(playerLeaguePOJO.getPlayeruuid())
+            );
+
+        }
+
+        return new PlayerInfoPOJO(
+                player.getUuid(),
+                player.getUsername(),
+                player.getFullname(),
+                player.getRole(),
+                playericonB64,
+                player.getTeams().stream().map(Team::getUuid).toList(),
+                player.getValue(),
+                playerPointsRepository.findAllById_Playeruuid(player.getUuid()),
+
+                UUID.fromString(owner != null ? owner.getId().getUseruuid().toString() : "null"),
+                owner != null ? userService.getUser(owner.getId().getUseruuid()).getUsername() : "null",
+                ownericonB64,
+                market != null ? market.getClause() : player.getValue()
+        );
+
+    }
 
     public void downloadPlayerImage(Player player) throws IOException {
         String op = player.getUsername().replace(" ", "_");

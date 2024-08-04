@@ -314,4 +314,50 @@ public class okresponses {
         okjson.addProperty("message", "offer rejected correctly");
         return ResponseEntity.ok(okjson.toString());
     }
+
+    public static ResponseEntity<?> getPlayerInfo(PlayerInfoPOJO pInfo){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "got player info correctly");
+
+
+        okjson.addProperty("uuid", pInfo.getUuid().toString());
+        okjson.addProperty("name", pInfo.getName());
+        okjson.addProperty("fullName", pInfo.getFullName());
+        okjson.addProperty("role", pInfo.getRole());
+        okjson.addProperty("icon", pInfo.getIcon());
+        okjson.addProperty("teamsList", pInfo.getTeamsList().toString());
+        okjson.addProperty("price", pInfo.getPrice());
+
+        JsonArray pointsArray = new JsonArray();
+        pInfo.getPlayerPoints().forEach( p ->{
+            JsonObject point = new JsonObject();
+            point.addProperty("event", p.getId().getMatchid().toString());
+            point.addProperty("points", p.getPoints());
+            pointsArray.add(point);
+        });
+
+        okjson.add("playerPoints", pointsArray);
+
+        if(pInfo.getOwnerUUID() != null) {
+            okjson.addProperty("ownerUUID", pInfo.getOwnerUUID().toString());
+            okjson.addProperty("ownerUsername", pInfo.getOwnerUsername());
+            okjson.addProperty("ownerIcon", pInfo.getOwnerIcon());
+            okjson.addProperty("clause", pInfo.getClause());
+        }
+        else {
+            okjson.addProperty("ownerUUID", "null");
+            okjson.addProperty("ownerUsername", "null");
+            okjson.addProperty("ownerIcon", "null");
+            okjson.addProperty("clause", "null");
+        }
+
+
+
+
+
+        return ResponseEntity.ok(okjson.toString());
+
+    }
 }

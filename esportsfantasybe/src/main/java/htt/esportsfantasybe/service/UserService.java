@@ -213,6 +213,29 @@ public class UserService {
             return imageBytes;
     }
 
+    public byte[] getUserPfp(UUID useruuid) throws IOException {
+        Path imagePath;
+        imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/pfp/default.png"));
+            } catch (IOException ioException) {
+                try {
+                    imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                } catch (IOException exception) {
+                    throw new RuntimeException();
+                }
+            }
+        }
+        return imageBytes;
+    }
+
     public UserDTO getUser(String mail){
         Optional<User> user = userRepository.findByMail(mail);
 
