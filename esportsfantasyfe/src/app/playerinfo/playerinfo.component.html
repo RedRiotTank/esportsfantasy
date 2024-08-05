@@ -1,0 +1,75 @@
+<!-- playerinfo.component.html -->
+<div class="player-card-container">
+  <div class="player-header">
+    <img
+      [src]="'data:image/png;base64,' + playerInfo.icon"
+      alt="Player Icon"
+      class="player-icon"
+    />
+    <h1 class="player-username">{{ playerInfo.username }}</h1>
+  </div>
+  <div class="player-details">
+    <div class="player-detail">
+      <strong>Full Name:</strong> {{ playerInfo.fullName }}
+    </div>
+    <div class="player-detail">
+      <strong>Price:</strong> {{ playerInfo.price }}
+    </div>
+    <div class="player-detail">
+      <strong>Clause:</strong> {{ playerInfo.clause }}
+    </div>
+    <div class="player-detail">
+      <img
+        *ngIf="checkImageExists(playerInfo)"
+        [ngClass]="{
+          'role-icon': checkImageExists(playerInfo),
+          'role-icon-unknown': !checkImageExists(playerInfo)
+        }"
+        [src]="'assets/positions-icons/' + playerInfo.role + '.webp'"
+        [alt]="playerInfo.role"
+        class="role-icon"
+      />
+    </div>
+    <div class="player-detail">
+      <strong>Team:</strong> {{ playerInfo.teamList }}
+    </div>
+  </div>
+
+  <div class="player-points-list">
+    <h2>Point History</h2>
+    <div *ngFor="let point of playerInfo.playerPoints" class="player-point">
+      <div class="event">{{ point.event }}</div>
+      <div
+        class="points"
+        [ngClass]="{
+          'points-red': point.points > 0 && point.points <= 30,
+          'points-orange': point.points > 30 && point.points <= 50,
+          'points-green': point.points > 50,
+          'points-gray': point.points === 0
+        }"
+      >
+        {{ point.points }}
+      </div>
+    </div>
+    <div *ngIf="playerInfo.playerPoints.length === 0" class="no-points">
+      No points history available
+    </div>
+  </div>
+
+  <!-- Clause Option Section -->
+  <div
+    *ngIf="playerInfo.ownerUsername != 'null' && playerInfo.ownerIcon != 'null'"
+    class="clause-option"
+  >
+    <h2>Clause Option</h2>
+    <div class="owner-info">
+      <img
+        [src]="'data:image/png;base64,' + playerInfo.ownerIcon"
+        alt="Owner Icon"
+        class="owner-icon"
+      />
+      <span class="owner-username">{{ playerInfo.ownerUsername }}</span>
+    </div>
+    <button class="esf-ibutton">{{ playerInfo.clause }}</button>
+  </div>
+</div>

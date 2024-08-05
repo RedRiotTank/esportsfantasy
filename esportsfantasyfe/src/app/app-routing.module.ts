@@ -11,6 +11,7 @@ import { JoinLeagueComponent } from './join-league/join-league.component';
 import { MarketComponent } from './market/market.component';
 import { TeamComponent } from './team/team.component';
 import { MatchsComponent } from './matchs/matchs.component';
+import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -27,7 +28,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: 'market', component: MarketComponent, canActivate: [authGuard] },
   { path: 'team', component: TeamComponent, canActivate: [authGuard] },
-
+  { path: 'playerinfo/:id', component: PlayerinfoComponent },
   { path: 'error', component: EsfErrorComponent },
 ];
 

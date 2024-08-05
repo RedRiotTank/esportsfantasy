@@ -1,0 +1,131 @@
+/* playerinfo.component.scss */
+.player-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.player-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.player-icon {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.player-username {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.player-detail {
+  margin-bottom: 10px;
+}
+
+.player-detail strong {
+  margin-right: 5px;
+}
+
+.player-points-list {
+  margin-top: 20px;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.player-point {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.points {
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  width: 50px;
+  text-align: center;
+  padding: 3% 5%;
+}
+
+.points-green {
+  background-color: green;
+}
+
+.points-orange {
+  background-color: orange;
+}
+
+.points-red {
+  background-color: red;
+}
+
+.points-gray {
+  background-color: gray;
+}
+
+.no-points {
+  color: gray;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.clause-option {
+  margin-top: 20px;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.owner-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.owner-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.owner-username {
+  font-size: 18px;
+  font-weight: bold;
+}

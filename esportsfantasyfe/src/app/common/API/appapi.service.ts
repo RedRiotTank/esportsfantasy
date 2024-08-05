@@ -327,6 +327,24 @@ export class AppapiService {
     });
   }
 
+  public getPlayerInfo(
+    playerUuid: String,
+    leagueUuid: String
+  ): Observable<any> {
+    return this.api
+      .sendRequest('Player/getPlayerInfo', {
+        playeruuid: playerUuid,
+        leagueuuid: leagueUuid,
+      })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
+
   // --- MARKET ---
   public bidPlayer(
     playerUUID: String,

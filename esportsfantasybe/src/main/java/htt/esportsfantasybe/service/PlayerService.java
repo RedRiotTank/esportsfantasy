@@ -107,9 +107,8 @@ public class PlayerService {
                     owner = userXLeagueXPlayer;
             }
 
-
-
-            ownericonB64 = Base64.getEncoder().encodeToString(userService.getUserPfp(owner.getId().getUseruuid()));
+            if(owner != null)
+                ownericonB64 = Base64.getEncoder().encodeToString(userService.getUserPfp(owner.getId().getUseruuid()));
 
             market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(
                     UUID.fromString(playerLeaguePOJO.getLeagueuuid()),
@@ -128,7 +127,7 @@ public class PlayerService {
                 player.getValue(),
                 playerPointsRepository.findAllById_Playeruuid(player.getUuid()),
 
-                UUID.fromString(owner != null ? owner.getId().getUseruuid().toString() : "null"),
+                owner != null ? owner.getId().getUseruuid() : null,
                 owner != null ? userService.getUser(owner.getId().getUseruuid()).getUsername() : "null",
                 ownericonB64,
                 market != null ? market.getClause() : player.getValue()

@@ -6,6 +6,7 @@ import { SellplayerModalComponent } from './sellplayer-modal/sellplayer-modal.co
 import { TeamService } from '../team/team.service';
 import { CredentialsService } from '../credentials/credentials.service';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-market',
@@ -20,7 +21,8 @@ export class MarketComponent implements OnInit {
     public dialog: MatDialog,
     public teamService: TeamService,
     public credentialsService: CredentialsService,
-    public leagueListService: LeagueListServiceService
+    public leagueListService: LeagueListServiceService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -109,5 +111,10 @@ export class MarketComponent implements OnInit {
     };
 
     this.marketService.rejectOffer(dOffer);
+  }
+
+  gotoPlayerInfo(uuid: string) {
+    console.log('gotoPlayerInfo', uuid);
+    this.router.navigate(['/playerinfo', uuid]);
   }
 }

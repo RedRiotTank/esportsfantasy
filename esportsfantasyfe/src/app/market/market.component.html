@@ -67,7 +67,12 @@
   </div>
 
   <div class="playerContainer" *ngFor="let player of getMarketPlayers()">
-    <img src="{{ player.icon }}" alt="" class="playerIcon" />
+    <img
+      src="{{ player.icon }}"
+      alt=""
+      class="playerIcon"
+      (click)="gotoPlayerInfo(player.uuid)"
+    />
 
     <div class="playerInfo">
       <p class="playerUsername">{{ player.name }}</p>
