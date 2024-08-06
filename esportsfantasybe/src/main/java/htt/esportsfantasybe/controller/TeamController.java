@@ -2,8 +2,11 @@ package htt.esportsfantasybe.controller;
 
 import com.google.gson.JsonObject;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerLeaguePOJO;
+import htt.esportsfantasybe.model.pojos.TeamInfoPOJO;
 import htt.esportsfantasybe.responses.koresponses;
+import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,5 +51,16 @@ public class TeamController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/getTeamInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTeamInfo(@RequestBody String teamuuid){
+        try{
+            TeamInfoPOJO tInfo = teamService.getTeamInfo(teamuuid);
+
+            return okresponses.getTeamInfo(tInfo);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
 
 }

@@ -114,7 +114,6 @@ export class MarketComponent implements OnInit {
   }
 
   gotoPlayerInfo(uuid: string) {
-    console.log('gotoPlayerInfo', uuid);
     this.router.navigate(['/playerinfo', uuid]);
   }
 }

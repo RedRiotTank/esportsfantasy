@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 
@@ -13,12 +13,14 @@ export class PlayerinfoComponent implements OnInit {
 
   playerInfo: any = {};
 
+  teamListInfo: any[] = [];
   private roleIconsCache: { [role: string]: boolean } = {};
 
   constructor(
     private route: ActivatedRoute,
     private appApiService: AppapiService,
-    private leaguelistService: LeagueListServiceService
+    private leaguelistService: LeagueListServiceService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +47,19 @@ export class PlayerinfoComponent implements OnInit {
           ownerUsername: response.ownerUsername,
           ownerIcon: response.ownerIcon,
         };
+
+        console.log(this.playerInfo);
+
+        this.playerInfo.teamList.forEach((teamUuid: string) => {
+          console.log('teamuuid is: ', teamUuid);
+          this.appApiService.getTeamInfo(teamUuid).subscribe((response) => {
+            this.teamListInfo.push({
+              uuid: response.uuid,
+              shortName: response.shortName,
+              icon: response.icon,
+            });
+          });
+        });
       });
   }
 
@@ -63,5 +78,9 @@ export class PlayerinfoComponent implements OnInit {
     this.roleIconsCache[role] = exists;
 
     return exists;
+  }
+
+  navigateToTeamInfo(uuid: string) {
+    this.router.navigate(['/teaminfo', uuid]);
   }
 }

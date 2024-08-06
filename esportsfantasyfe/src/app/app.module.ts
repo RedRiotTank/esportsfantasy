@@ -38,6 +38,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatchsComponent } from './matchs/matchs.component';
 import { SellplayerModalComponent } from './market/sellplayer-modal/sellplayer-modal.component';
 import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
+import { TeaminfoComponent } from './teaminfo/teaminfo.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +58,7 @@ import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
     MatchsComponent,
     SellplayerModalComponent,
     PlayerinfoComponent,
+    TeaminfoComponent,
   ],
   imports: [
     BrowserModule,

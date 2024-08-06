@@ -345,6 +345,16 @@ export class AppapiService {
       );
   }
 
+  public getTeamInfo(teamUuid: string): Observable<any> {
+    return this.api.sendRequest('Team/getTeamInfo', teamUuid).pipe(
+      map((response) => response),
+      catchError((error) => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
+
   // --- MARKET ---
   public bidPlayer(
     playerUUID: String,

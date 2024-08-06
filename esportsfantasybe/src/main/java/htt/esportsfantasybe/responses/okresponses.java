@@ -8,6 +8,7 @@ import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.model.pojos.*;
+import htt.esportsfantasybe.service.PlayerService;
 import org.springframework.http.ResponseEntity;
 
 import java.util.*;
@@ -327,7 +328,14 @@ public class okresponses {
         okjson.addProperty("fullName", pInfo.getFullName());
         okjson.addProperty("role", pInfo.getRole());
         okjson.addProperty("icon", pInfo.getIcon());
-        okjson.addProperty("teamsList", pInfo.getTeamsList().toString());
+        //okjson.addProperty("teamsList", pInfo.getTeamsList().toString());
+        JsonArray teamsArray = new JsonArray();
+        pInfo.getTeamsList().forEach( t ->{
+            teamsArray.add(t.toString());
+        });
+        okjson.add("teamsList", teamsArray);
+
+
         okjson.addProperty("price", pInfo.getPrice());
 
         JsonArray pointsArray = new JsonArray();
@@ -359,5 +367,39 @@ public class okresponses {
 
         return ResponseEntity.ok(okjson.toString());
 
+    }
+
+    public static ResponseEntity<?> getTeamInfo(TeamInfoPOJO pInfo){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "got team info correctly");
+
+        okjson.addProperty("uuid", pInfo.getUuid().toString());
+        okjson.addProperty("name", pInfo.getName());
+        okjson.addProperty("shortName", pInfo.getShortName());
+        okjson.addProperty("game", pInfo.getGame());
+        okjson.addProperty("icon", pInfo.getIcon());
+
+        JsonArray playersArray = new JsonArray();
+        pInfo.getPlayers().forEach( p ->{
+            JsonObject player = new JsonObject();
+            player.addProperty("uuid", p.getUuid().toString());
+            player.addProperty("name", p.getUsername());
+            player.addProperty("role", p.getRole());
+
+            byte[] img = PlayerService.getPlayerIconStatic(p.getUuid().toString());
+
+            String pIcon = Base64.getEncoder().encodeToString(img);
+
+            player.addProperty("playerIcon", pIcon);
+
+
+            playersArray.add(player);
+        });
+
+        okjson.add("players", playersArray);
+
+        return ResponseEntity.ok(okjson.toString());
     }
 }

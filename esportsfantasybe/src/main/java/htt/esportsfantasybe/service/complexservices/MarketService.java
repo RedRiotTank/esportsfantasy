@@ -60,7 +60,7 @@ public class MarketService {
     public void initMarket(LeagueDTO league){
         league.getRealLeagueDTO().getTeams().forEach(team -> {
             team.getPlayers().forEach(player -> {
-                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, 0, false, player.getValue()));
+                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, player.getValue() + ((int) (    player.getValue() + (float) player.getValue() * (2/3)  ) ), false, player.getValue()));
 
             });
         });

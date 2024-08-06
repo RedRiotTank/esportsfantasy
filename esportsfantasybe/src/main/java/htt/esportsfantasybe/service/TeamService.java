@@ -5,6 +5,7 @@ import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
+import htt.esportsfantasybe.model.pojos.TeamInfoPOJO;
 import htt.esportsfantasybe.repository.TeamRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.TeamXrLeagueService;
@@ -41,11 +42,16 @@ public class TeamService {
 
     }
 
-    public TeamDTO getTeam(UUID teamuuid){
+    public TeamDTO getTeamDTO(UUID teamuuid){
         Optional<Team> team = teamRepository.findById(teamuuid);
 
         return team.map(TeamDTO::new).orElse(null);
 
+    }
+
+    public Team getTeam(UUID teamUuid){
+        Optional<Team> team = teamRepository.findById(teamUuid);
+        return team.orElseThrow(() -> new RuntimeException("1019"));
     }
 
     public TeamDTO getTeamDataDB(String teamname){
@@ -143,5 +149,24 @@ public class TeamService {
             }
         }
         return imageBytes;
+    }
+
+    public TeamInfoPOJO getTeamInfo(String teamuuid){
+        Team t = getTeam(UUID.fromString(teamuuid));
+
+        byte[] image = getTeamIcon(t.getUuid());
+
+        String teamIcon = Base64.getEncoder().encodeToString(image);
+
+        return new TeamInfoPOJO(
+            t.getUuid(),
+            t.getName(),
+            t.getShortname(),
+            t.getGame(),
+            teamIcon,
+            t.getPlayers(),
+            t.getLeagues()
+        );
+
     }
 }

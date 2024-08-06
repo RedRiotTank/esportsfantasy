@@ -45,8 +45,8 @@ public class EventService {
         eventRepository.findAllById_Realleagueuuid(leagueuuid).forEach(
             event ->{
 
-                TeamDTO t1 = teamService.getTeam(event.getId().getTeam1uuid());
-                TeamDTO t2 = teamService.getTeam(event.getId().getTeam2uuid());
+                TeamDTO t1 = teamService.getTeamDTO(event.getId().getTeam1uuid());
+                TeamDTO t2 = teamService.getTeamDTO(event.getId().getTeam2uuid());
 
                 byte[] t1icon = teamService.getTeamIcon(t1.getUuid());
                 byte[] t2icon = teamService.getTeamIcon(t2.getUuid());

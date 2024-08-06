@@ -1,0 +1,43 @@
+<div class="team-card-container">
+  <div class="team-header">
+    <img
+      [src]="'data:image/png;base64,' + teamInfo.icon"
+      alt="Team Icon"
+      class="team-icon"
+    />
+    <h1 class="team-name">{{ teamInfo.name }}</h1>
+  </div>
+  <div class="team-details">
+    <div class="team-detail">
+      <strong>Players:</strong> {{ teamInfo.players.length }}
+    </div>
+  </div>
+  <h2>Players</h2>
+  <div class="team-players-list">
+    <div *ngFor="let player of teamInfo.players" class="team-player">
+      <div (click)="gotoPlayerInfo(player.uuid)">
+        <img
+          [src]="'data:image/png;base64,' + player.playerIcon"
+          alt="Player Icon"
+          class="player-icon"
+        />
+        <div class="player-name">{{ player.name }}</div>
+        <div class="player-role">
+          <img
+            *ngIf="checkImageExists(player)"
+            [ngClass]="{
+              'role-icon': checkImageExists(player),
+              'role-icon-unknown': !checkImageExists(player)
+            }"
+            [src]="'assets/positions-icons/' + player.role + '.webp'"
+            [alt]="player.role"
+            class="role-icon"
+          />
+        </div>
+      </div>
+    </div>
+    <div *ngIf="teamInfo.players.length === 0" class="no-players">
+      No players available
+    </div>
+  </div>
+</div>

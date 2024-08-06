@@ -1,0 +1,94 @@
+.team-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.team-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.team-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.team-name {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.team-detail {
+  margin: 5px 0;
+}
+
+.team-players-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.team-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  width: 150px;
+}
+
+.team-player:hover {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.team-player img.player-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.team-player .player-name {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.team-player .player-role img {
+  width: 30px;
+  height: 30px;
+}
+
+.team-player .player-points {
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.no-players {
+  text-align: center;
+  color: #888;
+  margin-top: 20px;
+}

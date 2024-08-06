@@ -30,9 +30,7 @@
         class="role-icon"
       />
     </div>
-    <div class="player-detail">
-      <strong>Team:</strong> {{ playerInfo.teamList }}
-    </div>
+    <div class="player-detail"><strong>Team:</strong> equiopi</div>
   </div>
 
   <div class="player-points-list">
@@ -71,5 +69,15 @@
       <span class="owner-username">{{ playerInfo.ownerUsername }}</span>
     </div>
     <button class="esf-ibutton">{{ playerInfo.clause }}</button>
+  </div>
+
+  <div *ngFor="let team of teamListInfo" class="team-info">
+    <img
+      [src]="'data:image/png;base64,' + team.icon"
+      alt="Team Icon"
+      class="team-icon"
+      (click)="navigateToTeamInfo(team.uuid)"
+    />
+    <h3>{{ team.shortName }}</h3>
   </div>
 </div>

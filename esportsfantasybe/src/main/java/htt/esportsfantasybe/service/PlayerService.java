@@ -194,6 +194,25 @@ public class PlayerService {
         return imageBytes;
     }
 
+    public static byte[] getPlayerIconStatic(String uuid) {
+        Path imagePath;
+
+        imagePath = Paths.get("src/main/resources/media/players/" + uuid + ".png");
+
+        byte[] imageBytes;
+
+        try {
+            imageBytes = Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            try {
+                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+            } catch (IOException ioException) {
+                throw new RuntimeException();
+            }
+        }
+        return imageBytes;
+    }
     public static int getDefaultValue() {
         return DEFAULT_VALUE;
     }
