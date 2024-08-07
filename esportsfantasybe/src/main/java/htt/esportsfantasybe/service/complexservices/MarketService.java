@@ -9,6 +9,8 @@ import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.complexkeysmodels.MarketId;
+import htt.esportsfantasybe.model.pojos.ClausePOJO;
+import htt.esportsfantasybe.model.pojos.IncreaseClausePOJO;
 import htt.esportsfantasybe.model.pojos.OfferResponsePOJO;
 import htt.esportsfantasybe.model.pojos.UserOffer;
 import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
@@ -251,6 +253,52 @@ public class MarketService {
         BidUp bidUp = bidUpService.activeBidUp(offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid(), offerResponsePOJO.getBiduseruuid());
         userXLeagueService.addMoney(bidUp.getId().getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), bidUp.getBid());
         bidUpService.closeBidUp(bidUp);
+
+
+    }
+
+    public void clausePlayer(ClausePOJO orPOJO){
+        userXLeagueService.discountMoney(orPOJO.getBiduseruuid(), orPOJO.getLeagueuuid(), orPOJO.getValue());
+        changeProperty(orPOJO.getUseruuid(), orPOJO.getBiduseruuid(), orPOJO.getLeagueuuid(), orPOJO.getPlayeruuid(), orPOJO.getJour());
+        userXLeagueService.addMoney(orPOJO.getUseruuid(), orPOJO.getLeagueuuid(), orPOJO.getValue());
+
+        Market playermarket = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(orPOJO.getLeagueuuid(), orPOJO.getPlayeruuid());
+
+        playermarket.setClause((int) (playermarket.getClause() + playermarket.getClause() * 0.3));
+
+        marketRepository.save(playermarket);
+    }
+
+    public void increaseClause(IncreaseClausePOJO increaseClausePOJO){
+
+        Market playermarket = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(increaseClausePOJO.getLeagueUuid(), increaseClausePOJO.getPlayerUuid());
+
+        int cost = 0;
+
+        switch (increaseClausePOJO.getIncreaseType()) {
+            case 1:
+                playermarket.setClause((int) (playermarket.getClause() + ( (float) playermarket.getClause() * (1.0f / 4.0f))));
+                cost = (int) ( (float) playermarket.getClause() * (1.0f / 4.0f) * (5.0f / 6.0f));
+                break;
+            case 2:
+                playermarket.setClause((int) (playermarket.getClause() + ((float) playermarket.getClause() * (1.0f / 3.0f))));
+                cost = (int) ( (float) playermarket.getClause() * (1.0f / 3.0f) * (4.0f / 6.0f));
+                break;
+            case 3:
+                playermarket.setClause((int) (playermarket.getClause() + ((float) playermarket.getClause() * (1.0f / 2.0f))));
+                cost = (int) ( (float) playermarket.getClause() * (1.0f / 2.0f) * (3.0f / 6.0f));
+                break;
+            case 4:
+                playermarket.setClause(playermarket.getClause() * 2);
+                cost = (int) ( (float) playermarket.getClause() * (1.0f / 2.0f) * (3.0f / 6.0f));
+                break;
+        }
+
+
+        userXLeagueService.discountMoney(increaseClausePOJO.getUserUuid(), increaseClausePOJO.getLeagueUuid(), cost);
+
+
+        marketRepository.save(playermarket);
 
 
     }

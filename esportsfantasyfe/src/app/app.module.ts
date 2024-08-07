@@ -39,6 +39,7 @@ import { MatchsComponent } from './matchs/matchs.component';
 import { SellplayerModalComponent } from './market/sellplayer-modal/sellplayer-modal.component';
 import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
 import { TeaminfoComponent } from './teaminfo/teaminfo.component';
+import { ClausePlayerModalComponent } from './playerinfo/clause-player-modal/clause-player-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +60,7 @@ import { TeaminfoComponent } from './teaminfo/teaminfo.component';
     SellplayerModalComponent,
     PlayerinfoComponent,
     TeaminfoComponent,
+    ClausePlayerModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -426,4 +426,36 @@ export class AppapiService {
   public rejectOffer(offer: any): Observable<any> {
     return this.api.sendRequest('Market/rejectOffer', offer);
   }
+
+  public clausePlayer(
+    playerUUID: String,
+    leagueUUID: String,
+    userUUID: String,
+    newUserUUID: String,
+    jour: number,
+    value: number
+  ): Observable<any> {
+    return this.api.sendRequest('Market/clausePlayer', {
+      playeruuid: playerUUID,
+      leagueuuid: leagueUUID,
+      useruuid: userUUID,
+      biduseruuid: newUserUUID,
+      jour: jour,
+      value: value,
+    });
+  }
+
+  public increaseClause(
+    playerUUID: String,
+    leagueUUID: String,
+    userUUID: String,
+    increaseType: number
+  ): Observable<any> {
+    return this.api.sendRequest('Market/increaseClause', {
+      playerUuid: playerUUID,
+      leagueUuid: leagueUUID,
+      userUuid: userUUID,
+      increaseType: increaseType,
+    });
+  }
 }

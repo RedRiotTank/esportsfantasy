@@ -402,4 +402,12 @@ public class okresponses {
 
         return ResponseEntity.ok(okjson.toString());
     }
+
+    public static ResponseEntity<?> clausePlayer(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "player clausulated correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
 }

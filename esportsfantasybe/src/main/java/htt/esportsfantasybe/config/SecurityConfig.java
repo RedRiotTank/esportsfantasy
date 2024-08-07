@@ -58,6 +58,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/Market/getOffers").permitAll()
                 .requestMatchers("/api/Market/acceptOffer").permitAll()
                 .requestMatchers("/api/Market/rejectOffer").permitAll()
+                .requestMatchers("/api/Market/clausePlayer").permitAll()
+                .requestMatchers("/api/Market/increaseClause").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/TeamInfo").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
                 .requestMatchers("/api/events/getEvents").permitAll()

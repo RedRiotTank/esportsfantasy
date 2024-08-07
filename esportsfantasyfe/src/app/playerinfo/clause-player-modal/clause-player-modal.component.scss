@@ -1,0 +1,92 @@
+:host ::ng-deep .p-slider-handle {
+  border-color: rgb(229, 80, 0);
+}
+:host ::ng-deep .p-slider .p-slider-handle:hover {
+  border-color: rgb(229, 80, 0);
+  background: rgb(229, 80, 0);
+}
+
+:host ::ng-deep .p-slider-horizontal .p-slider-range {
+  background-color: rgb(229, 80, 0);
+}
+
+.esf-modal {
+  background-color: rgb(255, 255, 255);
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  p {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: black;
+  }
+  .player-icon-container {
+    text-align: center;
+    .player-icon {
+      width: 200px;
+      height: auto;
+      border-radius: 50%;
+    }
+  }
+
+  .owner-icon {
+    width: 30px;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .disabled {
+    background-color: lightgray !important;
+    color: black !important;
+  }
+
+  .disabled:hover {
+    cursor: none;
+  }
+
+  button {
+    background-color: rgb(229, 80, 0);
+    color: white;
+    border-radius: 20px;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 auto;
+    padding: 0.5rem 4rem;
+  }
+
+  button:hover {
+    background-color: rgb(255, 80, 0);
+  }
+
+  .clausesIncrease-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-items: center;
+
+    p {
+      text-align: center;
+      margin: 5px;
+      padding: 10px;
+      border: 1px solid lightgray;
+      border-radius: 70%;
+      cursor: pointer;
+    }
+    p:hover {
+      background-color: lightgray;
+    }
+
+    .clauseIncrease-selected {
+      background-color: gray;
+    }
+  }
+}

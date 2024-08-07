@@ -56,7 +56,11 @@
 
   <!-- Clause Option Section -->
   <div
-    *ngIf="playerInfo.ownerUsername != 'null' && playerInfo.ownerIcon != 'null'"
+    *ngIf="
+      playerInfo.ownerUsername != 'null' &&
+      playerInfo.ownerIcon != 'null' &&
+      playerInfo.ownerUUID != credentialsService.getUserUUID()
+    "
     class="clause-option"
   >
     <h2>Clause Option</h2>
@@ -68,9 +72,28 @@
       />
       <span class="owner-username">{{ playerInfo.ownerUsername }}</span>
     </div>
-    <button class="esf-ibutton">{{ playerInfo.clause }}</button>
+    <button class="esf-ibutton" (click)="clausePlayerOpenModal(false)">
+      {{ playerInfo.clause }}
+    </button>
   </div>
 
+  <div
+    class="clause-option"
+    *ngIf="
+      playerInfo.ownerUsername != 'null' &&
+      playerInfo.ownerIcon != 'null' &&
+      playerInfo.ownerUUID == credentialsService.getUserUUID()
+    "
+  >
+    <h2>Your cluase for {{ playerInfo.username }}</h2>
+    <h3>{{ playerInfo.clause }}</h3>
+
+    <button class="esf-ibutton" (click)="clausePlayerOpenModal(true)">
+      UPDATE
+    </button>
+  </div>
+
+  <!-- team info Option Section -->
   <div *ngFor="let team of teamListInfo" class="team-info">
     <img
       [src]="'data:image/png;base64,' + team.icon"

@@ -1,10 +1,6 @@
 package htt.esportsfantasybe.controller;
 
-import htt.esportsfantasybe.DTO.UserDTO;
-import htt.esportsfantasybe.model.pojos.BidupPOJO;
-import htt.esportsfantasybe.model.pojos.OfferResponsePOJO;
-import htt.esportsfantasybe.model.pojos.UserLeaguePOJO;
-import htt.esportsfantasybe.model.pojos.UserOffer;
+import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.complexservices.MarketService;
@@ -13,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -104,6 +99,29 @@ public class MarketController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/clausePlayer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> clausePlayer(@RequestBody ClausePOJO clausePOJO){
+        try {
+            marketService.clausePlayer(clausePOJO);
+
+            return okresponses.clausePlayer();
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(value ="/increaseClause", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> increaseClause(@RequestBody IncreaseClausePOJO increaseClausePOJO){
+        try {
+            marketService.increaseClause(increaseClausePOJO);
+
+            return okresponses.clausePlayer();
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
 }
 
 

@@ -1,0 +1,88 @@
+<div class="esf-modal">
+  <div *ngIf="data.update == false">
+    <h1 mat-dialog-title>
+      ¿Are you sure you wanna clause {{ data.playerName }}?
+    </h1>
+    <div mat-dialog-content>
+      <div class="player-icon-container">
+        <img
+          [src]="'data:image/png;base64,' + data.playerIcon"
+          alt="Player Icon"
+          class="player-icon"
+        />
+      </div>
+
+      <p>
+        This player is currently property of
+        {{ data.ownerName }}
+        <img
+          [src]="'data:image/png;base64,' + data.ownerIcon"
+          alt="Player Icon"
+          class="owner-icon"
+        />
+      </p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeModal()">Cancel</button>
+      <button mat-button (click)="clausePlayer()">Clause</button>
+    </div>
+  </div>
+
+  <div *ngIf="data.update == true">
+    <h1 mat-dialog-title>Increase {{ data.playerName }} clause</h1>
+
+    <div mat-dialog-content>
+      <div class="player-icon-container">
+        <img
+          [src]="'data:image/png;base64,' + data.playerIcon"
+          alt="Player Icon"
+          class="player-icon"
+        />
+      </div>
+
+      <div class="clausesIncrease-options">
+        <p
+          (click)="selectedClauseIncrease = 1"
+          [class.clauseIncrease-selected]="selectedClauseIncrease == 1"
+        >
+          +1/4
+        </p>
+        <p
+          (click)="selectedClauseIncrease = 2"
+          [class.clauseIncrease-selected]="selectedClauseIncrease == 2"
+        >
+          +1/3
+        </p>
+        <p
+          (click)="selectedClauseIncrease = 3"
+          [class.clauseIncrease-selected]="selectedClauseIncrease == 3"
+        >
+          +1/2
+        </p>
+        <p
+          (click)="selectedClauseIncrease = 4"
+          [class.clauseIncrease-selected]="selectedClauseIncrease == 4"
+        >
+          +1
+        </p>
+      </div>
+
+      <div class="increase-results">
+        <p>Currennt clause: {{ data.clause }}</p>
+        <p>New clause: {{ calculatePlayerClauseIncrease() }}</p>
+        <p>Costs: {{ calculatePlayerClauseIncreaseCost() }}</p>
+      </div>
+    </div>
+
+    <div mat-dialog-actions>
+      <button
+        mat-button
+        (click)="increaseClause()"
+        [disabled]="selectedClauseIncrease == 0"
+        [class.disabled]="selectedClauseIncrease == 0"
+      >
+        confirm
+      </button>
+    </div>
+  </div>
+</div>

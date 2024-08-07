@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ClausePlayerModalComponent } from './clause-player-modal/clause-player-modal.component';
+import { CredentialsService } from '../credentials/credentials.service';
 
 @Component({
   selector: 'app-playerinfo',
@@ -20,7 +23,9 @@ export class PlayerinfoComponent implements OnInit {
     private route: ActivatedRoute,
     private appApiService: AppapiService,
     private leaguelistService: LeagueListServiceService,
-    public router: Router
+    public router: Router,
+    public dialog: MatDialog,
+    public credentialsService: CredentialsService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +49,7 @@ export class PlayerinfoComponent implements OnInit {
             event: point.event.replace(/_/g, ' '),
             points: point.points,
           })),
+          ownerUUID: response.ownerUUID,
           ownerUsername: response.ownerUsername,
           ownerIcon: response.ownerIcon,
         };
@@ -82,5 +88,24 @@ export class PlayerinfoComponent implements OnInit {
 
   navigateToTeamInfo(uuid: string) {
     this.router.navigate(['/teaminfo', uuid]);
+  }
+
+  clausePlayerOpenModal(update: boolean): void {
+    const dialogRef = this.dialog.open(ClausePlayerModalComponent, {
+      width: '800px',
+      height: 'auto',
+      data: {
+        update: update,
+        playerName: this.playerInfo.username,
+        playerUUID: this.playerInfo.uuid,
+        playerIcon: this.playerInfo.icon,
+        clause: this.playerInfo.clause,
+        ownerUUID: this.playerInfo.ownerUUID,
+        ownerName: this.playerInfo.ownerUsername,
+        ownerIcon: this.playerInfo.ownerIcon,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
