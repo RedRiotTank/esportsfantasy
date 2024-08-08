@@ -92,7 +92,7 @@ public class TeamService {
     }
 
     public byte[] getPlayerTeamIcon(String playeruuid, String leagueuuid){
-        PlayerDTO playerDTO = playerService.getPlayer(UUID.fromString(playeruuid));
+        PlayerDTO playerDTO = playerService.getPlayerDTO(UUID.fromString(playeruuid));
 
         if(playerDTO == null) throw new RuntimeException("1018");
 

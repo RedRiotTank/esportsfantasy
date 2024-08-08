@@ -72,6 +72,11 @@
           <span>MARKET</span></a
         >
       </li>
+      <li>
+        <a (click)="goToRanking()"
+          ><i class="fa-solid fa-trophy"></i> <span>RANKING</span></a
+        >
+      </li>
 
       <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil" />
     </ul>

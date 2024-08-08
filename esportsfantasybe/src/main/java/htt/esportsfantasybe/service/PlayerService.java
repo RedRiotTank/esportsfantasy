@@ -1,15 +1,10 @@
 package htt.esportsfantasybe.service;
 
-import com.google.gson.JsonArray;
 import htt.esportsfantasybe.DTO.PlayerDTO;
-import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
-import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
-import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.complexentities.Market;
-import htt.esportsfantasybe.model.complexentities.PlayerPoints;
 import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerLeaguePOJO;
@@ -18,10 +13,7 @@ import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
 import htt.esportsfantasybe.repository.complexrepositories.PlayerPointsRepository;
 import htt.esportsfantasybe.repository.complexrepositories.UserXLeagueXPlayerRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
-import htt.esportsfantasybe.service.complexservices.PlayerPointsService;
 import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
-import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -147,11 +139,15 @@ public class PlayerService {
     }
 
 
-    public PlayerDTO getPlayer(UUID uuid){
+    public PlayerDTO getPlayerDTO(UUID uuid){
         return new PlayerDTO(playerRepository.findById(uuid).orElseThrow(RuntimeException::new));
     }
 
-    public Player getPlayer(String username){
+    public Player getPlayer(UUID uuid){
+        return playerRepository.findById(uuid).orElseThrow(RuntimeException::new);
+    }
+
+    public Player getPlayerDTO(String username){
         Set<Player> player = playerRepository.findPlayerByUsername(username);
 
         if(player == null || player.isEmpty())
@@ -160,7 +156,7 @@ public class PlayerService {
         return player.stream().findFirst().get();
     }
 
-    public Player getPlayer(String username, String role){
+    public Player getPlayerDTO(String username, String role){
         Set<Player> player = playerRepository.findPlayerByUsernameAndRole(username, role);
 
         if(player == null || player.isEmpty())

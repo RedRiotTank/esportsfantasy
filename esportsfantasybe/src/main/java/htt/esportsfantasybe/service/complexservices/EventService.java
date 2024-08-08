@@ -38,7 +38,7 @@ public class EventService {
         return eventRepository.findMaxJour(leagueuuid);
     }
 
-    public Set<EventInfoPOJO> getEvents(UUID leagueuuid){
+    public Set<EventInfoPOJO> getEventsPOJO(UUID leagueuuid){
 
 
         Set<EventInfoPOJO> events = new HashSet<>();
@@ -77,6 +77,9 @@ public class EventService {
         return events;
     }
 
+    public Set<Event> getEvents(UUID leagueuuid){
+        return new HashSet<>(eventRepository.findAllById_Realleagueuuid(leagueuuid));
+    }
     public void obtainRLeagueEvents(RealLeagueDTO realLeagueDTO) {
         Set<EventPOJO> rLeagueEvents = lolApiCaller.getRLeaguesEvents(realLeagueDTO.getOverviewpage());
 
@@ -159,5 +162,9 @@ public class EventService {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         return pointsHistory;
+    }
+
+    public int getPlayerPoints(UUID playerUuid, String matchId) {
+        return playerPointsService.getPointsByPlayerAndMatch(playerUuid, matchId);
     }
 }

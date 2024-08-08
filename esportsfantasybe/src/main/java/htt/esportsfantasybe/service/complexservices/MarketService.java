@@ -3,23 +3,18 @@ package htt.esportsfantasybe.service.complexservices;
 import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
-import htt.esportsfantasybe.model.League;
-import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Market;
-import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.complexkeysmodels.MarketId;
 import htt.esportsfantasybe.model.pojos.ClausePOJO;
 import htt.esportsfantasybe.model.pojos.IncreaseClausePOJO;
 import htt.esportsfantasybe.model.pojos.OfferResponsePOJO;
 import htt.esportsfantasybe.model.pojos.UserOffer;
 import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
-import htt.esportsfantasybe.service.LeagueService;
 import htt.esportsfantasybe.service.PlayerService;
 import htt.esportsfantasybe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.io.IOException;
 import java.util.*;
@@ -189,7 +184,7 @@ public class MarketService {
 
                 String usericonb64 = Base64.getEncoder().encodeToString(usericon);
 
-                PlayerDTO player = playerService.getPlayer(bidUp.getId().getPlayeruuid());
+                PlayerDTO player = playerService.getPlayerDTO(bidUp.getId().getPlayeruuid());
 
                 byte[] playericon = new byte[0];
                 playericon = playerService.getPlayerIcon(player.getUuid().toString());

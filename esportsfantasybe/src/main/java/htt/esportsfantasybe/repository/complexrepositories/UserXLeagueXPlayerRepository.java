@@ -7,6 +7,7 @@ import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserXLeagueXPlayerRepository extends JpaRepository<UserXLeagueXPlayer, UserXLeagueXPlayerId> {
@@ -21,4 +22,6 @@ public interface UserXLeagueXPlayerRepository extends JpaRepository<UserXLeagueX
     List<UserXLeagueXPlayer> findAllById_Leagueuuid(UUID uuid);
 
     List<UserXLeagueXPlayer> findById_LeagueuuidAndId_Playeruuid(UUID leagueuuid, UUID playeruuid);
+
+    Set<UserXLeagueXPlayer> findAllById_UseruuidAndId_Leagueuuid(UUID useruuid, UUID leagueuuid);
 }

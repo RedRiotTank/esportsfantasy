@@ -36,6 +36,10 @@ public class PlayerPointsService {
         return playerPointsRepository.findAllById_Playeruuid(playeruuid);
     }
 
+    public int getPointsByPlayerAndMatch(UUID playeruuid, String matchid){
+        return playerPointsRepository.findById_MatchidAndId_Playeruuid(matchid, playeruuid).getPoints();
+    }
+
     public void obtainLOLPoints(Event event){
 
         if(playerPointsRepository.existsById_Matchid(event.getMatchid()))
@@ -68,10 +72,10 @@ public class PlayerPointsService {
 
             Player player;
 
-            player = playerService.getPlayer(name, playerStats.stream().findFirst().get().getRole());
+            player = playerService.getPlayerDTO(name, playerStats.stream().findFirst().get().getRole());
 
             if(player == null)
-                player = playerService.getPlayer(name);
+                player = playerService.getPlayerDTO(name);
 
             if(player == null)
                 return;

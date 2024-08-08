@@ -13,6 +13,7 @@ import { TeamComponent } from './team/team.component';
 import { MatchsComponent } from './matchs/matchs.component';
 import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
 import { TeaminfoComponent } from './teaminfo/teaminfo.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   },
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: 'market', component: MarketComponent, canActivate: [authGuard] },
+  { path: 'ranking', component: RankingComponent, canActivate: [authGuard] },
   { path: 'team', component: TeamComponent, canActivate: [authGuard] },
   { path: 'playerinfo/:id', component: PlayerinfoComponent },
   { path: 'teaminfo/:id', component: TeaminfoComponent },

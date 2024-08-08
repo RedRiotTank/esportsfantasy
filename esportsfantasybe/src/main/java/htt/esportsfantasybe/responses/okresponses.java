@@ -410,4 +410,40 @@ public class okresponses {
         okjson.addProperty("message", "player clausulated correctly");
         return ResponseEntity.ok(okjson.toString());
     }
+
+    public static ResponseEntity<?> getRanking(RankingPOJO ranking) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got ranking correctly");
+
+        JsonObject jourRanking = new JsonObject();
+        JsonArray jourRankingArray = new JsonArray();
+        ranking.getJourRank().forEach(userRank -> {
+            JsonObject userRankJson = new JsonObject();
+            userRankJson.addProperty("uuid", userRank.getUserUuid().toString());
+            userRankJson.addProperty("username", userRank.getUsername());
+            userRankJson.addProperty("icon", userRank.getIcon());
+            userRankJson.addProperty("points", userRank.getPoints());
+            jourRankingArray.add(userRankJson);
+        });
+        jourRanking.add("jourRank", jourRankingArray);
+
+        JsonObject totalRanking = new JsonObject();
+        JsonArray totalRankingArray = new JsonArray();
+        ranking.getTotalRank().forEach(userRank -> {
+            JsonObject userRankJson = new JsonObject();
+            userRankJson.addProperty("uuid", userRank.getUserUuid().toString());
+            userRankJson.addProperty("username", userRank.getUsername());
+            userRankJson.addProperty("icon", userRank.getIcon());
+            userRankJson.addProperty("points", userRank.getPoints());
+            totalRankingArray.add(userRankJson);
+        });
+        totalRanking.add("totalRank", totalRankingArray);
+
+        okjson.add("jourRanking", jourRanking);
+        okjson.add("totalRanking", totalRanking);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
 }

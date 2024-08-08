@@ -25,7 +25,7 @@ public class EventController {
     @PostMapping(value ="/getEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getEvents(@RequestBody String leagueuuid) {
         try {
-            return okresponses.getEvents(eventService.getEvents(UUID.fromString(leagueuuid)));
+            return okresponses.getEvents(eventService.getEventsPOJO(UUID.fromString(leagueuuid)));
         } catch (Exception e) {
             return koresponses.generateKO(e.getMessage());
         }

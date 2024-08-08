@@ -2,25 +2,25 @@ package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.PlayerDTO;
-import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
+import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
-import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
-import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
-import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
+import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.repository.LeagueRepository;
-import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.complexservices.EventService;
 import htt.esportsfantasybe.service.complexservices.MarketService;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
+import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -34,6 +34,7 @@ public class LeagueService {
 
     private UserService userService;
     private UserXLeagueService userXLeagueService;
+    private UserXLeagueXPlayerService userXLeagueXPlayerService;
 
     private RealLeagueService realLeagueService;
 
@@ -50,13 +51,21 @@ public class LeagueService {
 
 
     @Autowired
-    public LeagueService( UserService userService, UserXLeagueService userXLeagueService, RealLeagueService realLeagueService, MarketService marketService, PlayerService playerService, EventService eventService) {
+    public LeagueService(
+            UserService userService,
+            UserXLeagueService userXLeagueService,
+            RealLeagueService realLeagueService,
+            MarketService marketService,
+            PlayerService playerService,
+            EventService eventService,
+            UserXLeagueXPlayerService userXLeagueXPlayerService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
         this.marketService = marketService;
         this.playerService = playerService;
         this.eventService = eventService;
+        this.userXLeagueXPlayerService = userXLeagueXPlayerService;
 
     }
 
@@ -206,7 +215,7 @@ public class LeagueService {
 
 
         playersInSell.forEach(marketEntry -> {
-            PlayerDTO playerDTO = playerService.getPlayer(marketEntry.getId().getPlayeruuid());
+            PlayerDTO playerDTO = playerService.getPlayerDTO(marketEntry.getId().getPlayeruuid());
             String ownerUsername = "Free Agent";
 
             if(marketEntry.getOwneruuid() != null) ownerUsername = userService.getUser(marketEntry.getOwneruuid()).getUsername();
@@ -240,5 +249,62 @@ public class LeagueService {
 
     public void getInvitationCodes() {
         invitationCodes.forEach((key, value) -> System.out.println(key + " -> " + value));
+    }
+
+    public RankingPOJO getRankings(RankPOJO rankPOJO){
+
+        League league = this.getLeague(rankPOJO.getLeagueUuid());
+
+        ArrayList<UserRank> jourRank = new ArrayList<>();
+        ArrayList<UserRank> totalRank = new ArrayList<>();
+
+        Set<Event> evs = eventService.getEvents(league.getRealLeague().getUuid());
+
+        league.getUsers().forEach(user -> {
+            String b64Icon = "null";
+            try {
+                b64Icon = Base64.getEncoder().encodeToString(userService.getUserPfp(user.getUuid()));
+            } catch (IOException e) {
+                //throw new RuntimeException(e);
+            }
+
+
+            UserRank userJourRank = new UserRank(user.getUuid(), user.getUsername(), b64Icon);
+            UserRank userTotalRank = new UserRank(user.getUuid(), user.getUsername(), b64Icon);
+            userXLeagueXPlayerService.getUserxLeague(user.getUuid(), league.getUuid()).forEach(entry -> {
+                if(entry.getAligned() != 0) {
+                    Player player = playerService.getPlayer(entry.getId().getPlayeruuid());
+                    evs.forEach(ev -> {
+                        if (ev.getId().getJour() == entry.getId().getJour()) {
+                            player.getTeams().forEach(team -> {
+                                if ((team.getUuid().equals(ev.getId().getTeam1uuid()) || team.getUuid().equals(ev.getId().getTeam2uuid()))
+                                && (!ev.getTeam1Score().equals("null")  && !ev.getTeam2Score().equals("null"))) {
+                                    int pp = eventService.getPlayerPoints(player.getUuid(), ev.getMatchid());
+                                    userTotalRank.addPoints(pp);
+
+                                    if (ev.getId().getJour() == rankPOJO.getJour()){
+                                        userJourRank.addPoints(pp);
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        insertOrdered(jourRank, userJourRank);
+        insertOrdered(totalRank, userTotalRank);
+
+        });
+
+       return new RankingPOJO(jourRank, totalRank);
+    }
+
+    private static void insertOrdered(List<UserRank> list, UserRank newUserRank) {
+        int index = 0;
+        while (index < list.size() && list.get(index).compareTo(newUserRank) < 0) {
+            index++;
+        }
+        list.add(index, newUserRank);
     }
 }

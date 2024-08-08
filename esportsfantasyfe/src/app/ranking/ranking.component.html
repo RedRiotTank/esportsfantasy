@@ -1,0 +1,56 @@
+<div class="selector">
+  <mat-form-field>
+    <mat-label>Current week</mat-label>
+    <mat-select
+      [(value)]="selectedJour"
+      (selectionChange)="onSelectionChange($event)"
+    >
+      <mat-option
+        *ngFor="let number of getLeagueCurrentJourArray()"
+        [value]="number"
+      >
+        {{ "week " + number }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="ranking-container">
+  <div class="ranking-section">
+    <h2>Journal Ranking</h2>
+    <div
+      class="ranking-list"
+      *ngFor="let player of jourRanking?.jourRank; let i = index"
+    >
+      <div class="ranking-item">
+        <span class="rank">{{ i + 1 }}</span>
+        <img
+          [src]="'data:image/png;base64,' + player.icon"
+          alt="Player Icon"
+          class="player-icon"
+        />
+        <span class="username">{{ player.username }}</span>
+        <span class="points">{{ player.points }} pts</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ranking-section">
+    <h2>Total Ranking</h2>
+    <div
+      class="ranking-list"
+      *ngFor="let player of totalRanking?.totalRank; let i = index"
+    >
+      <div class="ranking-item">
+        <span class="rank">{{ i + 1 }}</span>
+        <img
+          [src]="'data:image/png;base64,' + player.icon"
+          alt="Player Icon"
+          class="player-icon"
+        />
+        <span class="username">{{ player.username }}</span>
+        <span class="points">{{ player.points }} pts</span>
+      </div>
+    </div>
+  </div>
+</div>

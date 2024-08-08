@@ -44,6 +44,11 @@ export class EsfHeaderComponent implements OnInit {
     else this.router.navigate(['/welcome']);
   }
 
+  goToRanking() {
+    if (this.getLoggedIn()) this.router.navigate(['/ranking']);
+    else this.router.navigate(['/welcome']);
+  }
+
   g() {
     console.log('g');
   }

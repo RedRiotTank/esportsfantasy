@@ -2,7 +2,6 @@ package htt.esportsfantasybe.service.complexservices;
 
 import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.model.League;
-import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
 import htt.esportsfantasybe.model.complexkeysmodels.UserXLeagueXPlayerId;
@@ -58,7 +57,7 @@ public class UserXLeagueXPlayerService {
 
         teamres.forEach(tentry -> {
             UUID playerUUID = tentry.getId().getPlayeruuid();
-            PlayerDTO player = playerService.getPlayer(playerUUID);
+            PlayerDTO player = playerService.getPlayerDTO(playerUUID);
 
             String playericonB64 = Base64.getEncoder().encodeToString(playerService.getPlayerIcon(playerUUID.toString()));
 
@@ -115,4 +114,9 @@ public class UserXLeagueXPlayerService {
             );
         });
     }
+
+    public Set<UserXLeagueXPlayer> getUserxLeague(UUID user, UUID league){
+        return new HashSet<>(userXLeagueXPlayerRepository.findAllById_UseruuidAndId_Leagueuuid(user, league));
+    }
 }
+

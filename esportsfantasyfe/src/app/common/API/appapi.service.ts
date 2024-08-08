@@ -458,4 +458,16 @@ export class AppapiService {
       increaseType: increaseType,
     });
   }
+
+  public getRanking(leagueUUID: string, jour: number): Observable<any> {
+    return this.api
+      .sendRequest('League/getRanking', { leagueUuid: leagueUUID, jour: jour })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
 }

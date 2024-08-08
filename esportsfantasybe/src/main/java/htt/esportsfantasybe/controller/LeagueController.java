@@ -3,9 +3,7 @@ package htt.esportsfantasybe.controller;
 import com.google.gson.JsonObject;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
-import htt.esportsfantasybe.model.pojos.JoinLeaguePOJO;
-import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
-import htt.esportsfantasybe.model.pojos.UserLeagueInfoPOJO;
+import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.LeagueService;
@@ -79,7 +77,17 @@ public class LeagueController {
     }
 
 
+    @CrossOrigin
+    @PostMapping(value ="/getRanking", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRanking(@RequestBody RankPOJO rankPOJO) {
+        try {
+            RankingPOJO ranking = leagueService.getRankings(rankPOJO);
 
+            return okresponses.getRanking(ranking);
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
 
 
 
