@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 import { TeamService } from '../team/team.service';
+import { RankingService } from './ranking.service';
 
 @Component({
   selector: 'app-ranking',
@@ -9,24 +10,29 @@ import { TeamService } from '../team/team.service';
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
-  public selectedJour: number = this.teamService.currentJour;
-
-  jourRanking: any;
-  totalRanking: any;
-
   constructor(
-    private appApiService: AppapiService,
-    private leagueListService: LeagueListServiceService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private rankingService: RankingService
   ) {}
 
   ngOnInit(): void {
-    this.loadRanking();
+    this.rankingService.init();
+  }
+
+  getRankingService() {
+    return this.rankingService;
+  }
+
+  getJourRanking() {
+    return this.rankingService.jourRanking;
+  }
+
+  getTotalRanking() {
+    return this.rankingService.totalRanking;
   }
 
   onSelectionChange(event: any) {
-    this.selectedJour = event.value;
-    this.loadRanking();
+    this.rankingService.changeJour(event.value);
   }
 
   getLeagueCurrentJourArray() {
@@ -34,22 +40,5 @@ export class RankingComponent implements OnInit {
       { length: this.teamService.currentJour },
       (_, i) => this.teamService.currentJour - i
     );
-  }
-
-  loadRanking(): void {
-    this.appApiService
-      .getRanking(
-        this.leagueListService.getSelectedLeagueUUID(),
-        this.selectedJour
-      )
-      .subscribe(
-        (response) => {
-          this.jourRanking = response.jourRanking;
-          this.totalRanking = response.totalRanking;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
   }
 }

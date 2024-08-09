@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { CredentialsService } from './credentials/credentials.service';
 import { AppapiService } from './common/API/appapi.service';
@@ -8,6 +8,8 @@ import { MarketService } from './market/market.service';
 import { MoneyService } from './common/money.service';
 import { TeamService } from './team/team.service';
 import { MatchsService } from './matchs/matchs.service';
+import { RankingComponent } from './ranking/ranking.component';
+import { RankingService } from './ranking/ranking.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,8 @@ export class AppComponent implements OnInit {
     private marketService: MarketService,
     private teamService: TeamService,
     private moneyService: MoneyService,
-    private matchsService: MatchsService
+    private matchsService: MatchsService,
+    private rankingService: RankingService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -73,10 +76,24 @@ export class AppComponent implements OnInit {
 
   public setSelectedLeague(index: number) {
     this.leagueListService.setSelectedLeague(index);
-    this.marketService.loadMarket();
-    this.teamService.loadTeam();
-    this.matchsService.loadMatchs();
-    this.teamService.loadCurrentJour();
+
+    this.teamService.loadCurrentJour().subscribe(() => {
+      switch (this.router.url) {
+        case '/ranking':
+          this.rankingService.changeJour(this.teamService.currentJour);
+          break;
+        case '/market':
+          this.marketService.loadMarket();
+          break;
+        case '/team':
+          this.teamService.loadTeam();
+          this.teamService.selectedJour = this.teamService.currentJour;
+          break;
+        case 'matchs':
+          this.matchsService.loadMatchs();
+          break;
+      }
+    });
   }
 
   public getMoneyWithFormat() {

@@ -2,7 +2,7 @@
   <mat-form-field>
     <mat-label>Current week</mat-label>
     <mat-select
-      [(value)]="selectedJour"
+      [(value)]="this.getRankingService().selectedJour"
       (selectionChange)="onSelectionChange($event)"
     >
       <mat-option
@@ -20,7 +20,7 @@
     <h2>Journal Ranking</h2>
     <div
       class="ranking-list"
-      *ngFor="let player of jourRanking?.jourRank; let i = index"
+      *ngFor="let player of getJourRanking()?.jourRank; let i = index"
     >
       <div class="ranking-item">
         <span class="rank">{{ i + 1 }}</span>
@@ -39,7 +39,7 @@
     <h2>Total Ranking</h2>
     <div
       class="ranking-list"
-      *ngFor="let player of totalRanking?.totalRank; let i = index"
+      *ngFor="let player of this.getTotalRanking()?.totalRank; let i = index"
     >
       <div class="ranking-item">
         <span class="rank">{{ i + 1 }}</span>

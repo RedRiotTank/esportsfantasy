@@ -12,9 +12,6 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
   styleUrls: ['./team.component.scss'],
 })
 export class TeamComponent implements OnInit {
-  private league: string;
-  public selectedJour: number = this.teamService.currentJour;
-
   constructor(
     private teamService: TeamService,
     private leaguelistService: LeagueListServiceService,
@@ -23,23 +20,21 @@ export class TeamComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.teamService.loadTeam();
-    this.teamService.loadTotalJours();
-    this.teamService.loadCurrentJour();
-
-    console.log('a');
-    this.league = this.leaguelistService.getSelectedLeagueGame();
+    this.teamService.loadCurrentJour().subscribe(() => {
+      this.teamService.initialLoad();
+    });
   }
 
   onSelectionChange(event: any) {
-    this.selectedJour = event.value;
+    this.teamService.changeJour(event.value);
   }
 
   getTeamPlayers() {
     return this.teamService
       .getTeamPlayers()
       .filter(
-        (player) => player.jour === this.selectedJour && player.aligned > 0
+        (player) =>
+          player.jour === this.teamService.selectedJour && player.aligned > 0
       );
   }
 
@@ -49,12 +44,13 @@ export class TeamComponent implements OnInit {
       .getTeamPlayers()
       .filter(
         (player) =>
-          player.jour === this.selectedJour && !alignedPlayers.includes(player)
+          player.jour === this.teamService.selectedJour &&
+          !alignedPlayers.includes(player)
       );
   }
 
   getGameBackground() {
-    switch (this.league) {
+    switch (this.teamService.league) {
       case 'LOL':
         return '../../assets/backgrounds/LOL.png';
       case 'CSGO':
@@ -64,7 +60,7 @@ export class TeamComponent implements OnInit {
   }
 
   openModal(pos: number): void {
-    if (this.selectedJour == this.teamService.currentJour) {
+    if (this.teamService.selectedJour == this.teamService.currentJour) {
       const dialogRef = this.dialog.open(SelectplayerModalComponent, {
         width: '400px',
         data: {
@@ -81,7 +77,8 @@ export class TeamComponent implements OnInit {
       .getTeamPlayers()
       .find(
         (player) =>
-          player.jour === this.selectedJour && player.aligned === position
+          player.jour === this.teamService.selectedJour &&
+          player.aligned === position
       );
   }
 
@@ -98,5 +95,9 @@ export class TeamComponent implements OnInit {
       { length: this.teamService.currentJour },
       (_, i) => this.teamService.currentJour - i
     );
+  }
+
+  getTeamService() {
+    return this.teamService;
   }
 }

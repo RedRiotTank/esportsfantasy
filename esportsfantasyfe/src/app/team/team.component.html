@@ -2,7 +2,7 @@
   <mat-form-field>
     <mat-label>Current week</mat-label>
     <mat-select
-      [(value)]="selectedJour"
+      [(value)]="this.getTeamService().selectedJour"
       (selectionChange)="onSelectionChange($event)"
     >
       <mat-option
@@ -30,7 +30,8 @@
       <i
         class="fa-solid fa-plus"
         *ngIf="
-          getLeagueCurrentJour() == selectedJour && !getPlayerByPosition(index)
+          getLeagueCurrentJour() == this.getTeamService().selectedJour &&
+          !getPlayerByPosition(index)
         "
       ></i>
 
@@ -48,7 +49,7 @@
     *ngFor="let player of getBenchTeamPlayers()"
     class="element-p bench-element"
   >
-    <div *ngIf="player['jour'] == selectedJour">
+    <div *ngIf="player['jour'] == this.getTeamService().selectedJour">
       <img
         [src]="'data:image/png;base64,' + player.icon"
         alt=""
