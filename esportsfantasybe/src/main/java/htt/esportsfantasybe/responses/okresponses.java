@@ -197,7 +197,7 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
-    public static ResponseEntity<?> teamInfo(Set<PlayerTeamInfoPOJO> teamInfo) {
+    public static ResponseEntity<?> teamInfo(TeamAllComponentsPOJO teamAllComponentsPOJO) {
         JsonObject okjson = new JsonObject();
         okjson.addProperty("result", "ok");
         okjson.addProperty("status", "200");
@@ -205,7 +205,7 @@ public class okresponses {
 
         JsonArray playersArray = new JsonArray();
 
-        teamInfo.forEach(player -> {
+        teamAllComponentsPOJO.getTeamInfo().forEach(player -> {
             JsonObject playerJson = new JsonObject();
             playerJson.addProperty("uuid", player.getPlayeruuid().toString());
             playerJson.addProperty("username", player.getUsername());
@@ -214,12 +214,35 @@ public class okresponses {
             playerJson.addProperty("value", player.getValue());
             playerJson.addProperty("jour", player.getJour());
             playerJson.addProperty("aligned", player.getAligned());
-            playerJson.addProperty("icon", player.getIcon());
+            playerJson.addProperty("teamUuid", player.getTeamUuid());
+
+            if(player.getPoints() != -999)
+                playerJson.addProperty("points", player.getPoints());
+
             playersArray.add(playerJson);
         });
 
         okjson.add("players", playersArray);
 
+        JsonArray playerIconsArray = new JsonArray();
+        teamAllComponentsPOJO.getResourcesPlayerIcons().forEach((uuid, icon) -> {
+            JsonObject iconJson = new JsonObject();
+            iconJson.addProperty("uuid", uuid);
+            iconJson.addProperty("icon", icon);
+            playerIconsArray.add(iconJson);
+        });
+
+        okjson.add("playerIcons", playerIconsArray);
+
+        JsonArray teamIconsArray = new JsonArray();
+        teamAllComponentsPOJO.getResourcesTeamIcons().forEach((uuid, icon) -> {
+            JsonObject iconJson = new JsonObject();
+            iconJson.addProperty("uuid", uuid);
+            iconJson.addProperty("icon", icon);
+            teamIconsArray.add(iconJson);
+        });
+
+        okjson.add("teamIcons", teamIconsArray);
 
         return ResponseEntity.ok(okjson.toString());
     }

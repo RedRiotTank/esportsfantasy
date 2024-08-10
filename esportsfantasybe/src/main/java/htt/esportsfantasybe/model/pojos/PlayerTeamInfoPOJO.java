@@ -3,6 +3,7 @@ package htt.esportsfantasybe.model.pojos;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 @Getter
@@ -15,10 +16,13 @@ public class PlayerTeamInfoPOJO {
     private String role;
     private int jour;
     private int aligned;
-    private String icon;
     private int value;
+    private int points;
+    private String teamUuid;
 
-    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role, int value,int jour, int aligned, String icon) {
+    HashMap<String, String> resourcesPlayerIcons;
+
+    public PlayerTeamInfoPOJO(UUID playeruuid, String username, String fullname, String role, int value,int jour, int aligned, int points, String teamUuid) {
         this.playeruuid = playeruuid;
         this.username = username;
         this.fullname = fullname;
@@ -26,7 +30,8 @@ public class PlayerTeamInfoPOJO {
         this.value = value;
         this.jour = jour;
         this.aligned = aligned;
-        this.icon = icon;
+        this.points = points;
+        this.teamUuid = teamUuid;
     }
 
 }

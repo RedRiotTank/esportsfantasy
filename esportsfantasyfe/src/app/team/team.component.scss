@@ -1,13 +1,45 @@
 .team-setter {
   position: relative;
   text-align: center;
-  width: 75%; /* Para que el contenedor se ajuste al tamaño de la imagen */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  width: 75%;
+  margin: 0 auto;
 }
 
 .background {
   width: 100%;
   height: auto;
+}
+
+.points-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: auto;
+}
+
+.points {
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.6vw;
+  padding: 2px;
+}
+
+.points-green {
+  background-color: green;
+}
+
+.points-orange {
+  background-color: orange;
+}
+
+.points-red {
+  background-color: red;
+}
+
+.points-gray {
+  background-color: gray;
 }
 
 .in-team {
@@ -35,6 +67,19 @@
   img {
     width: 4vw;
     height: auto;
+  }
+
+  .teamIcon-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    img {
+      width: 105% !important;
+      height: auto !important;
+      padding-left: 65%;
+      padding-bottom: 50%;
+    }
   }
 }
 

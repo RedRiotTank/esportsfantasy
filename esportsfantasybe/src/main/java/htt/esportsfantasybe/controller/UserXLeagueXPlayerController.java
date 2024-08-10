@@ -2,6 +2,7 @@ package htt.esportsfantasybe.controller;
 
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
+import htt.esportsfantasybe.model.pojos.TeamAllComponentsPOJO;
 import htt.esportsfantasybe.model.pojos.UserLeaguePOJO;
 import htt.esportsfantasybe.model.pojos.UserLeaguePlayerPOJO;
 import htt.esportsfantasybe.responses.koresponses;
@@ -30,9 +31,9 @@ public class UserXLeagueXPlayerController {
     public ResponseEntity<?> TeamInfo(@RequestBody UserLeaguePOJO userLeaguePOJO){
         try{
             System.out.println("GETTING TEAM INFO");
-            Set<PlayerTeamInfoPOJO> teamInfo =  userXLeagueXPlayerService.getUserXLeagueTeam(userLeaguePOJO.getUseruuid(), userLeaguePOJO.getLeagueuuid());
+            TeamAllComponentsPOJO teamAllComponentsPOJO =  userXLeagueXPlayerService.getUserXLeagueTeam(userLeaguePOJO.getUseruuid(), userLeaguePOJO.getLeagueuuid());
 
-            return okresponses.teamInfo(teamInfo);
+            return okresponses.teamInfo(teamAllComponentsPOJO);
         } catch (Exception e){
             return koresponses.generateKO(e.getMessage());
         }

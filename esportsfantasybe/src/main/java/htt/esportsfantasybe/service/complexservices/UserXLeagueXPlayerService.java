@@ -1,18 +1,23 @@
 package htt.esportsfantasybe.service.complexservices;
 
-import htt.esportsfantasybe.DTO.PlayerDTO;
 import htt.esportsfantasybe.model.League;
+import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
 import htt.esportsfantasybe.model.complexkeysmodels.UserXLeagueXPlayerId;
 import htt.esportsfantasybe.model.pojos.PlayerTeamInfoPOJO;
+import htt.esportsfantasybe.model.pojos.TeamAllComponentsPOJO;
 import htt.esportsfantasybe.repository.LeagueRepository;
 import htt.esportsfantasybe.repository.complexrepositories.UserXLeagueXPlayerRepository;
 import htt.esportsfantasybe.service.PlayerService;
+import htt.esportsfantasybe.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class UserXLeagueXPlayerService {
@@ -24,11 +29,22 @@ public class UserXLeagueXPlayerService {
 
     private PlayerService playerService;
 
+    private EventService eventService;
+
+    private TeamService teamService;
+
 
     @Autowired
-    public UserXLeagueXPlayerService(PlayerService playerService, LeagueRepository leagueRepository) {
+    public UserXLeagueXPlayerService(
+        PlayerService playerService,
+        LeagueRepository leagueRepository,
+        EventService eventService,
+        TeamService teamService) {
+
         this.playerService = playerService;
         this.leagueRepository = leagueRepository;
+        this.eventService = eventService;
+        this.teamService = teamService;
     }
 
 
@@ -50,16 +66,53 @@ public class UserXLeagueXPlayerService {
 
     }
 
-    public Set<PlayerTeamInfoPOJO> getUserXLeagueTeam(UUID userID, UUID leagueID) {
+    public TeamAllComponentsPOJO getUserXLeagueTeam(UUID userID, UUID leagueID) {
         List<UserXLeagueXPlayer> teamres = this.userXLeagueXPlayerRepository.findAllById_LeagueuuidAndId_Useruuid(leagueID, userID);
+
+        HashMap<String, String> resourcesPlayerIcons = new HashMap<>();
+        HashMap<String, String> resourcesTeamIcons = new HashMap<>();
 
         Set<PlayerTeamInfoPOJO> team = new HashSet<>();
 
-        teamres.forEach(tentry -> {
-            UUID playerUUID = tentry.getId().getPlayeruuid();
-            PlayerDTO player = playerService.getPlayerDTO(playerUUID);
+        League league = leagueRepository.findById(leagueID).get();
+
+        Set<Event> evs = eventService.getEvents(league.getRealLeague().getUuid());
+
+        teamres.forEach(entry -> {
+            UUID playerUUID = entry.getId().getPlayeruuid();
+
+            Player player = playerService.getPlayer(entry.getId().getPlayeruuid());
+            AtomicInteger pp = new AtomicInteger(-999);
+
+            evs.forEach(ev -> {
+                if (ev.getId().getJour() == entry.getId().getJour()) {
+                    player.getTeams().forEach(t -> {
+                        if ((t.getUuid().equals(ev.getId().getTeam1uuid()) || t.getUuid().equals(ev.getId().getTeam2uuid()))
+                                && (!ev.getTeam1Score().equals("null")  && !ev.getTeam2Score().equals("null"))) {
+
+                            pp.set(eventService.getPlayerPoints(player.getUuid(), ev.getMatchid()));
+
+                        }
+                    });
+                }
+            });
 
             String playericonB64 = Base64.getEncoder().encodeToString(playerService.getPlayerIcon(playerUUID.toString()));
+
+            //Team icon
+            AtomicReference<String> rtUUID = new AtomicReference<>("");
+            player.getTeams().forEach(t -> {
+                league.getRealLeague().getTeams().forEach(rt -> {
+                    if (t.getUuid().equals(rt.getUuid())) {
+                        resourcesTeamIcons.put(rt.getUuid().toString(), Base64.getEncoder().encodeToString(teamService.getTeamIcon(t.getUuid())));
+                        rtUUID.set(rt.getUuid().toString());
+                    }
+                });
+            });
+
+            //Player icon
+            resourcesPlayerIcons.put(playerUUID.toString(), playericonB64);
+
 
             PlayerTeamInfoPOJO ptInfoPOJo = new PlayerTeamInfoPOJO(
                     player.getUuid(),
@@ -67,13 +120,15 @@ public class UserXLeagueXPlayerService {
                     player.getFullname(),
                     player.getRole(),
                     player.getValue(),
-                    tentry.getId().getJour(),
-                    tentry.getAligned(),
-                    playericonB64
+                    entry.getId().getJour(),
+                    entry.getAligned(),
+                    pp.get(),
+                    rtUUID.get()
             );
             team.add(ptInfoPOJo);
         });
-        return team;
+
+        return new TeamAllComponentsPOJO(team, resourcesPlayerIcons, resourcesTeamIcons);
     }
 
     public void setAligned(UUID userID, UUID leagueID, UUID playerID, int aligned) {

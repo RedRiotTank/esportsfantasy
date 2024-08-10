@@ -23,7 +23,7 @@
       class="in-team element-p pla-{{ index }}"
       [ngClass]="{
         'non-aligned': !getPlayerByPosition(index),
-        aligned: !!getPlayerByPosition(index)
+        aligned: getPlayerByPosition(index)
       }"
       (click)="openModal(index)"
     >
@@ -40,6 +40,39 @@
         alt=""
         *ngIf="getPlayerByPosition(index)"
       />
+
+      <div class="teamIcon-container">
+        <img
+          [src]="
+            'data:image/png;base64,' + getPlayerByPosition(index)?.teamIcon
+          "
+          alt=""
+          *ngIf="getPlayerByPosition(index)"
+        />
+      </div>
+
+      <div class="points-container">
+        <p
+          *ngIf="getPlayerByPosition(index)"
+          class="points"
+          [ngClass]="{
+            'points-red':
+              getPlayerByPosition(index).points > 0 &&
+              getPlayerByPosition(index).points <= 30,
+            'points-orange':
+              getPlayerByPosition(index).points > 30 &&
+              getPlayerByPosition(index).points <= 50,
+            'points-green': getPlayerByPosition(index).points > 50,
+            'points-gray': !getPlayerByPosition(index).points
+          }"
+        >
+          {{ getPlayerByPosition(index).points || "-" }}
+        </p>
+      </div>
+
+      <p *ngIf="getPlayerByPosition(index)">
+        {{ getPlayerByPosition(index).username }}
+      </p>
     </div>
   </div>
 </div>

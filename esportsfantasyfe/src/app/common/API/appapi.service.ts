@@ -273,7 +273,7 @@ export class AppapiService {
         leagueuuid: leagueUUID,
       })
       .pipe(
-        map((response) => response.players),
+        map((response) => response),
         catchError((error) => {
           this.sendToErrorPage(error);
           return of([]);
