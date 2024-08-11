@@ -1,65 +1,119 @@
-.no-league{
-    display: flex;
-    text-align: center;
-    flex-direction: column;
+.no-league {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
 }
 
-.no-league button{
-    width: 25%;
-    margin: 2vw auto;
-
+.no-league button {
+  width: 25%;
+  margin: 2vw auto;
 }
 
+.home-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
 
-.home-container{
-    display: flex;
-    flex-direction: row;
-    
-    
-    margin-top: 5vw;
+.transfer-post {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
 
+.transfer-post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
 
-    .league-list{
-        flex: 30%;
-        text-align: center;
-        
+.player-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 16px;
+  object-fit: cover;
+}
 
-        .league{
-            cursor: pointer;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            border-radius: 15px;
-            padding: 1vw 1vw;
-            margin : 1vw 0;
-            margin-left: 0.6vw;
-            gap: 0.7vw;
-            img{
-                width: 3vw;
-                height: auto;
-            }
+.player-info h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
 
-            p{
-                margin: 0;
-                padding: 0;
-            }
+.transfer-date {
+  margin: 4px 0 0 0;
+  color: #666;
+  font-size: 0.9em;
+}
 
-            
-        }
+.transfer-post-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-        .league:hover{
-            background-color:rgb(230, 230, 230);
-        }
+.winner-info,
+.other-bids {
+  display: flex;
+  flex-direction: column;
+}
 
-        button{
-            
-            margin : 0.4vw 1vw;
-            
-        }
+.winner-info {
+  background-color: #e3fcef;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    }
+.winner-info p {
+  margin: 0;
+  font-weight: bold;
+  color: #28a745;
+}
 
-    .home-content{
-        background-color: red;
-    }
+.other-bids p {
+  margin: 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.bid-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.owner-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bid-amount {
+  margin-left: auto;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.t-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.t-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 }

@@ -2,6 +2,15 @@ import { Injectable } from '@angular/core';
 import { AppapiService } from './common/API/appapi.service';
 import { CredentialsService } from './credentials/credentials.service';
 import { MoneyService } from './common/money.service';
+import {
+  catchError,
+  forkJoin,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +52,33 @@ export class LeagueListServiceService {
     }
   }
 
+  public updateLeagueListObs(): Observable<any> {
+    let leagueIndex = 0;
+
+    return this.appapiService
+      .getUserLeagues(this.credentialsService.getDecodedToken().sub)
+      .pipe(
+        switchMap((leagues) => {
+          return forkJoin(
+            leagues.map((league) => {
+              return this.appapiService.getLeagueIcon(league.leagueUUID).pipe(
+                map((icon) => {
+                  league.icon = icon;
+                  league.index = leagueIndex;
+                  leagueIndex++;
+                  this.leagues.push(league);
+
+                  if (league.index == 0) {
+                    this.setSelectedLeague(0);
+                  }
+                })
+              );
+            })
+          );
+        })
+      );
+  }
+
   public getLeagues() {
     return this.leagues;
   }
@@ -51,14 +87,15 @@ export class LeagueListServiceService {
     return this.leagues[this.selectedLeague];
   }
 
+  public getSelectedLeagueIndex() {
+    return this.selectedLeague;
+  }
+
   public getSelectedRLeagueUUID() {
     return this.leagues[this.selectedLeague].rLeagueUUID;
   }
 
   public getSelectedLeagueUUID() {
-    //console.log("Getting league UUID: " + this.leagues[this.selectedLeague].leagueUUID);
-    console.log(this.leagues[this.selectedLeague]);
-
     return this.leagues[this.selectedLeague].leagueUUID;
   }
 
@@ -75,4 +112,7 @@ export class LeagueListServiceService {
   public getSelectedLeagueGame() {
     return this.leagues[this.selectedLeague].leagueGame;
   }
+}
+function from(leagues: any) {
+  throw new Error('Function not implemented.');
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class MarketService {
@@ -34,6 +35,8 @@ public class MarketService {
     private PlayerService playerService;
     private EventService eventService;
 
+    private TransferPostService transferPostService;
+
 
     private static final int MARKET_REGULAR_NUMBER = 8;
 
@@ -44,7 +47,8 @@ public class MarketService {
         BidUpService bidUpService,
         UserService userService,
         PlayerService playerService,
-        EventService eventService
+        EventService eventService,
+        TransferPostService transferPostService
     ) {
         this.userXLeagueService = userXLeagueService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
@@ -52,6 +56,7 @@ public class MarketService {
         this.userService = userService;
         this.playerService = playerService;
         this.eventService = eventService;
+        this.transferPostService = transferPostService;
     }
 
     public void initMarket(LeagueDTO league){
@@ -77,6 +82,7 @@ public class MarketService {
 
         leagueMarketEntriesInSellNoOwner.forEach(market ->{
             List<BidUp> bidUpList = bidUpService.getBidUpByLeagueAndPlayer(league.getUuid(), market.getId().getPlayeruuid(),true);
+            List<BidUp> bidUpListClone = new ArrayList<>(bidUpList);
 
             if(!bidUpList.isEmpty()){
                 BidUp maxBidUp = Collections.max(bidUpList, Comparator.comparingInt(BidUp::getBid));
@@ -93,6 +99,13 @@ public class MarketService {
                     bidUpService.closeBidUp(bidUp);
                 });
 
+                transferPostService.generateTransferPost(
+                        market.getId().getPlayeruuid(),
+                        league.getUuid(),
+                        null,
+                        bidUpListClone
+
+                );
             }
 
 
@@ -226,8 +239,12 @@ public class MarketService {
     public void acceptOffer(OfferResponsePOJO offerResponsePOJO){
         List<BidUp> bidups = bidUpService.getActiveBidUpByLeagueAndPlayer(offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid());
 
+        AtomicReference<BidUp> acceptedBidUp = new AtomicReference<>();
+
         bidups.forEach(bidUp -> {
             if(bidUp.getId().getBiduseruuid().equals(offerResponsePOJO.getBiduseruuid())){
+
+                acceptedBidUp.set(bidUp);
 
                 changeProperty(offerResponsePOJO.getUseruuid(), bidUp.getId().getBiduseruuid(), offerResponsePOJO.getLeagueuuid(), offerResponsePOJO.getPlayeruuid(), offerResponsePOJO.getJour());
 
@@ -239,6 +256,16 @@ public class MarketService {
                 bidUpService.closeBidUp(bidUp);
             }
         });
+
+        ArrayList<BidUp> res = new ArrayList<>();
+        res.add(acceptedBidUp.get());
+
+        transferPostService.generateTransferPost(
+                offerResponsePOJO.getPlayeruuid(),
+                offerResponsePOJO.getLeagueuuid(),
+                offerResponsePOJO.getUseruuid(),
+                res
+        );
 
 
     }

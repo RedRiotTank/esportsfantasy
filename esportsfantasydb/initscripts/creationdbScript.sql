@@ -139,5 +139,29 @@ CREATE TABLE `playerpoints` (
     FOREIGN KEY (playeruuid) REFERENCES player(uuid)
 );
 
+CREATE TABLE `transferpost` (
+    tpostid INT AUTO_INCREMENT PRIMARY KEY,
+    date DATETIME,
+    playeruuid BINARY(16),
+    leagueuuid BINARY(16),
+    res VARCHAR(255),
+    prevowneruuid BINARY(16),
+    FOREIGN KEY (playeruuid) REFERENCES player(uuid),
+    FOREIGN KEY (leagueuuid) REFERENCES league(uuid)
+);
+
+CREATE TABLE `tpostcomment`(
+    tpostid INT,
+    useruuid BINARY(16),
+    
+    comment VARCHAR(255),
+    
+    date DATETIME,
+    PRIMARY KEY (tpostid, useruuid, date),
+    FOREIGN KEY (useruuid) REFERENCES user(uuid),
+    FOREIGN KEY (prevOwneruuid) REFERENCES user(uuid),
+    FOREIGN KEY (tpostid) REFERENCES transferpost(tpostid)
+);
+
 insert into games(game) values ("LOL");
 insert into games(game) values ("CSGO");

@@ -7,6 +7,7 @@ import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.complexentities.TransferPost;
 import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.service.PlayerService;
 import org.springframework.http.ResponseEntity;
@@ -468,5 +469,44 @@ public class okresponses {
         okjson.add("totalRanking", totalRanking);
 
         return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getLeagueTransferPosts(List<TransferPostPOJO> transferPosts) {
+       JsonObject okjson = new JsonObject();
+         okjson.addProperty("result", "ok");
+            okjson.addProperty("status", "200");
+            okjson.addProperty("message", "got transfer posts correctly");
+
+            JsonArray transferPostsArray = new JsonArray();
+            transferPosts.forEach(transferPost -> {
+                JsonObject transferPostJson = new JsonObject();
+                transferPostJson.addProperty("transferPostId", transferPost.getTransferPostId());
+                transferPostJson.addProperty("date", transferPost.getDate());
+                transferPostJson.addProperty("playeruuid", transferPost.getPlayeruuid());
+                transferPostJson.addProperty("playername", transferPost.getPlayername());
+                transferPostJson.addProperty("playericon", transferPost.getPlayericon());
+                transferPostJson.addProperty("leagueuuid", transferPost.getLeagueuuid());
+                transferPostJson.addProperty("prevowneruuid", transferPost.getPrevowneruuid());
+                transferPostJson.addProperty("prevownername", transferPost.getPrevownername());
+                transferPostJson.addProperty("prevownericon", transferPost.getPrevownericon());
+
+                JsonArray bidListArray = new JsonArray();
+                transferPost.getBidList().forEach(bid -> {
+                    JsonObject bidJson = new JsonObject();
+                    bidJson.addProperty("useruuid", bid.getUseruuid());
+                    bidJson.addProperty("username", bid.getUsername());
+                    bidJson.addProperty("usericon", bid.getUsericon());
+                    bidJson.addProperty("bid", bid.getBid());
+                    bidListArray.add(bidJson);
+                });
+
+                transferPostJson.add("bidList", bidListArray);
+
+                transferPostsArray.add(transferPostJson);
+            });
+
+            okjson.add("transferPosts", transferPostsArray);
+
+            return ResponseEntity.ok(okjson.toString());
     }
 }

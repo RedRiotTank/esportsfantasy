@@ -1,22 +1,71 @@
 <div *ngIf="getLeagues().length === 0" class="no-league">
-    <h2 class="esf-title">You're not in any league right now</h2>
-
-    <button class="esf-ibutton" (click)="goToCreateLeague()">Create a league</button>
+  <h2 class="esf-title">You're not in any league right now</h2>
+  <button class="esf-ibutton" (click)="goToCreateLeague()">
+    Create a league
+  </button>
 </div>
 
+<div *ngIf="getLeagues().length > 0" class="home-content">
+  <div *ngFor="let transfer of getTransferPosts()" class="transfer-post">
+    <div class="transfer-post-header">
+      <img
+        [src]="'data:image/png;base64,' + transfer.playericon"
+        alt="Player Icon"
+        class="player-icon"
+      />
+      <div class="player-info">
+        <h3>{{ transfer.playername }}</h3>
+        <p class="transfer-date">{{ transfer.date | date : "medium" }}</p>
+      </div>
+    </div>
 
+    <div class="transfer-post-body">
+      <!-- Ganador -->
+      <div class="winner-info">
+        <p *ngIf="transfer.prevowneruuid == 'null'">Winning Bid:</p>
+        <p *ngIf="transfer.prevowneruuid != 'null'">Transfer:</p>
 
+        <div class="t-box">
+          <div *ngIf="transfer.prevowneruuid != 'null'" class="t-info">
+            <img
+              [src]="'data:image/png;base64,' + transfer.prevownericon"
+              alt="Winner Icon"
+              class="owner-icon"
+            />
+            <span>{{ transfer.prevownername }}</span>
+          </div>
 
+          <i
+            *ngIf="transfer.prevowneruuid != 'null'"
+            class="fa-solid fa-arrow-right"
+          ></i>
 
-<div class="home-content">
-    <p class="esf-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <div class="t-info">
+            <img
+              [src]="'data:image/png;base64,' + transfer.bidList[0].usericon"
+              alt="Winner Icon"
+              class="owner-icon"
+            />
+            <span>{{ transfer.bidList[0].username }}</span>
+          </div>
+        </div>
 
+        <span class="bid-amount">{{ transfer.bidList[0].bid | currency }}</span>
+      </div>
 
+      <!-- Otras Pujas -->
+      <div class="other-bids" *ngIf="transfer.bidList.length > 1">
+        <p>Other Bids:</p>
+        <div *ngFor="let bid of transfer.bidList.slice(1)" class="bid-info">
+          <img
+            [src]="'data:image/png;base64,' + bid.usericon"
+            alt="Bidder Icon"
+            class="owner-icon"
+          />
+          <span>{{ bid.username }}</span>
+          <span class="bid-amount">{{ bid.bid | currency }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-    
-
-
-
-
-

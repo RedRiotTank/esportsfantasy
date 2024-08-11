@@ -30,17 +30,14 @@ export class TeamService {
         this.teamPlayers = response.players;
 
         this.teamPlayers = this.teamPlayers.map((player) => {
-          // Buscar el objeto en response.playerIcons que tenga el mismo uuid que el player
           const iconData = response.playerIcons.find(
             (iconObj) => iconObj.uuid === player.uuid
           );
 
-          // Buscar el objeto en teamIcons que tenga el mismo teamUuid que el player
           const teamIconData = response.teamIcons.find(
             (teamIconObj) => teamIconObj.uuid === player.teamUuid
           );
 
-          // Construir el nuevo objeto player con los campos icon y teamIcon si existen
           return {
             ...player,
             ...(iconData && { icon: iconData.icon }),

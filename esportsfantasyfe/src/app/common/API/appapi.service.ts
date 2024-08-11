@@ -470,4 +470,16 @@ export class AppapiService {
         })
       );
   }
+
+  public getLeagueTransferPosts(leagueUUID: string): Observable<any> {
+    return this.api
+      .sendRequest('TransferPost/getLeagueTransferPosts', leagueUUID)
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
 }
