@@ -41,6 +41,7 @@ import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
 import { TeaminfoComponent } from './teaminfo/teaminfo.component';
 import { ClausePlayerModalComponent } from './playerinfo/clause-player-modal/clause-player-modal.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { UserpageComponent } from './userpage/userpage.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +64,7 @@ import { RankingComponent } from './ranking/ranking.component';
     TeaminfoComponent,
     ClausePlayerModalComponent,
     RankingComponent,
+    UserpageComponent,
   ],
   imports: [
     BrowserModule,

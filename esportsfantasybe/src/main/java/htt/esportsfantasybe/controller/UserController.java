@@ -6,6 +6,7 @@ import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.config.JwtService;
 import htt.esportsfantasybe.model.User;
+import htt.esportsfantasybe.model.pojos.UserInfoPOJO;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.UserService;
@@ -132,5 +133,30 @@ public class UserController {
             return koresponses.generateKO(e.getMessage());
         }
     }
+
+    @CrossOrigin
+    @PostMapping(value ="/getUserInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserInfo(@RequestBody String useruuid){
+        try{
+            UserInfoPOJO userInfoPOJO = userService.getUserInfo(UUID.fromString(useruuid));
+
+            return okresponses.getUserInfo(userInfoPOJO);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(value ="/updateUserInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserInfoPOJO userInfoPOJO){
+        try{
+            userService.updateUserInfo(userInfoPOJO);
+
+            return okresponses.updateUserInfo();
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 }
 

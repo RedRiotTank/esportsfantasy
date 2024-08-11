@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/user/signup").permitAll()
                 .requestMatchers("/api/user/googleLogin").permitAll()
                 .requestMatchers("/api/user/getPfp").permitAll()
+                .requestMatchers("/api/user/getUserInfo").permitAll()
+                .requestMatchers("/api/user/updateUserInfo").permitAll()
                 .requestMatchers("/api/games/getGames").permitAll()
                 .requestMatchers("/api/games/getGameIcon").permitAll()
                 .requestMatchers("/api/realLeague/getGameRLeagues").permitAll()

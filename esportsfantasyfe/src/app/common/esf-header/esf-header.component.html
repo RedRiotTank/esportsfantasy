@@ -78,7 +78,12 @@
         >
       </li>
 
-      <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil" />
+      <img
+        *ngIf="getLoggedIn()"
+        [src]="getPfpUrl()"
+        alt="Perfil"
+        (click)="goToUserPage()"
+      />
     </ul>
   </nav>
 </header>

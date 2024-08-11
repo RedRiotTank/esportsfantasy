@@ -14,6 +14,7 @@ import { MatchsComponent } from './matchs/matchs.component';
 import { PlayerinfoComponent } from './playerinfo/playerinfo.component';
 import { TeaminfoComponent } from './teaminfo/teaminfo.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { UserpageComponent } from './userpage/userpage.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'userpage', component: UserpageComponent, canActivate: [authGuard] },
   { path: 'market', component: MarketComponent, canActivate: [authGuard] },
   { path: 'ranking', component: RankingComponent, canActivate: [authGuard] },
   { path: 'team', component: TeamComponent, canActivate: [authGuard] },

@@ -492,4 +492,30 @@ export class AppapiService {
       })
     );
   }
+
+  public getUserInfo(userUUID: string): Observable<any> {
+    return this.api.sendRequest('user/getUserInfo', userUUID).pipe(
+      map((response) => response),
+      catchError((error) => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
+
+  public updateUserInfo(
+    uuid: string,
+    mail: string,
+    username: string,
+    icon: string,
+    password: string
+  ): Observable<any> {
+    return this.api.sendRequest('user/updateUserInfo', {
+      uuid: uuid,
+      mail: mail,
+      username: username,
+      icon: icon,
+      password: password,
+    });
+  }
 }

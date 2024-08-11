@@ -7,6 +7,7 @@ import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.TransferPost;
 import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.service.PlayerService;
@@ -529,6 +530,30 @@ public class okresponses {
         okjson.addProperty("jour", event.getJour());
         okjson.addProperty("date", event.getDate().toString());
 
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getUserInfo(UserInfoPOJO user) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got user info correctly");
+
+        okjson.addProperty("uuid", user.getUuid().toString());
+        okjson.addProperty("mail", user.getMail());
+        okjson.addProperty("username", user.getUsername());
+        okjson.addProperty("admin", user.isAdmin());
+        okjson.addProperty("icon", user.getIcon());
+
+        return ResponseEntity.ok(okjson.toString());
+
+    }
+
+    public static ResponseEntity<?> updateUserInfo() {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "user info updated correctly");
         return ResponseEntity.ok(okjson.toString());
     }
 }

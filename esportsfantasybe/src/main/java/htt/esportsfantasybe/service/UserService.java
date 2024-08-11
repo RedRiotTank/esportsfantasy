@@ -5,6 +5,7 @@ import htt.esportsfantasybe.DTO.SocialUserDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.config.JwtService;
 import htt.esportsfantasybe.model.User;
+import htt.esportsfantasybe.model.pojos.UserInfoPOJO;
 import htt.esportsfantasybe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,19 +45,20 @@ public class UserService {
      * This method is used to sign up a new user.
      * It validates the mail and password of the user.
      * It also checks if the mail is already in use.
+     *
      * @param newUserDTO The user to be signed up.
      */
-    public void signup(UserDTO newUserDTO){
+    public void signup(UserDTO newUserDTO) {
 
-        if(!validateMail(newUserDTO.getMail())){
+        if (!validateMail(newUserDTO.getMail())) {
             throw new RuntimeException("1005");
         }
 
-        if(inUseMail(newUserDTO.getMail())){
+        if (inUseMail(newUserDTO.getMail())) {
             throw new RuntimeException("1006");
         }
 
-        if(!validatePass(newUserDTO.getPass())){
+        if (!validatePass(newUserDTO.getPass())) {
             throw new RuntimeException("1007");
         }
 
@@ -73,25 +72,26 @@ public class UserService {
     /**
      * This method is used to log in a user.
      * It checks if the user exists and if the password is correct.
+     *
      * @param newUserDTO The user to be logged in.
      * @return The JWT token of the user.
      */
-    public String login(UserDTO newUserDTO){
+    public String login(UserDTO newUserDTO) {
         String credentialMail = newUserDTO.getMail();
         String credentialPass = newUserDTO.getPass();
 
         Optional<User> loginUser = userRepository.findByMail(credentialMail);
-        if(loginUser.isEmpty()) throw new RuntimeException("1001");
+        if (loginUser.isEmpty()) throw new RuntimeException("1001");
 
-        boolean matches = passwordEncoder.matches(credentialPass,loginUser.get().getPass());
-        if(!matches) throw new RuntimeException("1002");
+        boolean matches = passwordEncoder.matches(credentialPass, loginUser.get().getPass());
+        if (!matches) throw new RuntimeException("1002");
 
         newUserDTO.setUuid(loginUser.get().getUuid());
 
         return jwtService.generateToken(newUserDTO);
     }
 
-    public String loginWithToken(String token){
+    public String loginWithToken(String token) {
         String userEmail = jwtService.extractUserEmail(token);
         UserDetails user = userRepository.findByMail(userEmail).orElseThrow(() -> new RuntimeException("1001"));
         boolean validToken = jwtService.isTokenValid(token, user);
@@ -105,28 +105,30 @@ public class UserService {
      * It checks if the Google token is valid.
      * If the user does not exist, it creates a new user.
      * If the user exists and has a password, it throws an exception.
+     *
      * @param newSocialUserDTO The user to be logged in.
      * @return The JWT token of the user.
      */
-    public String googleLogin(SocialUserDTO newSocialUserDTO){
+    public String googleLogin(SocialUserDTO newSocialUserDTO) {
         String credentialMail = newSocialUserDTO.getMail();
         String credentialToken = newSocialUserDTO.getIdToken();
 
         boolean validToken = jwtService.verifyGoogleToken(credentialToken);
-        if(!validToken) throw new RuntimeException("1003");
+        if (!validToken) throw new RuntimeException("1003");
 
         Optional<User> loginUser = userRepository.findByMail(credentialMail);
 
-        if(loginUser.isEmpty()) {
+        if (loginUser.isEmpty()) {
             User newUser = new User(new UserDTO(newSocialUserDTO));
             userRepository.save(newUser);
-        } else if(loginUser.get().getPass() != null) throw new RuntimeException("1004");
+        } else if (loginUser.get().getPass() != null) throw new RuntimeException("1004");
 
         return jwtService.generateToken(newSocialUserDTO);
     }
 
     /**
      * This method generates a random username.
+     *
      * @return The generated username.
      */
     public static String generaetUsername() {
@@ -138,10 +140,11 @@ public class UserService {
 
     /**
      * This method is used to validate the mail of a user.
+     *
      * @param mail The mail to be validated.
      * @return True if the mail is valid, false otherwise.
      */
-    public boolean validateMail(String mail){
+    public boolean validateMail(String mail) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(mail);
@@ -151,19 +154,21 @@ public class UserService {
 
     /**
      * This method is used to check if a mail is already in use.
+     *
      * @param mail The mail to be checked.
      * @return True if the mail is in use, false otherwise.
      */
-    public boolean inUseMail(String mail){
+    public boolean inUseMail(String mail) {
         return userRepository.existsUserByMail(mail);
     }
 
     /**
      * This method is used to validate the password of a user.
+     *
      * @param pass The password to be validated.
      * @return True if the password is valid, false otherwise.
      */
-    public static boolean validatePass(String pass){
+    public static boolean validatePass(String pass) {
         String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(pass);
@@ -171,14 +176,14 @@ public class UserService {
         return matcher.matches();
     }
 
-    public List<UserDTO> getAllUsers(){
+    public List<UserDTO> getAllUsers() {
 
         List<User> allUsers = userRepository.findAll();
         return allUsers.stream().map(UserDTO::new).toList();
 
     }
 
-    public List<LeagueDTO> getUserLeagues(UUID useruuid){
+    public List<LeagueDTO> getUserLeagues(UUID useruuid) {
         Optional<User> user = userRepository.findById(useruuid);
         return user.get().getLeagues().stream().map(LeagueDTO::new).toList();
     }
@@ -210,7 +215,7 @@ public class UserService {
                 }
             }
         }
-            return imageBytes;
+        return imageBytes;
     }
 
     public byte[] getUserPfp(UUID useruuid) throws IOException {
@@ -236,7 +241,7 @@ public class UserService {
         return imageBytes;
     }
 
-    public UserDTO getUser(String mail){
+    public UserDTO getUser(String mail) {
         Optional<User> user = userRepository.findByMail(mail);
 
         User getUser = user.orElseThrow(() -> new RuntimeException("1008"));
@@ -244,7 +249,7 @@ public class UserService {
         return new UserDTO(getUser);
     }
 
-    public UserDTO getUser(UUID uuid){
+    public UserDTO getUser(UUID uuid) {
         Optional<User> user = userRepository.findById(uuid);
 
         User getUser = user.orElseThrow(() -> new RuntimeException("1008"));
@@ -252,6 +257,43 @@ public class UserService {
         return new UserDTO(getUser);
     }
 
+    public UserInfoPOJO getUserInfo(UUID uuid) throws IOException {
+        UserDTO user = getUser(uuid);
+
+        String b64Icon = Base64.getEncoder().encodeToString(getUserPfp(uuid));
+
+        return new UserInfoPOJO(
+                user.getUuid(),
+                user.getMail(),
+                user.getUsername(),
+                user.isAdmin(),
+                b64Icon,
+                null
+        );
+    }
+
+    public void updateUserInfo(UserInfoPOJO userInfoPOJO) {
+        User user = userRepository.findById(userInfoPOJO.getUuid()).orElseThrow(() -> new RuntimeException("1008"));
+
+        String credentialPass = user.getPass();
+        boolean matches = passwordEncoder.matches(userInfoPOJO.getPassword(), credentialPass);
+
+        if (!matches) throw new RuntimeException("1002");
+
+        user.setMail(userInfoPOJO.getMail());
+        user.setUsername(userInfoPOJO.getUsername());
+        user.setAdmin(userInfoPOJO.isAdmin());
+
+        Path imagePath;
+        imagePath = Paths.get("src/main/resources/media/pfp/" + userInfoPOJO.getUuid() + ".png");
+
+        try {
+            Files.write(imagePath, Base64.getDecoder().decode(userInfoPOJO.getIcon()));
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
 
 
+        userRepository.save(user);
+    }
 }
