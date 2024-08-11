@@ -482,4 +482,14 @@ export class AppapiService {
         })
       );
   }
+
+  public getCloseEvent(rleagueuuid: string): Observable<any> {
+    return this.api.sendRequest('events/getCloseEvent', rleagueuuid).pipe(
+      map((response) => response),
+      catchError((error) => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
 }

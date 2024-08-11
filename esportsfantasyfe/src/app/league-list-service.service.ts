@@ -18,6 +18,7 @@ import {
 export class LeagueListServiceService {
   private leagues: any[] = [];
   private selectedLeague: number = 0;
+  private updating: boolean = false;
 
   constructor(
     private appapiService: AppapiService,
@@ -26,7 +27,12 @@ export class LeagueListServiceService {
   ) {}
 
   public updateLeagueList() {
+    if (this.updating) return;
+
     let leagueIndex = 0;
+    this.leagues = [];
+
+    this.updating = true;
 
     this.appapiService
       .getUserLeagues(this.credentialsService.getDecodedToken().sub)
@@ -45,6 +51,7 @@ export class LeagueListServiceService {
             this.setSelectedLeague(0);
           }
         });
+        this.updating = false;
       });
 
     if (this.leagues.length > 0) {
@@ -53,12 +60,19 @@ export class LeagueListServiceService {
   }
 
   public updateLeagueListObs(): Observable<any> {
-    let leagueIndex = 0;
+    if (this.updating) return of(null);
+    this.updating = true;
 
+    setTimeout(() => {
+      this.leagues = [];
+    });
+
+    let leagueIndex = 0;
     return this.appapiService
       .getUserLeagues(this.credentialsService.getDecodedToken().sub)
       .pipe(
         switchMap((leagues) => {
+          this.updating = false;
           return forkJoin(
             leagues.map((league) => {
               return this.appapiService.getLeagueIcon(league.leagueUUID).pipe(
@@ -77,6 +91,10 @@ export class LeagueListServiceService {
           );
         })
       );
+  }
+
+  public clearLeagues() {
+    this.leagues = [];
   }
 
   public getLeagues() {

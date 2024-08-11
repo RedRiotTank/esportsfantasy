@@ -2,17 +2,20 @@ import { Injectable } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { TeamService } from '../team/team.service';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { MatchsService } from '../matchs/matchs.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeService {
   public transferPosts: any[] = [];
+  public closestEvent: any = {};
 
   constructor(
     private appapiService: AppapiService,
     private teamService: TeamService,
-    private leagueListService: LeagueListServiceService
+    private leagueListService: LeagueListServiceService,
+    private matchsService: MatchsService
   ) {}
 
   loadHome() {
@@ -24,6 +27,7 @@ export class HomeService {
               this.leagueListService.getSelectedLeagueUUID()
             )
             .subscribe((response) => {
+              this.getCloseEvent();
               this.transferPosts = response.transferPosts;
             });
         });
@@ -35,10 +39,19 @@ export class HomeService {
             this.leagueListService.getSelectedLeagueUUID()
           )
           .subscribe((response) => {
+            this.getCloseEvent();
             this.transferPosts = response.transferPosts;
           });
       });
     }
+  }
+
+  public getCloseEvent() {
+    return this.appapiService
+      .getCloseEvent(this.leagueListService.getSelectedRLeagueUUID())
+      .subscribe((response) => {
+        this.closestEvent = response;
+      });
   }
 
   getTransferPosts() {

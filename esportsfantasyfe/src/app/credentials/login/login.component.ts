@@ -9,11 +9,9 @@ import { LeagueListServiceService } from '../../league-list-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
-
   emailInput: string = '';
   passwordInput: string = '';
   passwordConfirmInput: string = '';
@@ -28,20 +26,17 @@ export class LoginComponent {
     public credentialsService: CredentialsService,
     public headerService: HeaderService,
     private router: Router,
-    private leagueListService: LeagueListServiceService,
-    
-    ) {}
+    private leagueListService: LeagueListServiceService
+  ) {}
 
   ngOnInit() {
-      this.credentialsService.initSocial();
+    this.credentialsService.initSocial();
   }
-
-
 
   /**
    * This method cleans the form inputs.
    */
-  cleanFormInputs(){
+  cleanFormInputs() {
     this.emailInput = '';
     this.passwordInput = '';
     this.passwordConfirmInput = '';
@@ -50,86 +45,92 @@ export class LoginComponent {
   /**
    * This method cleans the form selections.
    */
-  cleanFormSelections(){
+  cleanFormSelections() {
     this.errorMessage = ' ';
     this.unvalidEmail = false;
     this.unvalidPassword = false;
     this.nonEqualsPasswords = false;
-    
   }
 
   /**
    * This method login the user.
    */
-  login(){
+  login() {
     this.errorMessage = ' ';
     this.unvalidEmail = false;
     this.unvalidPassword = false;
     this.nonEqualsPasswords = false;
 
-    const validMail :boolean = this.credentialsService.validateMail(this.emailInput);
-    const validPassword :string = this.credentialsService.validatePassword(this.passwordInput);
+    const validMail: boolean = this.credentialsService.validateMail(
+      this.emailInput
+    );
+    const validPassword: string = this.credentialsService.validatePassword(
+      this.passwordInput
+    );
 
-    if(this.emailInput == ''){
+    if (this.emailInput == '') {
       this.unvalidEmail = true;
       this.errorMessage = "Email can't be void";
       return;
     }
 
-    if(!validMail){
+    if (!validMail) {
       this.unvalidEmail = true;
-      this.errorMessage = "Unvalid email";
+      this.errorMessage = 'Unvalid email';
       return;
     }
 
-    if(this.passwordInput == ''){
+    if (this.passwordInput == '') {
       this.errorMessage = "Password can't be void";
       this.unvalidPassword = true;
       return;
     }
 
-    if(validPassword != null){
+    if (validPassword != null) {
       this.errorMessage = validPassword;
       this.unvalidPassword = true;
       return;
     }
-   
-    this.credentialsService.login(this.emailInput, this.passwordInput).subscribe(response => {
-      localStorage.setItem('token', response.token);
-      
-      this.credentialsService.updateLoginCredentials();
-      //this.headerService.setLoggedIn(true);
 
-      this.leagueListService.updateLeagueList();
-      this.router.navigate(['/home']);
-    }, error => {
-      var err: credentialsResponse = {
-        result: error.error.result,
-        status: error.error.status,
-        message: error.error.message,
-        token: "-",
-        appStatus: error.error.appStatus
-      }
+    this.credentialsService
+      .login(this.emailInput, this.passwordInput)
+      .subscribe(
+        (response) => {
+          localStorage.setItem('token', response.token);
 
-      if(err.appStatus == "610"){
-        this.unvalidEmail = true;
-        this.errorMessage = "This email is not registered";
-      }
+          this.credentialsService.updateLoginCredentials();
+          //this.headerService.setLoggedIn(true);
 
-      if(err.appStatus == "611"){
-        this.unvalidPassword = true;
-        this.errorMessage = "Wrong password";
-      }
+          //this.leagueListService.updateLeagueList();
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          var err: credentialsResponse = {
+            result: error.error.result,
+            status: error.error.status,
+            message: error.error.message,
+            token: '-',
+            appStatus: error.error.appStatus,
+          };
 
-      if(err.appStatus != "610" && err.appStatus != "611"){
-        this.credentialsService.sendToErrorPage(error);
-      }
-    }); 
-     
+          if (err.appStatus == '610') {
+            this.unvalidEmail = true;
+            this.errorMessage = 'This email is not registered';
+          }
+
+          if (err.appStatus == '611') {
+            this.unvalidPassword = true;
+            this.errorMessage = 'Wrong password';
+          }
+
+          if (err.appStatus != '610' && err.appStatus != '611') {
+            this.credentialsService.sendToErrorPage(error);
+          }
+        }
+      );
   }
 
-
-  goToRegister(){
+  goToRegister() {
     this.router.navigate(['/register']);
   }
 }

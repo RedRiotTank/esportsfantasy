@@ -10,6 +10,7 @@ import { TeamService } from './team/team.service';
 import { MatchsService } from './matchs/matchs.service';
 import { RankingComponent } from './ranking/ranking.component';
 import { RankingService } from './ranking/ranking.service';
+import { HomeService } from './home/home.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit {
     private teamService: TeamService,
     private moneyService: MoneyService,
     private matchsService: MatchsService,
-    private rankingService: RankingService
+    private rankingService: RankingService,
+    private homeService: HomeService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -48,7 +50,7 @@ export class AppComponent implements OnInit {
               this.credentialsService.loggedIn = true;
               this.credentialsService.social_started = true;
               this.credentialsService.social_user = response.user;
-              this.leagueListService.updateLeagueList();
+              this.leagueListService.updateLeagueListObs().subscribe(() => {});
             }
           },
           (error: any) => {
@@ -79,6 +81,10 @@ export class AppComponent implements OnInit {
 
     this.teamService.loadCurrentJour().subscribe(() => {
       switch (this.router.url) {
+        case '/home':
+          this.homeService.loadHome();
+          break;
+
         case '/ranking':
           this.rankingService.changeJour(this.teamService.currentJour);
           break;

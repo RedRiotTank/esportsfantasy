@@ -64,6 +64,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/UserXLeagueXPlayer/TeamInfo").permitAll()
                 .requestMatchers("/api/UserXLeagueXPlayer/SetAligned").permitAll()
                 .requestMatchers("/api/events/getEvents").permitAll()
+                .requestMatchers("/api/events/getCloseEvent").permitAll()
                 .requestMatchers("/api/user/loginWithToken").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueTotalJours").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueCurrentJour").permitAll()

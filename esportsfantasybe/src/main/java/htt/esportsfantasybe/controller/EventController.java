@@ -31,5 +31,15 @@ public class EventController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/getCloseEvent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCloseEvent(@RequestBody String rleagueuuid) {
+        try {
+            return okresponses.getCloseEvent(eventService.getCloseEvent(UUID.fromString(rleagueuuid)));
+        } catch (Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 
 }

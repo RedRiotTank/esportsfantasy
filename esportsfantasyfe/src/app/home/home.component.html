@@ -1,3 +1,32 @@
+<div *ngIf="getClosestEvent()" class="next-event">
+  <h2 class="next-event-title">Next Event</h2>
+  <div class="next-event-content">
+    <div class="team-info" (click)="gotoTeamInfo(getClosestEvent().team1uuid)">
+      <img
+        [src]="'data:image/png;base64,' + getClosestEvent().team1icon"
+        alt="{{ getClosestEvent().team1name }} Icon"
+        class="team-icon"
+      />
+      <span class="team-name">{{ getClosestEvent().team1name }}</span>
+    </div>
+
+    <div class="versus">
+      <span>vs</span>
+      <p class="event-date">{{ getClosestEvent().date | date : "medium" }}</p>
+      <p class="event-jour">{{ getClosestEvent().jour }}</p>
+    </div>
+
+    <div class="team-info" (click)="gotoTeamInfo(getClosestEvent().team2uuid)">
+      <img
+        [src]="'data:image/png;base64,' + getClosestEvent().team2icon"
+        alt="{{ getClosestEvent().team2name }} Icon"
+        class="team-icon"
+      />
+      <span class="team-name">{{ getClosestEvent().team2name }}</span>
+    </div>
+  </div>
+</div>
+
 <div *ngIf="getLeagues().length === 0" class="no-league">
   <h2 class="esf-title">You're not in any league right now</h2>
   <button class="esf-ibutton" (click)="goToCreateLeague()">
@@ -7,7 +36,10 @@
 
 <div *ngIf="getLeagues().length > 0" class="home-content">
   <div *ngFor="let transfer of getTransferPosts()" class="transfer-post">
-    <div class="transfer-post-header">
+    <div
+      class="transfer-post-header"
+      (click)="gotoPlayerInfo(transfer.playeruuid)"
+    >
       <img
         [src]="'data:image/png;base64,' + transfer.playericon"
         alt="Player Icon"
@@ -65,6 +97,61 @@
           <span>{{ bid.username }}</span>
           <span class="bid-amount">{{ bid.bid | currency }}</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="transfer-post welcome-message">
+    <div class="transfer-post-header">
+      <img
+        src="../../assets/icons/trainer.png"
+        alt="User Icon"
+        class="player-icon"
+      />
+      <div class="player-info">
+        <h3>
+          <span class="welcome-text">Welcome to the league</span>
+          <span class="league-name"> {{ this.getLeague().leagueName }}</span>
+        </h3>
+      </div>
+    </div>
+
+    <div class="transfer-post-body">
+      <div class="welcome-info">
+        <p>
+          Welcome to our community! 🎉 We're thrilled to have you in the league.
+        </p>
+        <ul>
+          <li>
+            📜 <strong>League Rules:</strong> Please make sure to read and
+            follow the league rules. This helps everyone enjoy the game fairly.
+          </li>
+          <li>
+            🤝 <strong>Be Respectful:</strong> Treat your fellow league members
+            with respect and kindness. Good sportsmanship is key!
+          </li>
+          <li>
+            ⚔️ <strong>Enjoy the Competition:</strong> Give it your all and
+            enjoy the thrill of the game. Remember, it's all in good fun!
+          </li>
+          <li>
+            💬 <strong>Get Involved:</strong> Join discussions, share tips, and
+            engage with the community. Your participation makes the league
+            better for everyone!
+          </li>
+          <li>
+            🏆 <strong>Aim for the Top:</strong> Set your sights on the top of
+            the leaderboard and strive to be the best in the league.
+          </li>
+          <li>
+            🎁 <strong>Rewards Await:</strong> Look out for special events and
+            rewards throughout the season. Good luck!
+          </li>
+        </ul>
+        <p>
+          We hope you have a fantastic time. If you have any questions, don't
+          hesitate to reach out. Good luck! 🍀
+        </p>
       </div>
     </div>
   </div>

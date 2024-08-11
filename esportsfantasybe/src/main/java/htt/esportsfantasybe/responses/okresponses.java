@@ -509,4 +509,26 @@ public class okresponses {
 
             return ResponseEntity.ok(okjson.toString());
     }
+
+    public static ResponseEntity<?> getCloseEvent(EventInfoPOJO event) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "clause increased correctly");
+
+        if(event == null) return ResponseEntity.ok(okjson.toString());
+
+        okjson.addProperty("team1uuid", event.getTeam1uuid().toString());
+        okjson.addProperty("team2uuid", event.getTeam2uuid().toString());
+        okjson.addProperty("team1name", event.getTeam1name());
+        okjson.addProperty("team2name", event.getTeam2name());
+        okjson.addProperty("team1icon", event.getTeam1icon());
+        okjson.addProperty("team2icon", event.getTeam2icon());
+        okjson.addProperty("team1Score", event.getTeam1Score());
+        okjson.addProperty("team2Score", event.getTeam2Score());
+        okjson.addProperty("jour", event.getJour());
+        okjson.addProperty("date", event.getDate().toString());
+
+        return ResponseEntity.ok(okjson.toString());
+    }
 }

@@ -167,4 +167,40 @@ public class EventService {
     public int getPlayerPoints(UUID playerUuid, String matchId) {
         return playerPointsService.getPointsByPlayerAndMatch(playerUuid, matchId);
     }
+
+    public EventInfoPOJO getCloseEvent(UUID rleagueuuid){
+
+        List<Event> evs = eventRepository.findAllById_Realleagueuuid(rleagueuuid);
+        Date now = new Date();
+        Date evDate = new Date(Long.MAX_VALUE);
+
+        Event closeEvent = null;
+
+        for(Event ev : evs){
+
+            if(ev.getDate().after(now) && ev.getDate().before(evDate)){
+                evDate = ev.getDate();
+                closeEvent = ev;
+            }
+        }
+
+        if(closeEvent == null) return null;
+
+        String team1Icon = Base64.getEncoder().encodeToString(teamService.getTeamIcon(closeEvent.getId().getTeam1uuid()));
+        String team2Icon = Base64.getEncoder().encodeToString(teamService.getTeamIcon(closeEvent.getId().getTeam2uuid()));
+
+        return new EventInfoPOJO(
+                closeEvent.getId().getTeam1uuid(),
+                closeEvent.getId().getTeam2uuid(),
+                teamService.getTeamDTO(closeEvent.getId().getTeam1uuid()).getName(),
+                teamService.getTeamDTO(closeEvent.getId().getTeam2uuid()).getName(),
+                team1Icon,
+                team2Icon,
+                closeEvent.getTeam1Score(),
+                closeEvent.getTeam2Score(),
+                closeEvent.getId().getJour(),
+                closeEvent.getDate()
+        );
+
+    }
 }

@@ -31,6 +31,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 
 .player-icon {
@@ -116,4 +117,97 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
+}
+
+.welcome-message {
+  background-color: #fff4e5;
+  border: 2px solid #ffa726;
+}
+
+.welcome-text {
+  color: #333;
+  font-weight: bold;
+}
+
+.league-name {
+  color: #ffa726;
+  font-weight: bold;
+}
+
+.welcome-info {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  color: #333;
+}
+
+.welcome-info p {
+  margin: 0;
+  line-height: 1.5em;
+}
+
+.next-event {
+  background-color: #e0f7fa;
+  border: 2px solid #26a69a;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.next-event-title {
+  font-size: 1.5em;
+  color: #00695c;
+  margin-bottom: 10px;
+}
+
+.next-event-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.team-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  object-fit: cover;
+}
+
+.team-name {
+  font-size: 1.2em;
+  color: #004d40;
+  font-weight: bold;
+}
+
+.versus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.versus span {
+  font-size: 1.5em;
+  color: #004d40;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.event-date {
+  font-size: 1em;
+  color: #004d40;
+  margin-bottom: 4px;
+}
+
+.event-jour {
+  font-size: 0.9em;
+  color: #00796b;
 }
