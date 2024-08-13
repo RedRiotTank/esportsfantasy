@@ -40,6 +40,7 @@ public class koresponses {
         koMap.put(1021, "Market entry not found.");
         koMap.put(1022, "Not enough money.");
         koMap.put(1023, "Player not in sell.");
+        koMap.put(1024, "Bidup not found.");
     }
 
     public static ResponseEntity<?> generateKO(){

@@ -178,14 +178,22 @@ export class AppapiService {
     });
   }
 
-  public getMarketPlayers(leagueUUID: string): Observable<any> {
-    return this.api.sendRequest('League/getMarketPlayers', leagueUUID).pipe(
-      map((response) => response.players),
-      catchError((error) => {
-        this.sendToErrorPage(error);
-        return of([]);
+  public getMarketPlayers(
+    leagueUUID: string,
+    userUUID: string
+  ): Observable<any> {
+    return this.api
+      .sendRequest('League/getMarketPlayers', {
+        useruuid: userUUID,
+        leagueuuid: leagueUUID,
       })
-    );
+      .pipe(
+        map((response) => response.players),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
   }
 
   // --- USER ---
@@ -517,5 +525,25 @@ export class AppapiService {
       icon: icon,
       password: password,
     });
+  }
+
+  public cancelBid(
+    playerUUID: string,
+    leagueUUID: string,
+    userUUID: string
+  ): Observable<any> {
+    return this.api
+      .sendRequest('Market/cancelBidup', {
+        playeruuid: playerUUID,
+        leagueuuid: leagueUUID,
+        useruuid: userUUID,
+      })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
   }
 }

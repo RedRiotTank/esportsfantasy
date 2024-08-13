@@ -7,6 +7,7 @@ import { TeamService } from '../team/team.service';
 import { CredentialsService } from '../credentials/credentials.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 import { Router } from '@angular/router';
+import { MoneyService } from '../common/money.service';
 
 @Component({
   selector: 'app-market',
@@ -22,7 +23,8 @@ export class MarketComponent implements OnInit {
     public teamService: TeamService,
     public credentialsService: CredentialsService,
     public leagueListService: LeagueListServiceService,
-    public router: Router
+    public router: Router,
+    public moneyService: MoneyService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +45,10 @@ export class MarketComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.marketService.bidUp(player.uuid, result.number).subscribe(() => {
-          //console.log("Bid up success");
+          this.marketService.loadMarket();
+          this.moneyService.updateMoney(
+            this.leagueListService.getSelectedLeagueUUID()
+          );
         });
       }
     });
@@ -82,6 +87,10 @@ export class MarketComponent implements OnInit {
 
   cancelSell(player: any) {
     this.marketService.cancelSell(player.uuid);
+  }
+
+  cancelBid(player: any) {
+    this.marketService.cancelBid(player.uuid);
   }
 
   getOffers() {

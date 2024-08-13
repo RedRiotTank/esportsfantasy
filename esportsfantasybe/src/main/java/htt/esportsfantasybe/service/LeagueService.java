@@ -7,15 +7,13 @@ import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.Market;
 import htt.esportsfantasybe.model.complexentities.UserXLeague;
 import htt.esportsfantasybe.model.pojos.*;
 import htt.esportsfantasybe.repository.LeagueRepository;
-import htt.esportsfantasybe.service.complexservices.EventService;
-import htt.esportsfantasybe.service.complexservices.MarketService;
-import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
-import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
+import htt.esportsfantasybe.service.complexservices.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,7 @@ public class LeagueService {
     private PlayerService playerService;
 
     private EventService eventService;
+    private BidUpService bidUpService;
 
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
@@ -58,7 +57,8 @@ public class LeagueService {
             MarketService marketService,
             PlayerService playerService,
             EventService eventService,
-            UserXLeagueXPlayerService userXLeagueXPlayerService) {
+            UserXLeagueXPlayerService userXLeagueXPlayerService,
+            BidUpService bidUpService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
@@ -66,7 +66,7 @@ public class LeagueService {
         this.playerService = playerService;
         this.eventService = eventService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
-
+        this.bidUpService = bidUpService;
     }
 
     public byte[] getLeagueIcon(String uuid){
@@ -208,7 +208,7 @@ public class LeagueService {
     }
 
 
-    public Set<PlayerInfoPOJO> getMarketPlayersInfo(UUID leagueUUID) {
+    public Set<PlayerInfoPOJO> getMarketPlayersInfo(UUID leagueUUID, UUID userUUID) {
 
         List<Market> playersInSell = this.marketService.getLeagueMarketEntriesInSell(leagueUUID,true);
         Set<PlayerInfoPOJO> playerInfoPOJOS = new HashSet<>();
@@ -220,6 +220,13 @@ public class LeagueService {
 
             if(marketEntry.getOwneruuid() != null) ownerUsername = userService.getUser(marketEntry.getOwneruuid()).getUsername();
 
+            int bidupValue = -999;
+
+            if(userUUID != null) {
+                BidUp bidUp = bidUpService.getBidUp(leagueUUID, playerDTO.getUuid(), userUUID);
+                if (bidUp != null)bidupValue = bidUp.getBid();
+            }
+
             playerInfoPOJOS.add(
                     new PlayerInfoPOJO(
                             playerDTO.getUuid(),
@@ -229,6 +236,7 @@ public class LeagueService {
                             marketEntry.getOwneruuid(),
                             ownerUsername,
                             marketEntry.getMarketvalue(),
+                            bidupValue,
                             11,
                             250,
                             eventService.getPlayerPointsHistory(playerDTO.getUuid())

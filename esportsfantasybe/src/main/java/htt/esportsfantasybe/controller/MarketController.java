@@ -37,6 +37,18 @@ public class MarketController {
     }
 
     @CrossOrigin
+    @PostMapping(value ="/cancelBidup", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> cancelBid(@RequestBody BidupPOJO bidup){
+        try {
+            marketService.cancelBid(bidup.getPlayeruuid(), bidup.getLeagueuuid(), bidup.getUseruuid());
+
+            return okresponses.bidup();
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
     @PostMapping(value ="/sell", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sell(@RequestBody BidupPOJO bidup) {
         try {

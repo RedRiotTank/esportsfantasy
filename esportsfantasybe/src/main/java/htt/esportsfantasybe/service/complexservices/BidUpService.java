@@ -35,4 +35,20 @@ public class BidUpService {
         bidUp.setState(false);
         bidUpRepository.save(bidUp);
     }
+
+    public BidUp getBidUp(UUID leagueUUID, UUID playerUUID, UUID userUUID) {
+        return bidUpRepository.findById_LeagueuuidAndId_PlayeruuidAndId_BiduseruuidAndState(leagueUUID, playerUUID, userUUID, true);
+    }
+
+    public int cancelBid(UUID playerUUID, UUID leagueUUID, UUID userUUID) {
+        BidUp bidUp = bidUpRepository.findById_LeagueuuidAndId_PlayeruuidAndId_BiduseruuidAndState(leagueUUID, playerUUID, userUUID, true);
+
+        if(bidUp == null) {
+            throw new RuntimeException("1024");
+        }
+
+        int bidValue = bidUp.getBid();
+        bidUpRepository.delete(bidUp);
+        return bidValue;
+    }
 }

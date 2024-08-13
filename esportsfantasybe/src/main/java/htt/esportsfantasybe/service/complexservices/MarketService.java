@@ -161,6 +161,10 @@ public class MarketService {
 
     }
 
+    public void cancelBid(UUID playerUUID, UUID leagueUUID, UUID userUUID){
+        int val = bidUpService.cancelBid(playerUUID, leagueUUID, userUUID);
+        userXLeagueService.addMoney(userUUID, leagueUUID, val);
+    }
     public void sell(UUID playerUUID, UUID leagueUUID, UUID userUUID, int value){
         Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueUUID, playerUUID);
         market.setInsell(true);

@@ -155,20 +155,56 @@
         -->
     </div>
 
-    <button
-      class="price"
-      (click)="openModal(player)"
-      *ngIf="player.ownerUUID != credentialsService.getUserUUID()"
-    >
-      {{ player.price }}
-    </button>
+    <div class="val">
+      <h4 *ngIf="player.playerBidUpValue != -999">BidUp:</h4>
 
-    <button
-      class="bin"
-      (click)="cancelSell(player)"
-      *ngIf="player.ownerUUID == credentialsService.getUserUUID()"
-    >
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+      <h4 *ngIf="player.playerBidUpValue == -999">Value:</h4>
+
+      <div class="buttons">
+        <button
+          class="price"
+          (click)="openModal(player)"
+          *ngIf="
+            player.ownerUUID != credentialsService.getUserUUID() &&
+            player.playerBidUpValue == -999
+          "
+        >
+          {{
+            player.price | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </button>
+
+        <button
+          class="price"
+          (click)="openModal(player)"
+          *ngIf="
+            player.ownerUUID != credentialsService.getUserUUID() &&
+            player.playerBidUpValue != -999
+          "
+          [disabled]="true"
+        >
+          {{
+            player.playerBidUpValue
+              | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </button>
+
+        <button
+          class="bin"
+          (click)="cancelSell(player)"
+          *ngIf="player.ownerUUID == credentialsService.getUserUUID()"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <button
+          class="bin"
+          (click)="cancelBid(player)"
+          *ngIf="player.playerBidUpValue != -999"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>

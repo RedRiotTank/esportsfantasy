@@ -38,6 +38,14 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
+    public static ResponseEntity<?> cancelBidup(){
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "bidup canceled correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
     /** This method returns a response for a successful request (login of a user).
      * @param token This is the token of the user.
      * @return ResponseEntity<?> This returns the response for the successful request.
@@ -174,6 +182,11 @@ public class okresponses {
 
             playerJson.addProperty("ownerUsername", player.getOwnerUsername());
             playerJson.addProperty("price", player.getPrice());
+
+            if(player.getPlayerBidUpValue() != -999)
+                playerJson.addProperty("playerBidUpValue", player.getPlayerBidUpValue());
+
+            playerJson.addProperty("playerBidUpValue", player.getPlayerBidUpValue());
             playerJson.addProperty("points", player.getPoints());
             playerJson.addProperty("clause", player.getClause());
 

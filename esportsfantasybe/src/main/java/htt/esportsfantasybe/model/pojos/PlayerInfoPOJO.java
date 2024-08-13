@@ -27,12 +27,13 @@ public class PlayerInfoPOJO {
     private String ownerUsername;
     private String ownerIcon;
     private int price;
+    private int playerBidUpValue;
     private int points;
     List<PlayerPoints> playerPoints;
     private int clause;
     private ArrayList<Integer> pointsHistory;
 
-    public PlayerInfoPOJO(UUID uuid, String name, String role, Set<TeamDTO> teamsDTO, UUID ownerUUID, String ownerUsername, int price, int points, int clause, ArrayList<Integer> pointsHistory) {
+    public PlayerInfoPOJO(UUID uuid, String name, String role, Set<TeamDTO> teamsDTO, UUID ownerUUID, String ownerUsername, int price,int playerBidUpValue, int points, int clause, ArrayList<Integer> pointsHistory) {
         this.uuid = uuid;
         this.name = name;
         this.role = role;
@@ -40,6 +41,7 @@ public class PlayerInfoPOJO {
         this.ownerUUID = ownerUUID;
         this.ownerUsername = ownerUsername;
         this.price = price;
+        this.playerBidUpValue = playerBidUpValue;
         this.points = points;
         this.clause = clause;
         this.pointsHistory = pointsHistory;

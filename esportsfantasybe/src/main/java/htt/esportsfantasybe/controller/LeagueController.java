@@ -66,9 +66,9 @@ public class LeagueController {
 
     @CrossOrigin
     @PostMapping(value ="/getMarketPlayers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getMarketPlayers(@RequestBody String leagueUUID) {
+    public ResponseEntity<?> getMarketPlayers(@RequestBody UserLeaguePOJO userLeaguePOJO) {
         try {
-            Set<PlayerInfoPOJO> players = leagueService.getMarketPlayersInfo(UUID.fromString(leagueUUID));
+            Set<PlayerInfoPOJO> players = leagueService.getMarketPlayersInfo(userLeaguePOJO.getLeagueuuid(), userLeaguePOJO.getUseruuid());
 
             return okresponses.getMarketPlayers(players);
         } catch(Exception e) {

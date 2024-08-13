@@ -42,6 +42,8 @@ import { TeaminfoComponent } from './teaminfo/teaminfo.component';
 import { ClausePlayerModalComponent } from './playerinfo/clause-player-modal/clause-player-modal.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { UserpageComponent } from './userpage/userpage.component';
+import { EsfcurrencyPipe } from './common/esfcurrency.pipe';
+import { CurrencyPipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +67,7 @@ import { UserpageComponent } from './userpage/userpage.component';
     ClausePlayerModalComponent,
     RankingComponent,
     UserpageComponent,
+    EsfcurrencyPipe,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ import { UserpageComponent } from './userpage/userpage.component';
       } as SocialAuthServiceConfig,
     },
     provideAnimationsAsync(),
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
 })

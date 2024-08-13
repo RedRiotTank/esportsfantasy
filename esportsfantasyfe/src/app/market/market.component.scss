@@ -121,12 +121,38 @@
       }
     }
 
-    .price {
-      // vertical-align: middle; // No es necesario
+    .val {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin: auto;
+
+      h4 {
+        font-size: 1vw;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+    }
+
+    .price {
+      font-size: 130%;
+      font-weight: bold;
+      border: 2px solid white;
       border-radius: 5px;
-      border: none;
-      background-color: red;
+      transition: font-size 0.3s ease, border-color 0.3s ease;
+      padding: 10px;
+    }
+
+    .price:hover {
+      cursor: pointer;
+      font-size: 150%;
+      border-color: lightgray;
     }
 
     .bin {

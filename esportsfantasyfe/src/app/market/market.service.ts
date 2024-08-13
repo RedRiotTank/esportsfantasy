@@ -3,6 +3,7 @@ import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 import { CredentialsService } from '../credentials/credentials.service';
 import { Observable } from 'rxjs';
+import { MoneyService } from '../common/money.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class MarketService {
   constructor(
     private appApiService: AppapiService,
     private leagueListService: LeagueListServiceService,
-    private credentialsService: CredentialsService
+    private credentialsService: CredentialsService,
+    private moneyService: MoneyService
   ) {}
 
   private marketPlayers: any[] = [];
@@ -27,7 +29,10 @@ export class MarketService {
     });
 
     this.appApiService
-      .getMarketPlayers(this.leagueListService.getSelectedLeague().leagueUUID)
+      .getMarketPlayers(
+        this.leagueListService.getSelectedLeague().leagueUUID,
+        this.credentialsService.getUserUUID()
+      )
       .subscribe((players) => {
         //console.log(players);
         players.forEach((player) => {
@@ -60,6 +65,21 @@ export class MarketService {
       this.credentialsService.getUserUUID(),
       value
     );
+  }
+
+  public cancelBid(playerUUID: string) {
+    this.appApiService
+      .cancelBid(
+        playerUUID,
+        this.leagueListService.getSelectedLeagueUUID(),
+        this.credentialsService.getUserUUID()
+      )
+      .subscribe(() => {
+        this.loadMarket();
+        this.moneyService.updateMoney(
+          this.leagueListService.getSelectedLeagueUUID()
+        );
+      });
   }
 
   public sellPlayer(playerUUID: string, value: number) {
