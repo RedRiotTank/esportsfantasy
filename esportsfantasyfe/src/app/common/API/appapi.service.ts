@@ -126,7 +126,7 @@ export class AppapiService {
     return this.api
       .sendRequest('realLeague/getRLeagueCurrentJour', leagueuuid)
       .pipe(
-        map((response) => response.currentJour),
+        map((response) => response),
         catchError((error) => {
           this.sendToErrorPage(error);
           return of([]);

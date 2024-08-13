@@ -5,6 +5,7 @@ import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.PlayerPoints;
+import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
 import htt.esportsfantasybe.model.pojos.EventInfoPOJO;
 import htt.esportsfantasybe.model.pojos.EventPOJO;
 import htt.esportsfantasybe.repository.complexrepositories.EventRepository;
@@ -121,14 +122,14 @@ public class EventService {
         });
     }
 
-    public int getCurrentJour(UUID realLeagueUuid){
+    public CurrentJourInfoPOJO getCurrentJour(UUID realLeagueUuid){
         Date now = new Date();
 
         List<Event> events = eventRepository.findAllById_Realleagueuuid(realLeagueUuid);
 
         events.removeIf(event -> event.getDate().before(now));
 
-        if (events.isEmpty()) return 0;
+        if (events.isEmpty()) return new CurrentJourInfoPOJO(0,false);
 
         Event closestEvent = null;
         long minDiff = Long.MAX_VALUE;
@@ -140,7 +141,19 @@ public class EventService {
                 closestEvent = event;
             }
         }
-        return (closestEvent.getId().getJour());
+        int currentJour = closestEvent.getId().getJour();
+        boolean editable = true;
+        List<Event> eventsInCurrentJour = eventRepository.findAllById_RealleagueuuidAndId_Jour(realLeagueUuid, currentJour);
+
+        for(Event e : eventsInCurrentJour){
+            if(e.getDate().before(now)){
+                editable = false;
+                break;
+            }
+        }
+
+
+        return new CurrentJourInfoPOJO(currentJour, editable);
     }
 
     public ArrayList<Integer> getPlayerPointsHistory(UUID playerUUID) {

@@ -3,6 +3,7 @@ package htt.esportsfantasybe.controller;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
 import htt.esportsfantasybe.responses.koresponses;
 import htt.esportsfantasybe.responses.okresponses;
 import htt.esportsfantasybe.service.RealLeagueService;
@@ -66,9 +67,9 @@ public class RealLeagueController {
     @PostMapping(value ="/getRLeagueCurrentJour", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRLeagueCurrentJour(@RequestBody String uuid){
         try{
-            int currentJour = realLeagueService.getRLeagueCurrentJour(uuid) + 1;
+            CurrentJourInfoPOJO currentJourInfoPOJO = realLeagueService.getRLeagueCurrentJour(uuid);
 
-            return okresponses.getRLeagueCurrentJour(currentJour);
+            return okresponses.getRLeagueCurrentJour(currentJourInfoPOJO.getJour(), currentJourInfoPOJO.isStarted());
         } catch (Exception e){
             return koresponses.generateKO(e.getMessage());
         }

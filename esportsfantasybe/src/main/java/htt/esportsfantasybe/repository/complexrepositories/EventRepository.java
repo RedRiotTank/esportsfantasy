@@ -18,4 +18,6 @@ public interface EventRepository extends JpaRepository<Event, String>{
     int findMaxJour(@Param("realLeagueUuid") UUID realleagueuuid);
 
     List<Event> findByMatchidIn(List<String> matchIds);
+
+    List<Event> findAllById_RealleagueuuidAndId_Jour(UUID realleagueuuid, int jour);
 }

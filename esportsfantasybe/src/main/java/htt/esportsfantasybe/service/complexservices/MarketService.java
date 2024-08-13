@@ -87,7 +87,7 @@ public class MarketService {
             if(!bidUpList.isEmpty()){
                 BidUp maxBidUp = Collections.max(bidUpList, Comparator.comparingInt(BidUp::getBid));
 
-                userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid(),league.getRealLeagueDTO().getCurrentjour() + 1);
+                userXLeagueXPlayerService.linkUserLeaguePlayer(maxBidUp.getId().getBiduseruuid(), league.getUuid(), market.getId().getPlayeruuid(),league.getRealLeagueDTO().getCurrentjour());
                 bidUpService.closeBidUp(maxBidUp);
 
                 market.setOwneruuid(maxBidUp.getId().getBiduseruuid());

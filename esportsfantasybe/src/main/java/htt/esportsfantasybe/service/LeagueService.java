@@ -239,7 +239,7 @@ public class LeagueService {
         return playerInfoPOJOS;
     }
 
-    public int getLeagueRealLeagueCurrentJour(UUID leagueuuid){
+    public CurrentJourInfoPOJO getLeagueRealLeagueCurrentJour(UUID leagueuuid){
         return this.realLeagueService.getRLeagueCurrentJour(this.getLeague(leagueuuid).getRealLeague().getUuid().toString());
     }
 

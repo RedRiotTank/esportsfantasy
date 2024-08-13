@@ -60,7 +60,10 @@ export class TeamComponent implements OnInit {
   }
 
   openModal(pos: number): void {
-    if (this.teamService.selectedJour == this.teamService.currentJour) {
+    if (
+      this.teamService.selectedJour == this.teamService.currentJour &&
+      this.getEditableCurrentJour()
+    ) {
       const dialogRef = this.dialog.open(SelectplayerModalComponent, {
         width: '400px',
         data: {
@@ -88,6 +91,10 @@ export class TeamComponent implements OnInit {
 
   getLeagueCurrentJour() {
     return this.teamService.currentJour;
+  }
+
+  getEditableCurrentJour() {
+    return this.teamService.editableCurrentJour;
   }
 
   getLeagueCurrentJourArray() {

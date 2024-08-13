@@ -4,6 +4,7 @@ import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
@@ -62,16 +63,15 @@ public class RealLeagueService {
         this.getRLeaguesDTODB().forEach(eventService::obtainRLeagueEvents);
     }
 
-    @Scheduled(fixedRate = 7200000) //2 hours
+    @Scheduled(fixedRate = 2400000) //40 minutes
     public void updateRLeaguesCurrentJour(){
         Utils.esfPrint("Updating current jour for all leagues...");
         this.getRLeaguesDB().forEach(league -> {
-            int currentJour = eventService.getCurrentJour(league.getUuid());
+            int currentJour = eventService.getCurrentJour(league.getUuid()).getJour();
 
-            if(currentJour + 1 == league.getCurrentjour()+1){
+            if(currentJour == league.getCurrentjour()+1){
                 userXLeagueXPlayerService.playerOwnerJourExtension(league);
             }
-            //currentJour++;
 
             league.setCurrentjour(currentJour);
             realLeagueRepository.save(league);
@@ -126,7 +126,7 @@ public class RealLeagueService {
         return this.eventService.getRLeagueTotalJours(rl.getUuid());
     }
 
-    public int getRLeagueCurrentJour(String uuid) {
+    public CurrentJourInfoPOJO getRLeagueCurrentJour(String uuid) {
         RealLeague rl = getRLeague(uuid);
         return this.eventService.getCurrentJour(rl.getUuid());
     }

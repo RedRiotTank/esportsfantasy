@@ -31,6 +31,7 @@
         class="fa-solid fa-plus"
         *ngIf="
           getLeagueCurrentJour() == this.getTeamService().selectedJour &&
+          getEditableCurrentJour() &&
           !getPlayerByPosition(index)
         "
       ></i>

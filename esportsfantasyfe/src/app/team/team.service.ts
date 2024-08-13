@@ -11,6 +11,7 @@ export class TeamService {
   private teamPlayers: any[] = [];
   public totalJours: number = 1;
   public currentJour: number = 1;
+  public editableCurrentJour: boolean;
   public selectedJour: number = 1;
   public league: string = '';
 
@@ -59,7 +60,8 @@ export class TeamService {
       .getRLeagueCurrentJour(this.leagueservice.getSelectedRLeagueUUID())
       .pipe(
         tap((response) => {
-          this.currentJour = response;
+          this.currentJour = response.currentJour;
+          this.editableCurrentJour = response.isEditable;
         })
       );
   }
