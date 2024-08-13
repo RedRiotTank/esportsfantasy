@@ -94,7 +94,7 @@ export class MarketComponent implements OnInit {
   }
 
   getOffers() {
-    console.log('getOffers', this.marketService.getOffers());
+    //console.log('getOffers', this.marketService.getOffers());
     return this.marketService.getOffers();
   }
 
