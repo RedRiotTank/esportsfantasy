@@ -265,7 +265,7 @@ public class LeagueService {
             try {
                 b64Icon = Base64.getEncoder().encodeToString(userService.getUserPfp(user.getUuid()));
             } catch (IOException e) {
-                //throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
 
 

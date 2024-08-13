@@ -74,7 +74,7 @@ public class TransferPostService {
                 try {
                     prevOwnerIconB64 = Base64.getEncoder().encodeToString(userService.getUserPfp(prevOwner.getMail()));
                 } catch (IOException e) {
-                    //throw new RuntimeException(e);
+                    throw new RuntimeException(e);
                 };
             }
 
@@ -95,7 +95,7 @@ public class TransferPostService {
                             Integer.parseInt(splitUser[1])
                     ));
                 } catch (IOException e) {
-                    //throw new RuntimeException(e);
+                    throw new RuntimeException(e);
                 }
             });
 

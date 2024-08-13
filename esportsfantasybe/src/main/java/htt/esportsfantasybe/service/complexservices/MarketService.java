@@ -192,7 +192,7 @@ public class MarketService {
                 try {
                     usericon = userService.getUserPfp(user.getMail());
                 } catch (IOException e) {
-                    //throw new RuntimeException(e);
+                    throw new RuntimeException(e);
                 }
 
                 String usericonb64 = Base64.getEncoder().encodeToString(usericon);

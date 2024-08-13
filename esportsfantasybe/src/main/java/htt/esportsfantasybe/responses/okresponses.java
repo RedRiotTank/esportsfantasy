@@ -515,7 +515,7 @@ public class okresponses {
         JsonObject okjson = new JsonObject();
         okjson.addProperty("result", "ok");
         okjson.addProperty("status", "201");
-        okjson.addProperty("message", "clause increased correctly");
+        okjson.addProperty("message", "Got event correctly");
 
         if(event == null) return ResponseEntity.ok(okjson.toString());
 
