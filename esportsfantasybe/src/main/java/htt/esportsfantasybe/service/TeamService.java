@@ -5,6 +5,8 @@ import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
+import htt.esportsfantasybe.model.pojos.PlayerLeaguePOJO;
 import htt.esportsfantasybe.model.pojos.TeamInfoPOJO;
 import htt.esportsfantasybe.repository.TeamRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
@@ -168,5 +170,21 @@ public class TeamService {
             t.getLeagues()
         );
 
+    }
+
+    public Set<PlayerInfoPOJO> getTeamPlayersInfo(String teamuuid, String leagueuuid){
+        Team t = getTeam(UUID.fromString(teamuuid));
+
+        Set<PlayerInfoPOJO> playerInfoPOJOS = new HashSet<>();
+
+        t.getPlayers().forEach(player -> {
+            try {
+                playerInfoPOJOS.add(playerService.getPlayerInfo(new PlayerLeaguePOJO(player.getUuid().toString(), leagueuuid)));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return playerInfoPOJOS;
     }
 }

@@ -1,0 +1,170 @@
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-spinner img {
+  width: auto;
+  height: auto;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-e;
+  margin-bottom: 15px;
+
+  label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #f2f3f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .player-values {
+    display: flex;
+    flex-direction: row;
+    margin-left: 4%;
+    div {
+      margin-right: 17%;
+      text-align: center;
+    }
+  }
+
+  .player-owner {
+    display: flex;
+    flex-direction: column;
+    margin-left: 4%;
+    text-align: center;
+    align-items: center;
+
+    .owner-icon {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+.player-score {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-right: 20px;
+  padding: 10px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  min-width: 80px;
+}
+
+.player-icon img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.player-icon img:hover {
+  cursor: pointer;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .role-icon,
+  .teamicon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .teamicon:hover {
+    cursor: pointer;
+  }
+
+  p {
+    margin: 0;
+    font-weight: bold;
+  }
+}
+
+.player-points {
+  display: flex;
+  gap: 10px;
+
+  .points {
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5% 0.5%;
+    margin: 0 5px;
+  }
+
+  .points-green {
+    background-color: green;
+  }
+
+  .points-orange {
+    background-color: orange;
+  }
+
+  .points-red {
+    background-color: red;
+  }
+
+  .points-gray {
+    background-color: gray;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+
+  button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+}

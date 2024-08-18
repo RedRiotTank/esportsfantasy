@@ -44,6 +44,8 @@ import { RankingComponent } from './ranking/ranking.component';
 import { UserpageComponent } from './userpage/userpage.component';
 import { EsfcurrencyPipe } from './common/esfcurrency.pipe';
 import { CurrencyPipe } from '@angular/common';
+import { PlayersComponent } from './players/players.component';
+import { FilterModalComponent } from './players/filter-modal/filter-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +70,8 @@ import { CurrencyPipe } from '@angular/common';
     RankingComponent,
     UserpageComponent,
     EsfcurrencyPipe,
+    PlayersComponent,
+    FilterModalComponent,
   ],
   imports: [
     BrowserModule,

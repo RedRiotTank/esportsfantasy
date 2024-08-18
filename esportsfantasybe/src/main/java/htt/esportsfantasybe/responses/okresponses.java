@@ -408,6 +408,62 @@ public class okresponses {
 
     }
 
+    public static ResponseEntity<?> getAllPlayersInfo(Set<PlayerInfoPOJO> players) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got all players info correctly");
+
+        JsonArray playersArray = new JsonArray();
+        players.forEach(player -> {
+            JsonObject playerJson = new JsonObject();
+            playerJson.addProperty("uuid", player.getUuid().toString());
+            playerJson.addProperty("name", player.getName());
+            playerJson.addProperty("role", player.getRole());
+            playerJson.addProperty("icon", player.getIcon());
+
+
+            JsonArray teamsArray = new JsonArray();
+            player.getTeamsList().forEach( t ->{
+                teamsArray.add(t.toString());
+            });
+            playerJson.add("teamList", teamsArray);
+
+
+            playerJson.addProperty("price", player.getPrice());
+
+            if(player.getOwnerUUID() != null){
+                playerJson.addProperty("ownerUUID", player.getOwnerUUID().toString());
+                playerJson.addProperty("ownerUsername", player.getOwnerUsername());
+                playerJson.addProperty("ownerIcon", player.getOwnerIcon());
+                playerJson.addProperty("clause", player.getClause());
+            }
+            else{
+                playerJson.addProperty("ownerUUID", "null");
+                playerJson.addProperty("ownerUsername", "null");
+                playerJson.addProperty("ownerIcon", "null");
+                playerJson.addProperty("clause", "null");
+            }
+
+            JsonArray pointsArray = new JsonArray();
+
+            player.getPlayerPoints().forEach( p ->{
+                JsonObject point = new JsonObject();
+                point.addProperty("event", p.getId().getMatchid().toString());
+                point.addProperty("points", p.getPoints());
+                pointsArray.add(point);
+            });
+
+            playerJson.add("playerPoints", pointsArray);
+
+            playersArray.add(playerJson);
+        });
+
+        okjson.add("players", playersArray);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
     public static ResponseEntity<?> getTeamInfo(TeamInfoPOJO pInfo){
         JsonObject okjson = new JsonObject();
         okjson.addProperty("result", "ok");

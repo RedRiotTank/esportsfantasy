@@ -69,4 +69,8 @@ export class EsfHeaderComponent implements OnInit {
   goToUserPage() {
     this.router.navigate(['/userpage']);
   }
+
+  goToPlayersPage() {
+    this.router.navigate(['/players']);
+  }
 }

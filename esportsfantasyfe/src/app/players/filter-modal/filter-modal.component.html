@@ -1,0 +1,38 @@
+<div class="esf-modal">
+  <h1 mat-dialog-title>Select filters</h1>
+  <div mat-dialog-content>
+    <div class="input-div">
+      <div class="fil-sec">
+        <h2>POS</h2>
+        <div class="position-icons">
+          <div
+            *ngFor="let position of data.positions | keyvalue"
+            [ngClass]="{ selected: selectedPositions[position.key] }"
+            (click)="toggleSelection('position', position.key)"
+          >
+            <img
+              [src]="'assets/positions-icons/' + position.value.icon + '.webp'"
+              alt="{{ position.key }}"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="fil-sec">
+        <h2>CLUBS</h2>
+        <div class="team-icons">
+          <div
+            *ngFor="let team of data.teams | keyvalue"
+            [ngClass]="{ selected: selectedTeams[team.key] }"
+            (click)="toggleSelection('team', team.key)"
+          >
+            <img [src]="team.value.icon" alt="{{ team.key }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="closeModal()">Confirm</button>
+  </div>
+</div>

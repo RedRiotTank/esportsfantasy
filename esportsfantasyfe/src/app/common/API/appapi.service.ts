@@ -546,4 +546,14 @@ export class AppapiService {
         })
       );
   }
+
+  public getAllPlayers(rleagueuuid: string) {
+    return this.api.sendRequest('realLeague/getAllPlayers', rleagueuuid).pipe(
+      map((response) => response),
+      catchError((error) => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
 }

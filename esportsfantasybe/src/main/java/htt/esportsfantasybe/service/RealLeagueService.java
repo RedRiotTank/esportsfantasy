@@ -5,6 +5,7 @@ import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
+import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
@@ -267,6 +268,18 @@ public class RealLeagueService {
             }
         }
         return imageBytes;
+    }
+
+    public Set<PlayerInfoPOJO> getAllPlayers(String uuid) {
+        Set<PlayerInfoPOJO> allPlayers = new HashSet<>();
+
+        RealLeague rl = getRLeague(uuid);
+
+        rl.getTeams().forEach(team -> {
+            allPlayers.addAll(teamService.getTeamPlayersInfo(team.getUuid().toString(), uuid));
+        });
+
+        return allPlayers;
     }
 
     // ------- UTILS ------- //

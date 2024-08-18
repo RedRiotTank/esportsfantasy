@@ -1,0 +1,110 @@
+<div *ngIf="isLoading" class="loading-spinner">
+  <img src="../../assets/spinner.gif" alt="Loading..." />
+</div>
+
+<div *ngIf="!isLoading" class="filter-section">
+  <button (click)="openFilterModal()" class="esf-ibutton">Filters</button>
+  <select [(ngModel)]="sortOrder" (change)="applySort()">
+    <option value="asc">Ascending Points</option>
+    <option value="desc">Descending Points</option>
+  </select>
+</div>
+
+<div *ngIf="!isLoading" class="players-list">
+  <div *ngFor="let player of paginatedPlayers" class="player-row">
+    <div class="player-score">
+      <h3>{{ getTotalPoints(player) }}</h3>
+    </div>
+    <div class="player-icon">
+      <img
+        [src]="'data:image/png;base64,' + player.icon"
+        alt="{{ player.name }}"
+        (click)="gotoPlayerInfo(player.uuid)"
+      />
+    </div>
+    <div class="player-info">
+      <h3>{{ player.name }}</h3>
+      <div class="player-details">
+        <img
+          *ngIf="checkImageExists(player)"
+          [ngClass]="{
+            'role-icon': checkImageExists(player),
+            'role-icon-unknown': !checkImageExists(player)
+          }"
+          [src]="'assets/positions-icons/' + player.role + '.webp'"
+          [alt]="player.role"
+          class="role-icon"
+        />
+        <div *ngFor="let team of player.teamList">
+          <img
+            [src]="playersService.teamicons[team]"
+            alt=""
+            class="teamicon"
+            (click)="gotoTeamInfo(team)"
+          />
+        </div>
+        <p>Price: {{ player.price }}</p>
+      </div>
+      <div class="player-points">
+        <span
+          class="points"
+          *ngFor="let points of getLast5Points(player)"
+          [ngClass]="getPointsClass(points)"
+        >
+          {{ points }}
+        </span>
+      </div>
+    </div>
+
+    <div class="player-values">
+      <div class="price">
+        <h3>value</h3>
+        <p>
+          {{
+            player.price | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </p>
+      </div>
+
+      <div class="clause">
+        <h3>clause</h3>
+        <p>{{ player.clause }}</p>
+      </div>
+    </div>
+
+    <div class="player-owner">
+      <h3>Owner</h3>
+
+      <img
+        *ngIf="player.ownerIcon != 'null'"
+        class="owner-icon"
+        [src]="'data:image/png;base64,' + player.ownerIcon"
+        alt=""
+      />
+
+      <img
+        *ngIf="player.ownerIcon == 'null'"
+        class="owner-icon"
+        src="../../assets/icons/trainer.png"
+        alt=""
+      />
+
+      <p *ngIf="player.ownerUsername != 'null'">{{ player.ownerUsername }}</p>
+
+      <p *ngIf="player.ownerUsername == 'null'">No Owner</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="pagination">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+    Previous
+  </button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button
+    (click)="goToPage(currentPage + 1)"
+    [disabled]="currentPage === totalPages"
+  >
+    Next
+  </button>
+</div>

@@ -1,0 +1,96 @@
+.esf-modal {
+  background-color: rgb(255, 255, 255);
+
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  .input-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .fil-sec {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h2 {
+        text-align: center;
+        color: black;
+      }
+
+      .position-icons,
+      .team-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      div {
+        display: inline-block;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+
+        img {
+          width: 50px; // Ajusta el tamaño según lo necesites
+          height: 50px; // Ajusta el tamaño según lo necesites
+          border-radius: 8px;
+        }
+
+        &:hover {
+          background-color: rgb(200, 200, 200); // Fondo gris al hacer hover
+          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); // Sombra interna al hacer hover
+          transform: translateY(2px); // Simula hundimiento al hacer hover
+        }
+
+        &.selected {
+          background-color: rgb(
+            169,
+            169,
+            169
+          ); // Fondo gris más oscuro al estar seleccionado
+          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); // Sombra interna más pronunciada
+          transform: translateY(2px); // Simula hundimiento permanente
+        }
+      }
+    }
+  }
+
+  input {
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom-color 0.3s;
+  }
+
+  input:focus {
+    border-bottom-color: rgb(229, 80, 0);
+  }
+
+  button {
+    background-color: rgb(229, 80, 0);
+    color: white;
+    border-radius: 20px;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 auto;
+    padding: 0.5rem 4rem;
+  }
+
+  button:hover {
+    background-color: rgb(255, 80, 0);
+  }
+}
