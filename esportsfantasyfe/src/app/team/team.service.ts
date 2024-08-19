@@ -11,6 +11,7 @@ export class TeamService {
   private teamPlayers: any[] = [];
   public totalJours: number = 1;
   public currentJour: number = 1;
+  public jourList: number[] = [];
   public editableCurrentJour: boolean;
   public selectedJour: number = 1;
   public league: string = '';
@@ -62,6 +63,13 @@ export class TeamService {
         tap((response) => {
           this.currentJour = response.currentJour;
           this.editableCurrentJour = response.isEditable;
+          this.jourList = response.jourList;
+
+          this.jourList = this.jourList.filter(
+            (jour) => jour <= this.currentJour
+          );
+
+          this.jourList.sort((a, b) => b - a);
         })
       );
   }

@@ -24,9 +24,7 @@ export class MatchsService {
           .filter((key) => !isNaN(Number(key)))
           .map((key) => Number(key));
         const highestKey = Math.max(...numericKeys);
-        this.jours = Array.from({ length: highestKey }, (_, i) => i + 1);
 
-        // Ordenar los partidos por fecha
         for (const key of numericKeys) {
           response[key].sort(
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -34,7 +32,12 @@ export class MatchsService {
         }
 
         this.matchs = response;
-        console.log(this.matchs);
+
+        for (const key in response) {
+          if (!isNaN(Number(key))) {
+            this.jours.push(Number(key));
+          }
+        }
       });
   }
 }

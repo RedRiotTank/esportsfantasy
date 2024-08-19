@@ -280,13 +280,17 @@ public class okresponses {
         return ResponseEntity.ok(okjson.toString());
     }
 
-    public static ResponseEntity<?> getRLeagueCurrentJour(int currentJour, boolean editable) {
+    public static ResponseEntity<?> getRLeagueCurrentJour(int currentJour, boolean editable, List<Integer> joursList) {
         JsonObject okjson = new JsonObject();
         okjson.addProperty("result", "ok");
         okjson.addProperty("status", "200");
         okjson.addProperty("message", "got current jour correctly");
         okjson.addProperty("currentJour", currentJour);
         okjson.addProperty("isEditable", editable);
+
+        JsonArray joursArray = new JsonArray();
+        joursList.forEach(joursArray::add);
+        okjson.add("jourList", joursArray);
 
         return ResponseEntity.ok(okjson.toString());
     }

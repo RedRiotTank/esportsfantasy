@@ -13,7 +13,8 @@ CREATE TABLE `realleague` (
     apiID VARCHAR(255) ,
     shortname varchar(10) NOT NULL,
     game varchar(10) NOT NULL,
-    currentjour INT
+    currentjour INT,
+    isplayoff tinyint(1)
 );
 
 CREATE TABLE `team` (

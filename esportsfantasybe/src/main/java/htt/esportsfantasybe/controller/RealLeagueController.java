@@ -70,7 +70,7 @@ public class RealLeagueController {
         try{
             CurrentJourInfoPOJO currentJourInfoPOJO = realLeagueService.getRLeagueCurrentJour(uuid);
 
-            return okresponses.getRLeagueCurrentJour(currentJourInfoPOJO.getJour(), currentJourInfoPOJO.isStarted());
+            return okresponses.getRLeagueCurrentJour(currentJourInfoPOJO.getJour(), currentJourInfoPOJO.isStarted(), currentJourInfoPOJO.getJourlist());
         } catch (Exception e){
             return koresponses.generateKO(e.getMessage());
         }

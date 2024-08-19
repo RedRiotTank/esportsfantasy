@@ -20,10 +20,11 @@ public class RealLeagueDTO {
     private String game;
     private String apiId;
     private int currentjour;
+    private boolean isplayoff;
 
     private Set<TeamDTO> teams;
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage,String shortname, String game, String apiId, Set<TeamDTO> teams, int currentjour){
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage,String shortname, String game, String apiId, Set<TeamDTO> teams, int currentjour, boolean isplayoff){
         this.uuid = uuid;
         this.event = event;
         this.overviewpage = overviewPage;
@@ -32,14 +33,15 @@ public class RealLeagueDTO {
         this.apiId = apiId;
         this.teams = teams;
         this.currentjour = currentjour;
+        this.isplayoff = isplayoff;
     }
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, int currentjour){
-        this(uuid,event,overviewPage,shortname,game,null, null, currentjour);
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, int currentjour, boolean isplayoff){
+        this(uuid,event,overviewPage,shortname,game,null, null, currentjour, isplayoff);
     }
 
-    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, Set<TeamDTO> teams, int currentjour){
-        this(uuid,event,overviewPage,shortname,game,null, teams, currentjour);
+    public RealLeagueDTO(UUID uuid, String event, String overviewPage, String shortname,String game, Set<TeamDTO> teams, int currentjour, boolean isplayoff){
+        this(uuid,event,overviewPage,shortname,game,null, teams, currentjour, isplayoff);
     }
 
     public RealLeagueDTO(RealLeague realLeague){
@@ -52,7 +54,8 @@ public class RealLeagueDTO {
                 realLeague.getTeams().stream()
                         .map(team -> new TeamDTO(team, true))
                         .collect(Collectors.toSet()),
-                realLeague.getCurrentjour()
+                realLeague.getCurrentjour(),
+                realLeague.isIsplayoff()
         );
     }
 }

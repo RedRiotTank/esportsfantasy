@@ -51,10 +51,14 @@ public class LolApiCaller extends ApiCaller{
 
     // ------ Queries ------ //
 
-    public Set<EventPOJO> getRLeaguesEvents(String overviewPage) {
+    public Set<EventPOJO> getRLeaguesEvents(String overviewPage, boolean isPlayoff) {
 
 
         String overviewPageSeason = overviewPage + " Season";
+
+        if(isPlayoff)
+            overviewPageSeason = overviewPage + " Playoffs";
+
         JsonArray matchSchedule = cargoQuery("MatchSchedule", "Team1,Team2,Tab,Team1Score,Team2Score,DateTime_UTC,MatchId,MVP","&where=OverviewPage=\""+ overviewPageSeason + "\"");
 
         if (matchSchedule == null || matchSchedule.size() == 0)
@@ -110,7 +114,15 @@ public class LolApiCaller extends ApiCaller{
         for(JsonElement league : allLeaguesJson){
             String event = league.getAsJsonObject().get("title").getAsJsonObject().get("Event").getAsString();
             String overviewPage = league.getAsJsonObject().get("title").getAsJsonObject().get("OverviewPage").getAsString();
-            allLeaguesDTO.add(new RealLeagueDTO(null,event, overviewPage, Utils.generateShortName(event),"LOL",0));
+            boolean po = false;
+
+            if(
+                event.toLowerCase().contains("playoff") ||
+                overviewPage.toLowerCase().contains("playoff")
+            )
+                po = true;
+
+            allLeaguesDTO.add(new RealLeagueDTO(null,event, overviewPage, Utils.generateShortName(event),"LOL",0,po));
         }
 
         return allLeaguesDTO;

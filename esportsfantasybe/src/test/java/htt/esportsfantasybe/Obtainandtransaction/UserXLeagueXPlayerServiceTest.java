@@ -55,7 +55,8 @@ public class UserXLeagueXPlayerServiceTest {
                 "shortname",
                 "game",
                 "apiID",
-                null
+                null,
+                false
         );
 
         realLeague.setCurrentjour(1);

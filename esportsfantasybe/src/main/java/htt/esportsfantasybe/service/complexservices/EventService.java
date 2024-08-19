@@ -82,7 +82,7 @@ public class EventService {
         return new HashSet<>(eventRepository.findAllById_Realleagueuuid(leagueuuid));
     }
     public void obtainRLeagueEvents(RealLeagueDTO realLeagueDTO) {
-        Set<EventPOJO> rLeagueEvents = lolApiCaller.getRLeaguesEvents(realLeagueDTO.getOverviewpage());
+        Set<EventPOJO> rLeagueEvents = lolApiCaller.getRLeaguesEvents(realLeagueDTO.getOverviewpage(), realLeagueDTO.isIsplayoff());
 
         rLeagueEvents.forEach(ev->{
 
@@ -92,13 +92,34 @@ public class EventService {
             if(team1 == null || team2 == null) return;
 
             if(ev.getJour().isEmpty())
-                ev.setJour("-33");
+                System.out.println("Jour is empty");
+
+
+            int jour = 0;
+
+            if(ev.getMatchId().toLowerCase().contains("play-in")){
+                jour = ev.getMatchId().toLowerCase().charAt(ev.getMatchId().length() - 1) - '0';
+                jour += 100;
+            }
+            else if(ev.getMatchId().toLowerCase().contains("semi")) {
+                jour = ev.getMatchId().toLowerCase().charAt(ev.getMatchId().length() - 1) - '0';
+                jour += 300;
+            } else if(ev.getMatchId().toLowerCase().contains("final")) {
+                jour = ev.getMatchId().toLowerCase().charAt(ev.getMatchId().length() - 1) - '0';
+                jour += 400;
+            }
+            else
+                jour = Integer.parseInt(ev.getJour());
+
+            if(realLeagueDTO.isIsplayoff() && jour < 100){
+                jour += 200;
+            }
 
             EventDTO eventDTO = new EventDTO(
                     realLeagueDTO.getUuid(),
                     team1.getUuid(),
                     team2.getUuid(),
-                    Integer.parseInt(ev.getJour()),
+                    jour,
                     ev.getDateTime(),
                     ev.getTeam1Score(),
                     ev.getTeam2Score(),
@@ -124,22 +145,52 @@ public class EventService {
 
     public CurrentJourInfoPOJO getCurrentJour(UUID realLeagueUuid){
         Date now = new Date();
+        List<Integer> jourList = new ArrayList<>();
 
         List<Event> events = eventRepository.findAllById_Realleagueuuid(realLeagueUuid);
 
+        events.forEach(event -> {
+            if (!jourList.contains(event.getId().getJour())) {
+                jourList.add(event.getId().getJour());
+            }
+        });
+
         events.removeIf(event -> event.getDate().before(now));
 
-        if (events.isEmpty()) return new CurrentJourInfoPOJO(0,false);
+        if (events.isEmpty()) return new CurrentJourInfoPOJO(0,false, null);
 
         Event closestEvent = null;
         long minDiff = Long.MAX_VALUE;
 
+
+
+        int prevPrio = 10;
+
         for (Event event : events) {
-            long diff = event.getDate().getTime() - now.getTime();
-            if (diff >= 0 && diff < minDiff) {
-                minDiff = diff;
-                closestEvent = event;
+            int prioevent;
+
+            if(event.getMatchid().toLowerCase().contains("semi"))
+                prioevent = 1;
+            else if(event.getMatchid().toLowerCase().contains("final"))
+                prioevent = 0;
+            else if(event.getMatchid().toLowerCase().contains("play-in"))
+                prioevent = 3;
+            else if (event.getMatchid().toLowerCase().contains("playoff"))
+                prioevent = 2;
+            else
+                prioevent = 4;
+
+            if(prevPrio == 10 || prevPrio < prioevent) closestEvent = event;
+            else if(prevPrio == prioevent){
+                long diff = event.getDate().getTime() - now.getTime();
+                if (diff >= 0 && diff < minDiff) {
+                    minDiff = diff;
+                    closestEvent = event;
+                }
+
             }
+
+            prevPrio = prioevent;
         }
         int currentJour = closestEvent.getId().getJour();
         boolean editable = true;
@@ -153,7 +204,7 @@ public class EventService {
         }
 
 
-        return new CurrentJourInfoPOJO(currentJour, editable);
+        return new CurrentJourInfoPOJO(currentJour, editable, jourList);
     }
 
     public ArrayList<Integer> getPlayerPointsHistory(UUID playerUUID) {

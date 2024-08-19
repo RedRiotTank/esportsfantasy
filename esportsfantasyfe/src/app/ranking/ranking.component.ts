@@ -35,6 +35,10 @@ export class RankingComponent implements OnInit {
     this.rankingService.changeJour(event.value);
   }
 
+  getTeamService() {
+    return this.teamService;
+  }
+
   getLeagueCurrentJourArray() {
     return Array.from(
       { length: this.teamService.currentJour },

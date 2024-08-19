@@ -27,6 +27,7 @@ public class RealLeague {
     private String game;
     private String apiID;
     private Integer currentjour = -1;
+    private boolean isplayoff;
 
     @ManyToMany(mappedBy = "leagues",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Team> teams;
@@ -35,18 +36,19 @@ public class RealLeague {
 
     }
 
-    public RealLeague( String event, String overviewpage,String shortname, String game,String apiID, Set<Team> teams) {
+    public RealLeague( String event, String overviewpage,String shortname, String game,String apiID, Set<Team> teams, boolean isplayoff) {
         this.event = event;
         this.overviewpage = overviewpage;
         this.shortname = shortname;
         this.game = game;
         this.apiID = apiID;
         this.teams = teams;
+        this.isplayoff = isplayoff;
     }
 
 
-    public RealLeague(String event, String overviewpage, String shortname, String game) {
-        this(event, overviewpage, shortname, game, null,null);
+    public RealLeague(String event, String overviewpage, String shortname, String game, boolean isplayoff) {
+        this(event, overviewpage, shortname, game, null,null, isplayoff);
     }
 
 
@@ -57,6 +59,8 @@ public class RealLeague {
         this.shortname = realLeagueDTO.getShortname();
         this.game = realLeagueDTO.getGame();
         this.apiID = realLeagueDTO.getApiId();
+        this.currentjour = realLeagueDTO.getCurrentjour();
+        this.isplayoff = realLeagueDTO.isIsplayoff();
 
         if(realLeagueDTO.getTeams() != null)
             this.teams = realLeagueDTO.getTeams().stream().map(Team::new).collect(Collectors.toSet());

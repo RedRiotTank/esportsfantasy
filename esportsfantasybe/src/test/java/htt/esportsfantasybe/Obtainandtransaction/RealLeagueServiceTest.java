@@ -88,7 +88,8 @@ public class RealLeagueServiceTest {
                 "shortname",
                 "game",
                 "apiID",
-                mockedTeams
+                mockedTeams,
+                false
         );
 
         RealLeagueDTO rl1DTO = new RealLeagueDTO(rl1);

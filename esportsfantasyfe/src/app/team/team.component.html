@@ -6,7 +6,7 @@
       (selectionChange)="onSelectionChange($event)"
     >
       <mat-option
-        *ngFor="let number of getLeagueCurrentJourArray()"
+        *ngFor="let number of getTeamService().jourList"
         [value]="number"
       >
         {{ "week " + number }}
