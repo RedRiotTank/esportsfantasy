@@ -1,3 +1,38 @@
+<div *ngIf="getClosestEvent()" class="next-event">
+  <h2 class="next-event-title">Next Event</h2>
+  <div class="next-event-content">
+    <div class="team-info" (click)="gotoTeamInfo(getClosestEvent().team1uuid)">
+      <img
+        [src]="'data:image/png;base64,' + getClosestEvent().team1icon"
+        alt="{{ getClosestEvent().team1name }} Icon"
+        class="team-icon"
+      />
+      <span class="team-name">{{ getClosestEvent().team1name }}</span>
+    </div>
+
+    <div class="versus">
+      <span>vs</span>
+      <p class="event-date">{{ getClosestEvent().date | date : "medium" }}</p>
+      <p class="event-jour">{{ getClosestEvent().jour }}</p>
+    </div>
+
+    <div class="team-info" (click)="gotoTeamInfo(getClosestEvent().team2uuid)">
+      <img
+        [src]="'data:image/png;base64,' + getClosestEvent().team2icon"
+        alt="{{ getClosestEvent().team2name }} Icon"
+        class="team-icon"
+      />
+      <span class="team-name">{{ getClosestEvent().team2name }}</span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="getLeagues().length === 0" class="no-league">
+  <h2 class="esf-title">You're not in any league right now</h2>
+  <button class="esf-ibutton" (click)="goToCreateLeague()">
+    Create a league
+  </button>
+</div>
 <div *ngIf="getLeagues().length > 0" class="home-content">
   <div *ngFor="let transfer of getTransferPosts()" class="transfer-post">
     <div
@@ -16,9 +51,7 @@
     </div>
 
     <div class="transfer-post-body">
-      <!-- Ganador -->
       <div class="winner-info">
-        <!-- Mostrar "Clause" si transfer.clause existe, de lo contrario mostrar "Winning Bid" o "Transfer" -->
         <p *ngIf="transfer.clause">Clause:</p>
         <p *ngIf="!transfer.clause && transfer.prevowneruuid == 'null'">
           Winning Bid:
@@ -28,7 +61,6 @@
         </p>
 
         <div class="t-box">
-          <!-- Mostrar siempre los usuarios, independientemente de si es clause o no -->
           <div *ngIf="transfer.prevowneruuid != 'null'" class="t-info">
             <img
               [src]="'data:image/png;base64,' + transfer.prevownericon"
@@ -43,7 +75,6 @@
             class="fa-solid fa-arrow-right"
           ></i>
 
-          <!-- Si existe una cláusula, mostrar el nuevo dueño (newowner) -->
           <div class="t-info" *ngIf="transfer.clause">
             <img
               [src]="'data:image/png;base64,' + transfer.newownericon"
@@ -53,7 +84,6 @@
             <span>{{ transfer.newownername }}</span>
           </div>
 
-          <!-- Si no es una cláusula, mostrar la puja ganadora -->
           <div
             class="t-info"
             *ngIf="
@@ -71,7 +101,6 @@
           </div>
         </div>
 
-        <!-- Mostrar el valor de la cláusula o la puja -->
         <span class="bid-amount">
           {{
             transfer.clause
