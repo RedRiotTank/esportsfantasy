@@ -31,6 +31,17 @@ public class TransferPostService {
         this.userService = userService;
     }
 
+    public void generateTransferClausePost(UUID playeruuid, UUID leagueuuid, UUID prevowneruuid,UUID newowneruuid, int val) {
+        TransferPost transferPost = new TransferPost(
+                playeruuid,
+                leagueuuid,
+                prevowneruuid,
+                "c: " + val + "," + newowneruuid.toString()
+        );
+
+        transferPostRepository.save(transferPost);
+    }
+
     public void generateTransferPost(UUID playeruuid, UUID leagueuuid, UUID prevowneruuid, List<BidUp> bidUpList) {
         bidUpList.sort((o1, o2) -> Integer.compare(o2.getBid(), o1.getBid()));
 
@@ -78,39 +89,75 @@ public class TransferPostService {
                 };
             }
 
-            String[] splitArray = tp.getRes().split(",");
+            if(tp.getRes().startsWith("c:")){
 
-            ArrayList<String> list = new ArrayList<>(Arrays.asList(splitArray));
-            ArrayList<UserReducedBidInfoPOJO> bidList = new ArrayList<>();
+                String res = tp.getRes();
+                res = res.replace("c: ", "");
 
-            list.forEach(user ->{
-                String[] splitUser = user.split(" ");
-                UserDTO userDTO = userService.getUser(UUID.fromString(splitUser[0]));
+                String[] parts = res.split(",");
+
+                String val = parts[0];
+                String newOwnerUUID = parts[1];
 
                 try {
-                    bidList.add(new UserReducedBidInfoPOJO(
-                            userDTO.getUuid().toString(),
-                            userDTO.getUsername(),
-                            Base64.getEncoder().encodeToString(userService.getUserPfp(userDTO.getMail())),
-                            Integer.parseInt(splitUser[1])
+                    tpPOJOs.add(new TransferPostPOJO(
+                            tp.getTpostid(),
+                            tp.getDate().toString(),
+                            tp.getPlayeruuid().toString(),
+                            player.getUsername(),
+                            pIconB64,
+                            tp.getLeagueuuid().toString(),
+                            prevOwnerUUID,
+                            prevOwnerUser,
+                            prevOwnerIconB64,
+                            Integer.parseInt(val),
+                            newOwnerUUID,
+                            userService.getUser(UUID.fromString(newOwnerUUID)).getUsername(),
+                            Base64.getEncoder().encodeToString(userService.getUserPfp(userService.getUser(UUID.fromString(newOwnerUUID)).getMail()))
+
                     ));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            });
 
-            tpPOJOs.add(new TransferPostPOJO(
-                    tp.getTpostid(),
-                    tp.getDate().toString(),
-                    tp.getPlayeruuid().toString(),
-                    player.getUsername(),
-                    pIconB64,
-                    tp.getLeagueuuid().toString(),
-                    prevOwnerUUID,
-                    prevOwnerUser,
-                    prevOwnerIconB64,
-                    bidList
-            ));
+            } else {
+                String[] splitArray = tp.getRes().split(",");
+
+                ArrayList<String> list = new ArrayList<>(Arrays.asList(splitArray));
+                ArrayList<UserReducedBidInfoPOJO> bidList = new ArrayList<>();
+
+                list.forEach(user ->{
+                    String[] splitUser = user.split(" ");
+                    UserDTO userDTO = userService.getUser(UUID.fromString(splitUser[0]));
+
+                    try {
+                        bidList.add(new UserReducedBidInfoPOJO(
+                                userDTO.getUuid().toString(),
+                                userDTO.getUsername(),
+                                Base64.getEncoder().encodeToString(userService.getUserPfp(userDTO.getMail())),
+                                Integer.parseInt(splitUser[1])
+                        ));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                tpPOJOs.add(new TransferPostPOJO(
+                        tp.getTpostid(),
+                        tp.getDate().toString(),
+                        tp.getPlayeruuid().toString(),
+                        player.getUsername(),
+                        pIconB64,
+                        tp.getLeagueuuid().toString(),
+                        prevOwnerUUID,
+                        prevOwnerUser,
+                        prevOwnerIconB64,
+                        bidList
+                ));
+
+            }
+
+
 
 
         });

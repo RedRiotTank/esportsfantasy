@@ -68,7 +68,11 @@
 
       <div class="clause">
         <h3>clause</h3>
-        <p>{{ player.clause }}</p>
+        <p>
+          {{
+            player.clause | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </p>
       </div>
     </div>
 

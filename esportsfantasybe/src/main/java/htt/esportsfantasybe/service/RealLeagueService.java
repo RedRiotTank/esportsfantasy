@@ -36,11 +36,14 @@ public class RealLeagueService {
 
     private final UserXLeagueXPlayerService userXLeagueXPlayerService;
 
+    private final PlayerService playerService;
+
     @Autowired
-    public RealLeagueService(TeamService teamService, EventService eventService, UserXLeagueXPlayerService userXLeagueXPlayerService) {
+    public RealLeagueService(TeamService teamService, EventService eventService, UserXLeagueXPlayerService userXLeagueXPlayerService, PlayerService playerService) {
         this.teamService = teamService;
         this.eventService = eventService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
+        this.playerService = playerService;
     }
 
 
@@ -62,6 +65,40 @@ public class RealLeagueService {
     @Scheduled(fixedRate = 7200000)   //2 hours
     public void updateRLeaguesEvents(){
         this.getRLeaguesDTODB().forEach(eventService::obtainRLeagueEvents);
+
+        getRLeaguesDB().forEach(league ->{
+            updateRLeaguePlayersValue(league.getUuid());
+        });
+    }
+
+    public void updateRLeaguePlayersValue(UUID leagueuuid){
+        RealLeague rl = getRLeague(leagueuuid.toString());
+
+        int medianPoints = 0;
+        ArrayList<Integer> points = new ArrayList<>();
+
+        rl.getTeams().forEach(team -> {
+            team.getPlayers().forEach(player -> {
+                int tp = playerService.getTotalPoints(player.getUuid());
+                if(tp > 0){
+                    Utils.orderedInsert(points, tp);
+                }
+            });
+        });
+
+        if(points.size() % 2 != 0)
+            medianPoints = points.get(points.size()/2);
+        else if(!points.isEmpty())
+            medianPoints = (points.get(points.size()/2) + points.get(points.size()/2 - 1)) / 2;
+
+        int finalMedianPoints = medianPoints;
+
+        rl.getTeams().forEach(team -> {
+            team.getPlayers().forEach(player -> {
+                playerService.updatePlayerValue(player, finalMedianPoints);
+            });
+        });
+
     }
 
     @Scheduled(fixedRate = 2400000) //40 minutes
@@ -72,6 +109,7 @@ public class RealLeagueService {
 
             if(currentJour == league.getCurrentjour()+1){
                 userXLeagueXPlayerService.playerOwnerJourExtension(league);
+
             }
 
             league.setCurrentjour(currentJour);
@@ -270,16 +308,8 @@ public class RealLeagueService {
         return imageBytes;
     }
 
-    public Set<PlayerInfoPOJO> getAllPlayers(String uuid) {
-        Set<PlayerInfoPOJO> allPlayers = new HashSet<>();
-
-        RealLeague rl = getRLeague(uuid);
-
-        rl.getTeams().forEach(team -> {
-            allPlayers.addAll(teamService.getTeamPlayersInfo(team.getUuid().toString(), uuid));
-        });
-
-        return allPlayers;
+    public Set<PlayerInfoPOJO> getTeamPlayersInfo(String teamuuid, String leagueuuid){
+        return teamService.getTeamPlayersInfo(teamuuid, leagueuuid);
     }
 
     // ------- UTILS ------- //

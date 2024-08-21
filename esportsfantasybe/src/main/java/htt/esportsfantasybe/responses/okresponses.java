@@ -380,6 +380,7 @@ public class okresponses {
 
 
         okjson.addProperty("price", pInfo.getPrice());
+        okjson.addProperty("clause", pInfo.getClause());
 
         JsonArray pointsArray = new JsonArray();
         pInfo.getPlayerPoints().forEach( p ->{
@@ -395,13 +396,12 @@ public class okresponses {
             okjson.addProperty("ownerUUID", pInfo.getOwnerUUID().toString());
             okjson.addProperty("ownerUsername", pInfo.getOwnerUsername());
             okjson.addProperty("ownerIcon", pInfo.getOwnerIcon());
-            okjson.addProperty("clause", pInfo.getClause());
+
         }
         else {
             okjson.addProperty("ownerUUID", "null");
             okjson.addProperty("ownerUsername", "null");
             okjson.addProperty("ownerIcon", "null");
-            okjson.addProperty("clause", "null");
         }
 
 
@@ -436,17 +436,17 @@ public class okresponses {
 
             playerJson.addProperty("price", player.getPrice());
 
+            playerJson.addProperty("clause", player.getClause());
+
             if(player.getOwnerUUID() != null){
                 playerJson.addProperty("ownerUUID", player.getOwnerUUID().toString());
                 playerJson.addProperty("ownerUsername", player.getOwnerUsername());
                 playerJson.addProperty("ownerIcon", player.getOwnerIcon());
-                playerJson.addProperty("clause", player.getClause());
             }
             else{
                 playerJson.addProperty("ownerUUID", "null");
                 playerJson.addProperty("ownerUsername", "null");
                 playerJson.addProperty("ownerIcon", "null");
-                playerJson.addProperty("clause", "null");
             }
 
             JsonArray pointsArray = new JsonArray();
@@ -565,17 +565,27 @@ public class okresponses {
                 transferPostJson.addProperty("prevownername", transferPost.getPrevownername());
                 transferPostJson.addProperty("prevownericon", transferPost.getPrevownericon());
 
-                JsonArray bidListArray = new JsonArray();
-                transferPost.getBidList().forEach(bid -> {
-                    JsonObject bidJson = new JsonObject();
-                    bidJson.addProperty("useruuid", bid.getUseruuid());
-                    bidJson.addProperty("username", bid.getUsername());
-                    bidJson.addProperty("usericon", bid.getUsericon());
-                    bidJson.addProperty("bid", bid.getBid());
-                    bidListArray.add(bidJson);
-                });
+                if(transferPost.getClause() != 0){
+                    transferPostJson.addProperty("clause", transferPost.getClause());
+                    transferPostJson.addProperty("newowneruuid", transferPost.getNewowneruuid());
+                    transferPostJson.addProperty("newownername", transferPost.getNewownername());
+                    transferPostJson.addProperty("newownericon", transferPost.getNewownericon());
+                } else {
+                    JsonArray bidListArray = new JsonArray();
+                    transferPost.getBidList().forEach(bid -> {
+                        JsonObject bidJson = new JsonObject();
+                        bidJson.addProperty("useruuid", bid.getUseruuid());
+                        bidJson.addProperty("username", bid.getUsername());
+                        bidJson.addProperty("usericon", bid.getUsericon());
+                        bidJson.addProperty("bid", bid.getBid());
+                        bidListArray.add(bidJson);
+                    });
 
-                transferPostJson.add("bidList", bidListArray);
+                    transferPostJson.add("bidList", bidListArray);
+
+                }
+
+
 
                 transferPostsArray.add(transferPostJson);
             });

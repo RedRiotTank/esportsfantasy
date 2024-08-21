@@ -62,7 +62,7 @@ public class MarketService {
     public void initMarket(LeagueDTO league){
         league.getRealLeagueDTO().getTeams().forEach(team -> {
             team.getPlayers().forEach(player -> {
-                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, player.getValue() + ((int) (    player.getValue() + (float) player.getValue() * (2/3)  ) ), false, player.getValue()));
+                marketRepository.save(new Market(new MarketId(player.getUuid(), league.getUuid()), null, player.getValue() + ((int) (player.getValue() + (float) player.getValue() * (2/3)  ) ), false, player.getValue()));
 
             });
         });
@@ -120,6 +120,7 @@ public class MarketService {
         for (Market market : leagueMarketEntriesNoSell) {
             if (!selectedMarkets.contains(market) && selectedMarkets.size() < MARKET_REGULAR_NUMBER){
                 market.setInsell(true);
+                market.setMarketvalue(playerService.getPlayer(market.getId().getPlayeruuid()).getValue());
                 selectedMarkets.add(market);
             }
 
@@ -168,6 +169,7 @@ public class MarketService {
     public void sell(UUID playerUUID, UUID leagueUUID, UUID userUUID, int value){
         Market market = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(leagueUUID, playerUUID);
         market.setInsell(true);
+        market.setMarketvalue(value);
         marketRepository.save(market);
 
 
@@ -291,6 +293,14 @@ public class MarketService {
         Market playermarket = marketRepository.findMarketById_LeagueuuidAndId_Playeruuid(orPOJO.getLeagueuuid(), orPOJO.getPlayeruuid());
 
         playermarket.setClause((int) (playermarket.getClause() + playermarket.getClause() * 0.3));
+
+        transferPostService.generateTransferClausePost(
+                orPOJO.getPlayeruuid(),
+                orPOJO.getLeagueuuid(),
+                orPOJO.getUseruuid(),
+                orPOJO.getBiduseruuid(),
+                orPOJO.getValue()
+        );
 
         marketRepository.save(playermarket);
     }

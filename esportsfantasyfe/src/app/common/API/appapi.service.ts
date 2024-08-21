@@ -547,8 +547,8 @@ export class AppapiService {
       );
   }
 
-  public getAllPlayers(rleagueuuid: string) {
-    return this.api.sendRequest('realLeague/getAllPlayers', rleagueuuid).pipe(
+  public getAllPlayers(leagueuuid: string) {
+    return this.api.sendRequest('League/getAllPlayers', leagueuuid).pipe(
       map((response) => response),
       catchError((error) => {
         this.sendToErrorPage(error);

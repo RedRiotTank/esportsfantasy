@@ -89,6 +89,18 @@ public class LeagueController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/getAllPlayers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllPlayers(@RequestBody String uuid){
+        try{
+            Set<PlayerInfoPOJO> allplayersInfo = leagueService.getAllPlayers(uuid);
+
+            return okresponses.getAllPlayersInfo(allplayersInfo);
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 
 
 }

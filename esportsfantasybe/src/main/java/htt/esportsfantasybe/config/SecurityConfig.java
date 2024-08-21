@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/games/getGameIcon").permitAll()
                 .requestMatchers("/api/realLeague/getGameRLeagues").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueIcon").permitAll()
-                .requestMatchers("/api/realLeague/getAllPlayers").permitAll()
+                .requestMatchers("/api/League/getAllPlayers").permitAll()
                 .requestMatchers("/api/League/joinLeague").permitAll()
                 .requestMatchers("/api/League/getUserLeagues").permitAll()
                 .requestMatchers("/api/League/getLeagueIcon").permitAll()

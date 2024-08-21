@@ -5,6 +5,10 @@ import com.google.gson.JsonElement;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -107,5 +111,29 @@ public class Utils {
             return Integer.parseInt(str);
         }
         return null;
+    }
+
+    public static double calculateMedian(List<Integer> numbers) {
+        if (numbers == null || numbers.isEmpty()) {
+            return 0.0;
+        }
+
+        Collections.sort(numbers);
+        int size = numbers.size();
+        if (size % 2 == 1) {
+            return numbers.get(size / 2);
+        } else {
+            return (numbers.get(size / 2 - 1) + numbers.get(size / 2)) / 2.0;
+        }
+    }
+
+    public static void orderedInsert(ArrayList<Integer> list, int num) {
+        int i = 0;
+
+        while (i < list.size() && list.get(i) < num) {
+            i++;
+        }
+
+        list.add(i, num);
     }
 }

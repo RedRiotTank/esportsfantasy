@@ -19,6 +19,14 @@ public class BidUpService {
         bidUpRepository.save(bidUp);
     }
 
+    public ArrayList<BidUp> getBidUpByPlayer(UUID playerUUID) {
+        return bidUpRepository.findAllById_Playeruuid(playerUUID);
+    }
+
+    public ArrayList<BidUp> getBidUpByLeague(UUID leagueUUID) {
+        return bidUpRepository.findAllById_Leagueuuid(leagueUUID);
+    }
+
     public ArrayList<BidUp> getBidUpByLeagueAndPlayer(UUID leagueUUID, UUID playerUUID, boolean state) {
         return bidUpRepository.findAllById_LeagueuuidAndId_PlayeruuidAndState(leagueUUID, playerUUID,state);
     }

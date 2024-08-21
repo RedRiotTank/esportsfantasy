@@ -315,4 +315,18 @@ public class LeagueService {
         }
         list.add(index, newUserRank);
     }
+
+    public Set<PlayerInfoPOJO> getAllPlayers(String uuid) {
+        Set<PlayerInfoPOJO> allPlayers = new HashSet<>();
+
+        League league = getLeague(UUID.fromString(uuid));
+
+        RealLeague rl = realLeagueService.getRLeague(league.getRealLeague().getUuid().toString());
+
+        rl.getTeams().forEach(team -> {
+            allPlayers.addAll(realLeagueService.getTeamPlayersInfo(team.getUuid().toString(), uuid));
+        });
+
+        return allPlayers;
+    }
 }

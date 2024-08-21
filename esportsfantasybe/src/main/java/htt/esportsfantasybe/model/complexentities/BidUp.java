@@ -29,4 +29,9 @@ public class BidUp {
     public BidUp() {
 
     }
+
+
+    public UUID getPlayerUuid() {
+        return id.getPlayeruuid();
+    }
 }

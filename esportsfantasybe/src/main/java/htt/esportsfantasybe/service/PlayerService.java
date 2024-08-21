@@ -1,10 +1,14 @@
 package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.PlayerDTO;
+import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.Player;
+import htt.esportsfantasybe.model.RealLeague;
 import htt.esportsfantasybe.model.Team;
+import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Market;
+import htt.esportsfantasybe.model.complexentities.PlayerPoints;
 import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerLeaguePOJO;
@@ -13,6 +17,7 @@ import htt.esportsfantasybe.repository.complexrepositories.MarketRepository;
 import htt.esportsfantasybe.repository.complexrepositories.PlayerPointsRepository;
 import htt.esportsfantasybe.repository.complexrepositories.UserXLeagueXPlayerRepository;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
+import htt.esportsfantasybe.service.complexservices.BidUpService;
 import htt.esportsfantasybe.service.complexservices.TeamXPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -42,18 +48,22 @@ public class PlayerService {
 
     private final UserService userService;
 
+    private final BidUpService bidUpService;
+
     @Autowired
     public PlayerService(
         TeamXPlayerService teamXPlayerService,
         PlayerPointsRepository playerPointsRepository,
         UserXLeagueXPlayerRepository userXLeagueXPlayerRepository,
         MarketRepository marketRepository,
-        UserService userService) {
+        UserService userService,
+        BidUpService bidUpService) {
         this.teamXPlayerService = teamXPlayerService;
         this.playerPointsRepository = playerPointsRepository;
         this.userXLeagueXPlayerRepository = userXLeagueXPlayerRepository;
         this.marketRepository = marketRepository;
         this.userService = userService;
+        this.bidUpService = bidUpService;
     }
 
     public void updatePlayers(Team team) {
@@ -79,6 +89,9 @@ public class PlayerService {
         Player player = playerRepository.findById(UUID.fromString(playerLeaguePOJO.getPlayeruuid()))
                 .orElseThrow(() -> new RuntimeException("1008"));
 
+        if(player.getUsername().toLowerCase().equals("care"))
+            System.out.println("care");
+
         String playericonB64 = Base64.getEncoder().encodeToString(this.getPlayerIcon(player.getUuid().toString()));
 
         String ownericonB64 = null;
@@ -87,6 +100,7 @@ public class PlayerService {
         Market market = null;
 
         if(playerLeaguePOJO.getLeagueuuid() != null) {
+            List<UserXLeagueXPlayer> test = userXLeagueXPlayerRepository.findAll();
             ownerList = userXLeagueXPlayerRepository.findById_LeagueuuidAndId_Playeruuid(
                     UUID.fromString(playerLeaguePOJO.getLeagueuuid()),
                     UUID.fromString(playerLeaguePOJO.getPlayeruuid())
@@ -212,5 +226,47 @@ public class PlayerService {
     public static int getDefaultValue() {
         return DEFAULT_VALUE;
     }
+
+    public void updatePlayerValue(Player player, int median) {
+        System.out.println("Updating player value");
+        int ptp = getTotalPoints(player.getUuid());
+        System.out.println("Player total points: " + ptp);
+
+        if(median != 0){
+            float qualifier = (float) ptp / (float) median;
+
+            int newValue = DEFAULT_VALUE;
+
+            if(qualifier != 0)
+                newValue = (int) (DEFAULT_VALUE * qualifier);
+            else
+                newValue = (int) (DEFAULT_VALUE * 0.1);
+
+            player.setValue(newValue);
+        } else {
+            player.setValue(DEFAULT_VALUE);
+        }
+
+        marketRepository.findMarketsById_Playeruuid(player.getUuid()).forEach(market -> {
+            if(market.getOwneruuid() == null){
+                market.setClause(player.getValue() + ((int) (player.getValue() + (float) player.getValue() * (2/3))));
+                marketRepository.save(market);
+            }
+
+        });
+
+        playerRepository.save(player);
+
+    }
+
+    public int getTotalPoints(UUID playeruuid) {
+        List<PlayerPoints> pp = playerPointsRepository.findAllById_Playeruuid(playeruuid);
+
+        return pp.stream().mapToInt(PlayerPoints::getPoints).sum();
+    }
+
+
+
+
 
 }

@@ -25,7 +25,7 @@ export class PlayersService {
 
   loadPlayers() {
     return this.appApiService
-      .getAllPlayers(this.leagueListService.getSelectedRLeagueUUID())
+      .getAllPlayers(this.leagueListService.getSelectedLeagueUUID())
       .pipe(
         tap((data) => {
           this.playerList = data.players;

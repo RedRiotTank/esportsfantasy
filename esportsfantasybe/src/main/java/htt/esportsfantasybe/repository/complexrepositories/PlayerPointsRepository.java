@@ -18,5 +18,5 @@ public interface PlayerPointsRepository extends JpaRepository<PlayerPoints, Play
 
     PlayerPoints findById_MatchidAndId_Playeruuid(String matchid, UUID playeruuid);
 
-
+    List<PlayerPoints> findAllById_PlayeruuidIn(List<UUID> playerUuids);
 }

@@ -76,15 +76,5 @@ public class RealLeagueController {
         }
     }
 
-    @CrossOrigin
-    @PostMapping(value ="/getAllPlayers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllPlayers(@RequestBody String uuid){
-        try{
-            Set<PlayerInfoPOJO> allplayersInfo = realLeagueService.getAllPlayers(uuid);
 
-            return okresponses.getAllPlayersInfo(allplayersInfo);
-        } catch (Exception e){
-            return koresponses.generateKO(e.getMessage());
-        }
-    }
 }
