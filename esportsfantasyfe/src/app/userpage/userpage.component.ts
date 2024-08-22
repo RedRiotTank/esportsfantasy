@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppapiService } from '../common/API/appapi.service';
 import { CredentialsService } from '../credentials/credentials.service';
 import { Router } from '@angular/router';
+import { LeagueListServiceService } from '../league-list-service.service';
 
 @Component({
   selector: 'app-userpage',
@@ -18,7 +19,8 @@ export class UserpageComponent implements OnInit {
   constructor(
     private appApiService: AppapiService,
     private credentialsService: CredentialsService,
-    private router: Router
+    private router: Router,
+    private leagueListService: LeagueListServiceService
   ) {}
 
   ngOnInit() {
@@ -37,14 +39,12 @@ export class UserpageComponent implements OnInit {
   }
 
   editUser() {
-    this.editing = true;
-  }
-
-  cancelEdit() {
-    this.editing = false;
-    this.password = '';
-    this.fileToUpload = null;
-    this.ngOnInit();
+    if (this.editing) {
+      this.editing = false;
+      this.password = '';
+      this.fileToUpload = null;
+      this.ngOnInit();
+    } else this.editing = true;
   }
 
   onFileChange(event: any) {
