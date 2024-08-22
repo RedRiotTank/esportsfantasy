@@ -39,25 +39,21 @@
         transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
 
         img {
-          width: 50px; // Ajusta el tamaño según lo necesites
-          height: 50px; // Ajusta el tamaño según lo necesites
+          width: 50px;
+          height: 50px;
           border-radius: 8px;
         }
 
         &:hover {
-          background-color: rgb(200, 200, 200); // Fondo gris al hacer hover
-          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); // Sombra interna al hacer hover
-          transform: translateY(2px); // Simula hundimiento al hacer hover
+          background-color: rgb(200, 200, 200);
+          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+          transform: translateY(2px);
         }
 
         &.selected {
-          background-color: rgb(
-            169,
-            169,
-            169
-          ); // Fondo gris más oscuro al estar seleccionado
-          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7); // Sombra interna más pronunciada
-          transform: translateY(2px); // Simula hundimiento permanente
+          background-color: rgb(169, 169, 169);
+          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+          transform: translateY(2px);
         }
       }
     }
