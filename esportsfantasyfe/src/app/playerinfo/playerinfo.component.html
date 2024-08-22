@@ -9,15 +9,25 @@
     <h1 class="player-username">{{ playerInfo.username }}</h1>
   </div>
   <div class="player-details">
-    <div class="player-detail">
-      <strong>Full Name:</strong> {{ playerInfo.fullName }}
+    <div class="player-detail name">
+      <p>{{ playerInfo.fullName }}</p>
     </div>
-    <div class="player-detail">
-      <strong>Price:</strong> {{ playerInfo.price }}
+
+    <div class="player-detail-block">
+      <div class="player-detail-block-col">
+        <strong>Price</strong>
+        {{
+          playerInfo.price | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+        }}
+      </div>
+      <div class="player-detail-block-col">
+        <strong>Clause</strong>
+        {{
+          playerInfo.clause | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+        }}
+      </div>
     </div>
-    <div class="player-detail">
-      <strong>Clause:</strong> {{ playerInfo.clause }}
-    </div>
+
     <div class="player-detail">
       <img
         *ngIf="checkImageExists(playerInfo)"
@@ -30,7 +40,17 @@
         class="role-icon"
       />
     </div>
-    <div class="player-detail"><strong>Team:</strong> equiopi</div>
+
+    <div class="player-detail">
+      <div *ngFor="let team of teamListInfo" class="team-info">
+        <img
+          [src]="'data:image/png;base64,' + team.icon"
+          alt="Team Icon"
+          class="team-icon"
+          (click)="navigateToTeamInfo(team.uuid)"
+        />
+      </div>
+    </div>
   </div>
 
   <div class="player-points-list">
@@ -94,13 +114,4 @@
   </div>
 
   <!-- team info Option Section -->
-  <div *ngFor="let team of teamListInfo" class="team-info">
-    <img
-      [src]="'data:image/png;base64,' + team.icon"
-      alt="Team Icon"
-      class="team-icon"
-      (click)="navigateToTeamInfo(team.uuid)"
-    />
-    <h3>{{ team.shortName }}</h3>
-  </div>
 </div>
