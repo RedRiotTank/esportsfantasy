@@ -1,7 +1,9 @@
 <app-esf-header></app-esf-header>
 
 <div
-  *ngIf="this.getCredentialService().getLoggedIn()"
+  *ngIf="
+    this.getCredentialService().getLoggedIn() && this.getLeagues().length > 0
+  "
   class="league-p-container"
 >
   <p class="p-item">{{ this.getMoneyWithFormat() }} 🪙</p>

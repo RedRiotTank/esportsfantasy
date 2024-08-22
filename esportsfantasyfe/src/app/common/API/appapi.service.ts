@@ -136,15 +136,8 @@ export class AppapiService {
 
   //Leagues (Users)
 
-  public joinLeague(leagueData: any) {
-    this.api.sendRequest('League/joinLeague', leagueData).subscribe(
-      (response) => {
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        this.sendToErrorPage(error);
-      }
-    );
+  public joinLeague(leagueData: any): Observable<any> {
+    return this.api.sendRequest('League/joinLeague', leagueData);
   }
 
   public getUserLeagues(mail: string): Observable<any> {
