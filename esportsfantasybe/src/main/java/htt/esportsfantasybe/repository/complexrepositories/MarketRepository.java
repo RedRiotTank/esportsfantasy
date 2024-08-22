@@ -27,6 +27,10 @@ public interface MarketRepository extends JpaRepository<Market, MarketId> {
 
     List<Market> findMarketsById_Playeruuid(UUID playerUuid);
 
+    List<Market> findMarketsById_LeagueuuidAndOwneruuid(UUID leagueId, UUID owneruuid);
+
+    List<Market> findMarketsById_Leagueuuid(UUID leagueId);
+
     //@Query("SELECT m FROM Market m WHERE m.biduseruuid IS NOT NULL")
     //List<Market> findAllWithBidUserNotNull();
 

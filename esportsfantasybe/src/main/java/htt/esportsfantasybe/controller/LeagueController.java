@@ -101,6 +101,18 @@ public class LeagueController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/leaveLeague", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> leaveLeague(@RequestBody UserLeaguePOJO userLeaguePOJO) {
+        try {
+            leagueService.leaveLeague(userLeaguePOJO.getLeagueuuid(), userLeaguePOJO.getUseruuid());
+
+            return okresponses.leaveLeague();
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 
 
 }

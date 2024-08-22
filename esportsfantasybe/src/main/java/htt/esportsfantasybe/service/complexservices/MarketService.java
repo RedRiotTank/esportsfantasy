@@ -338,4 +338,20 @@ public class MarketService {
 
 
     }
+
+    public void deleteAllplayersOwner(UUID ownerUUID, UUID leagueUUID){
+        List<Market> markets = marketRepository.findMarketsById_LeagueuuidAndOwneruuid(leagueUUID, ownerUUID);
+
+        markets.forEach(market -> {
+            market.setOwneruuid(null);
+            marketRepository.save(market);
+        });
+
+
+    }
+
+    public void deleteLeagueMarketEntries(UUID leagueUUID){
+        List<Market> markets = marketRepository.findMarketsById_Leagueuuid(leagueUUID);
+        marketRepository.deleteAll(markets);
+    }
 }

@@ -53,6 +53,12 @@ public class UserXLeagueXPlayerService {
         userXLeagueXPlayerRepository.save(new UserXLeagueXPlayer(new UserXLeagueXPlayerId(playerID, leagueID, userID,jour), 0));
     }
 
+    public void unlinkAllUserLeaguePlayer(UUID userID, UUID leagueID) {
+        Set<UserXLeagueXPlayer> userXLeagueXPlayers = userXLeagueXPlayerRepository.findAllById_UseruuidAndId_Leagueuuid(userID, leagueID);
+
+        userXLeagueXPlayerRepository.deleteAll(userXLeagueXPlayers);
+    }
+
     public void changeProperty(UUID oldUser, UUID newUser, UUID leagueID, UUID playerID, int jour) {
 
         UserXLeagueXPlayer oldprop = userXLeagueXPlayerRepository.findById_PlayeruuidAndId_LeagueuuidAndId_UseruuidAndId_Jour(
@@ -173,5 +179,7 @@ public class UserXLeagueXPlayerService {
     public Set<UserXLeagueXPlayer> getUserxLeague(UUID user, UUID league){
         return new HashSet<>(userXLeagueXPlayerRepository.findAllById_UseruuidAndId_Leagueuuid(user, league));
     }
+
+
 }
 

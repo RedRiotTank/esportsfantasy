@@ -41,6 +41,7 @@ public class LeagueService {
 
     private EventService eventService;
     private BidUpService bidUpService;
+    private TransferPostService transferPostService;
 
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
@@ -58,7 +59,8 @@ public class LeagueService {
             PlayerService playerService,
             EventService eventService,
             UserXLeagueXPlayerService userXLeagueXPlayerService,
-            BidUpService bidUpService) {
+            BidUpService bidUpService,
+            TransferPostService transferPostService) {
         this.userService = userService;
         this.userXLeagueService = userXLeagueService;
         this.realLeagueService = realLeagueService;
@@ -67,6 +69,7 @@ public class LeagueService {
         this.eventService = eventService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
         this.bidUpService = bidUpService;
+        this.transferPostService = transferPostService;
     }
 
     public byte[] getLeagueIcon(String uuid){
@@ -328,5 +331,25 @@ public class LeagueService {
         });
 
         return allPlayers;
+    }
+
+    public void leaveLeague(UUID leagueuuid, UUID useruuid) {
+        userXLeagueXPlayerService.unlinkAllUserLeaguePlayer(useruuid, leagueuuid);
+        marketService.deleteAllplayersOwner(useruuid, leagueuuid);
+        userXLeagueService.unlinkUserFromLeague(useruuid, leagueuuid);
+
+        League league = this.leagueRepository.findById(leagueuuid).orElseThrow(RuntimeException::new);
+
+        if(league.getUsers().isEmpty()) deleteLeague(leagueuuid);
+    }
+
+    public void deleteLeague(UUID leagueuuid) {
+        League league = this.leagueRepository.findById(leagueuuid).orElseThrow(RuntimeException::new);
+
+        bidUpService.deleteLeagueBidups(leagueuuid);
+        marketService.deleteLeagueMarketEntries(leagueuuid);
+        transferPostService.deleteLeagueTransferPost(leagueuuid);
+
+        this.leagueRepository.delete(league);
     }
 }

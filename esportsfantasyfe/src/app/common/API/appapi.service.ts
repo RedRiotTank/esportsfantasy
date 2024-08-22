@@ -556,4 +556,19 @@ export class AppapiService {
       })
     );
   }
+
+  public leaveLeague(leagueuuid: string, useruuid: string) {
+    return this.api
+      .sendRequest('League/leaveLeague', {
+        leagueuuid: leagueuuid,
+        useruuid: useruuid,
+      })
+      .pipe(
+        map((response) => response),
+        catchError((error) => {
+          this.sendToErrorPage(error);
+          return of([]);
+        })
+      );
+  }
 }

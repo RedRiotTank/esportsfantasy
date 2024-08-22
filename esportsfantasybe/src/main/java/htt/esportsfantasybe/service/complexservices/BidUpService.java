@@ -59,4 +59,9 @@ public class BidUpService {
         bidUpRepository.delete(bidUp);
         return bidValue;
     }
+
+    public void deleteLeagueBidups(UUID leagueUUID) {
+        ArrayList<BidUp> bidUps = bidUpRepository.findAllById_Leagueuuid(leagueUUID);
+        bidUpRepository.deleteAll(bidUps);
+    }
 }

@@ -69,3 +69,16 @@
     <button class="esf-ibutton" (click)="logout()">Logout</button>
   </div>
 </div>
+
+<div *ngIf="getLeagueList().length > 0" class="leagues-container">
+  <h3>Your Leagues</h3>
+  <div *ngFor="let league of getLeagueList()" class="league-item">
+    <div class="league-info">
+      <img [src]="league.icon" alt="League Icon" />
+      <span>{{ league.leagueName }}</span>
+    </div>
+    <button class="delete-button" (click)="leaveLeagueOpenModal(league)">
+      <i class="fa fa-trash"></i>
+    </button>
+  </div>
+</div>

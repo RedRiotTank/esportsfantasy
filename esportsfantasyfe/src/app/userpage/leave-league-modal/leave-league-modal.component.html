@@ -1,0 +1,19 @@
+<div class="esf-modal">
+  <h1>⚠️ Leave league ⚠️</h1>
+
+  <div class="ll-img">
+    <img [src]="data.league.icon" alt="" />
+  </div>
+
+  <p>
+    Are you sure you want to leave the league
+    <span class="strong-span"> {{ data.league.leagueName }} </span>? All your
+    data on this league will be deleted and it's not possible to recover it once
+    you leave. Hope you reconsider it❗❗
+  </p>
+
+  <div class="buttons">
+    <button class="esf-ibutton" (click)="closeModal()">Cancel</button>
+    <button class="esf-ibutton" (click)="leaveLeague()">Leave</button>
+  </div>
+</div>

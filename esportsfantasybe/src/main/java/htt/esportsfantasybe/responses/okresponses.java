@@ -640,4 +640,12 @@ public class okresponses {
         okjson.addProperty("message", "user info updated correctly");
         return ResponseEntity.ok(okjson.toString());
     }
+
+    public static ResponseEntity<?> leaveLeague() {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "201");
+        okjson.addProperty("message", "user left league correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
 }

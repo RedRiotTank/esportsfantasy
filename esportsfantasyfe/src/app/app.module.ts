@@ -46,6 +46,7 @@ import { EsfcurrencyPipe } from './common/esfcurrency.pipe';
 import { CurrencyPipe } from '@angular/common';
 import { PlayersComponent } from './players/players.component';
 import { FilterModalComponent } from './players/filter-modal/filter-modal.component';
+import { LeaveLeagueModalComponent } from './userpage/leave-league-modal/leave-league-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +73,7 @@ import { FilterModalComponent } from './players/filter-modal/filter-modal.compon
     EsfcurrencyPipe,
     PlayersComponent,
     FilterModalComponent,
+    LeaveLeagueModalComponent,
   ],
   imports: [
     BrowserModule,

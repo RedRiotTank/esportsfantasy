@@ -21,6 +21,10 @@ public class UserXLeagueService {
            userXLeagueRepository.save(new UserXLeague(new UserXLeagueId(userID, leagueID), isAdmin, money));
     }
 
+    public void unlinkUserFromLeague(UUID userID, UUID leagueID) {
+        userXLeagueRepository.deleteById(new UserXLeagueId(userID, leagueID));
+    }
+
     public boolean isUserInLeague(UUID userID, UUID leagueID) {
         return userXLeagueRepository.existsById(new UserXLeagueId(userID, leagueID));
     }

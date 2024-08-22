@@ -3,6 +3,8 @@ import { AppapiService } from '../common/API/appapi.service';
 import { CredentialsService } from '../credentials/credentials.service';
 import { Router } from '@angular/router';
 import { LeagueListServiceService } from '../league-list-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LeaveLeagueModalComponent } from './leave-league-modal/leave-league-modal.component';
 
 @Component({
   selector: 'app-userpage',
@@ -20,7 +22,8 @@ export class UserpageComponent implements OnInit {
     private appApiService: AppapiService,
     private credentialsService: CredentialsService,
     private router: Router,
-    private leagueListService: LeagueListServiceService
+    private leagueListService: LeagueListServiceService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -91,5 +94,24 @@ export class UserpageComponent implements OnInit {
   logout() {
     this.credentialsService.logout();
     this.router.navigate(['/welcome']);
+  }
+
+  leaveLeagueOpenModal(league: any): void {
+    const dialogRef = this.dialog.open(LeaveLeagueModalComponent, {
+      width: '800px',
+      height: 'auto',
+      data: {
+        league: league,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.leagueListService.clearLeagues();
+      this.leagueListService.updateLeagueList();
+    });
+  }
+
+  getLeagueList() {
+    return this.leagueListService.getLeagues();
   }
 }

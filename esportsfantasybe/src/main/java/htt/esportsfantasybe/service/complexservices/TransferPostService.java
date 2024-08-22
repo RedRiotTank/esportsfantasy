@@ -165,4 +165,10 @@ public class TransferPostService {
 
         return tpPOJOs;
     }
+
+    public void deleteLeagueTransferPost(UUID league) {
+        List<TransferPost> tps = transferPostRepository.findAllByLeagueuuid(league);
+
+        transferPostRepository.deleteAll(tps);
+    }
 }

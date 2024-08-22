@@ -1,0 +1,55 @@
+.esf-modal {
+  background-color: rgb(255, 255, 255);
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 2rem;
+    color: black;
+    margin: 4% 3%;
+  }
+
+  p {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: black;
+  }
+
+  .ll-img {
+    text-align: center;
+    margin: auto auto;
+    img {
+      width: 150px;
+      height: auto;
+      border-radius: 50%;
+    }
+  }
+
+  .strong-span {
+    font-weight: 600;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin: 4% 0;
+
+    button {
+      background-color: rgb(229, 80, 0);
+      color: white;
+      border-radius: 20px;
+      border: none;
+      padding: 5px 10px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 auto;
+      padding: 0.5rem 4rem;
+    }
+  }
+
+  button:hover {
+    background-color: rgb(255, 80, 0);
+  }
+}
