@@ -138,7 +138,7 @@ public class UserXLeagueXPlayerService {
     }
 
     public void setAligned(UUID userID, UUID leagueID, UUID playerID, int aligned) {
-        int currentJour = leagueRepository.findById(leagueID).get().getRealLeague().getCurrentjour() + 1;
+        int currentJour = leagueRepository.findById(leagueID).get().getRealLeague().getCurrentjour();
 
         UserXLeagueXPlayer old = userXLeagueXPlayerRepository.findById_LeagueuuidAndId_UseruuidAndId_JourAndAligned(leagueID, userID, currentJour, aligned);
 
