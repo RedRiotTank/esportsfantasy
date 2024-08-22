@@ -1,19 +1,32 @@
-<div class="bench-team">
-  <div
-    class="element-p bench-element"
-    *ngIf="this.data.selectedPlayer != null"
-    (click)="removePlayer()"
-  >
-    <i class="fa-solid fa-xmark"></i>
-  </div>
+<div class="esf-modal">
+  <h1 mat-dialog-title>Select a player</h1>
+  <div mat-dialog-content>
+    <div class="bench-team">
+      <div
+        class="element-p bench-element"
+        *ngIf="this.data.selectedPlayer != null"
+        (click)="removePlayer()"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </div>
 
-  <div
-    *ngFor="let player of this.players"
-    class="element-p bench-element"
-    (click)="selectPlayer(player)"
-  >
-    <img [src]="'data:image/png;base64,' + player.icon" alt="" class="avatar" />
+      <div
+        *ngFor="let player of this.players"
+        class="element-p bench-element"
+        (click)="selectPlayer(player)"
+      >
+        <img
+          [src]="'data:image/png;base64,' + player.icon"
+          alt=""
+          class="avatar"
+        />
 
-    <p>{{ player.username }}</p>
+        <p>{{ player.username }}</p>
+      </div>
+    </div>
+
+    <p class="empty-text" *ngIf="this.data.empty">
+      ⚠️ You don't have any players of this position ⚠️
+    </p>
   </div>
 </div>

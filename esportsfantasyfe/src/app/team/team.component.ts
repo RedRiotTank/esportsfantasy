@@ -61,15 +61,39 @@ export class TeamComponent implements OnInit {
 
   openModal(pos: number): void {
     if (
-      this.teamService.selectedJour == this.teamService.currentJour &&
+      this.teamService.selectedJour === this.teamService.currentJour &&
       this.getEditableCurrentJour()
     ) {
+      let roleMap: { [key: number]: string } = {};
+
+      switch (this.leaguelistService.getSelectedLeagueGame()) {
+        case 'LOL':
+          roleMap = {
+            1: 'top',
+            2: 'jungle',
+            3: 'mid',
+            4: 'bot',
+            5: 'support',
+          };
+          break;
+        case 'CSGO':
+          //...
+          break;
+      }
+
+      const role = roleMap[pos];
+
+      const filteredPlayers = this.getBenchTeamPlayers().filter(
+        (player) => player.role.toLowerCase() === role
+      );
+
       const dialogRef = this.dialog.open(SelectplayerModalComponent, {
-        width: '400px',
+        width: '450px',
         data: {
           pos: pos,
-          players: this.getBenchTeamPlayers(),
+          players: filteredPlayers,
           selectedPlayer: this.getPlayerByPosition(pos),
+          empty: filteredPlayers.length === 0 ? true : false,
         },
       });
     }

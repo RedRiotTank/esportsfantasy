@@ -1,52 +1,69 @@
-.element-p {
-    
-    color: white; 
-    font-size: 24px; 
-    font-weight: bold; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    background-color: rgba(46, 41, 41, 0.7); 
-    border-radius: 20px;
-    width: 6%; 
-    
-    display: flex; 
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    cursor: pointer; 
+.esf-modal {
+  background-color: rgb(255, 255, 255);
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: black;
+  }
+}
 
-    img{
-        width: 4vw; 
-        height: auto;
-    }
+.element-p {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 6%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    width: 4vw;
+    height: auto;
+  }
+}
+
+.element-p:hover {
+  background-color: rgb(200, 200, 200);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  transform: translateY(2px);
+}
+
+p {
+  color: black;
 }
 
 .bench-team {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .bench-element {
-    margin: 10px;
-    width: calc(25% - 20px); 
-    max-width: 200px; 
+  margin: 10px;
+  width: calc(25% - 20px);
+  max-width: 200px;
 }
 
 @media screen and (max-width: 1200px) {
-    .bench-element {
-        width: calc(33.33% - 20px); 
-    }
+  .bench-element {
+    width: calc(33.33% - 20px);
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .bench-element {
-        width: calc(50% - 20px); 
-    }
+  .bench-element {
+    width: calc(50% - 20px);
+  }
 }
 
 @media screen and (max-width: 600px) {
-    .bench-element {
-        width: calc(100% - 20px); 
-    }
+  .bench-element {
+    width: calc(100% - 20px);
+  }
 }
