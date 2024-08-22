@@ -9,7 +9,7 @@ import { MatchsService } from '../matchs/matchs.service';
 })
 export class HomeService {
   public transferPosts: any[] = [];
-  public closestEvent: any = {};
+  public closestEvent: any = null;
 
   constructor(
     private appapiService: AppapiService,
@@ -19,6 +19,7 @@ export class HomeService {
   ) {}
 
   loadHome() {
+    this.closestEvent = null;
     if (this.leagueListService.getSelectedLeagueIndex() == 0) {
       this.leagueListService.updateLeagueListObs().subscribe(() => {
         this.teamService.loadCurrentJour().subscribe(() => {
