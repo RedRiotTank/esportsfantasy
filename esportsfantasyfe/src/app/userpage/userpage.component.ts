@@ -87,4 +87,9 @@ export class UserpageComponent implements OnInit {
       this.error = 'Please introduce your password.';
     }
   }
+
+  logout() {
+    this.credentialsService.logout();
+    this.router.navigate(['/welcome']);
+  }
 }

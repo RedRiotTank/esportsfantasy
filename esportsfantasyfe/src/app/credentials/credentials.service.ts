@@ -50,6 +50,12 @@ export class CredentialsService {
     return this.api.sendRequest('user/loginWithToken', token);
   }
 
+  logout() {
+    localStorage.removeItem('token');
+    this.loggedIn = false;
+    this.headerService.setLoggedIn(false);
+  }
+
   public getLoggedIn() {
     return this.loggedIn;
   }

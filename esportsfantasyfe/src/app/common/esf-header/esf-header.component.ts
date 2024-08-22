@@ -49,10 +49,6 @@ export class EsfHeaderComponent implements OnInit {
     else this.router.navigate(['/welcome']);
   }
 
-  g() {
-    console.log('g');
-  }
-
   goToMatchs() {
     this.router.navigate(['/matchs']);
   }

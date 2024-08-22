@@ -37,17 +37,12 @@
     <ul class="nav-list" *ngIf="!getLoggedIn()">
       <li><button class="esf-sbutton" (click)="goToHome()">HOME</button></li>
       <li>
-        <button class="esf-sbutton" (click)="goToMatchs()">MATCHS</button>
-      </li>
-      <li>
         <button class="esf-sbutton" (click)="goToMarket()">MARKET</button>
       </li>
       <li><button class="esf-sbutton">CONTACT</button></li>
       <li *ngIf="!getLoggedIn()">
         <button class="esf-ibutton" (click)="goToLogin()">LOGIN</button>
       </li>
-
-      <img *ngIf="getLoggedIn()" [src]="getPfpUrl()" alt="Perfil" />
     </ul>
 
     <ul class="nav-list-logged" *ngIf="getLoggedIn()">
