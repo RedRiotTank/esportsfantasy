@@ -33,8 +33,12 @@ export class PlayerinfoComponent implements OnInit {
 
     let leagueUuid = this.leaguelistService.getSelectedLeagueUUID();
 
+    this.loadPlayerInfo(this.playerId, leagueUuid);
+  }
+
+  loadPlayerInfo(playerId, leagueUuid) {
     this.appApiService
-      .getPlayerInfo(this.playerId, leagueUuid)
+      .getPlayerInfo(playerId, leagueUuid)
       .subscribe((response) => {
         this.playerInfo = {
           uuid: response.uuid,
@@ -106,6 +110,12 @@ export class PlayerinfoComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      this.teamListInfo = [];
+      this.loadPlayerInfo(
+        this.playerId,
+        this.leaguelistService.getSelectedLeagueUUID()
+      );
+    });
   }
 }

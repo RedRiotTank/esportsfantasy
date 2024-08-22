@@ -37,7 +37,7 @@ export class ClausePlayerModalComponent {
         this.data.clause
       )
       .subscribe((res) => {
-        console.log(res);
+        this.closeModal();
       });
   }
 
