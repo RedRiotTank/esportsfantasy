@@ -81,4 +81,8 @@ export class EsfHeaderComponent implements OnInit {
       queryParams: { type: 'player' },
     });
   }
+
+  goToContact() {
+    this.router.navigate(['/contact']);
+  }
 }

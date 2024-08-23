@@ -17,6 +17,7 @@ import { RankingComponent } from './ranking/ranking.component';
 import { UserpageComponent } from './userpage/userpage.component';
 import { PlayersComponent } from './players/players.component';
 import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-previsualizer.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'team', component: TeamComponent, canActivate: [authGuard] },
   { path: 'playerinfo/:id', component: PlayerinfoComponent },
   { path: 'teaminfo/:id', component: TeaminfoComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'error', component: EsfErrorComponent },
 ];
 

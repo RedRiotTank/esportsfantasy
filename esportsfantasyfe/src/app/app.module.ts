@@ -49,6 +49,7 @@ import { FilterModalComponent } from './players/filter-modal/filter-modal.compon
 import { LeaveLeagueModalComponent } from './userpage/leave-league-modal/leave-league-modal.component';
 import { TeamsVisitorComponent } from './teams-visitor/teams-visitor.component';
 import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-previsualizer.component';
+import { ContactComponent } from './contact/contact.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +79,7 @@ import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-p
     LeaveLeagueModalComponent,
     TeamsVisitorComponent,
     VisitorPrevisualizerComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
