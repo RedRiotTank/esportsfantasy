@@ -43,10 +43,6 @@ export class VisitorPrevisualizerComponent implements OnInit {
     });
   }
 
-  logactiveindex() {
-    console.log(this.activeIndex);
-  }
-
   selectGame(gameType: string) {
     this.competition = null;
     this.team = null;
