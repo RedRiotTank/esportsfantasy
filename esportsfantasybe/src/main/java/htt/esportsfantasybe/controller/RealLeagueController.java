@@ -3,6 +3,7 @@ package htt.esportsfantasybe.controller;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
 import htt.esportsfantasybe.Utils;
+import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.responses.koresponses;
@@ -71,6 +72,18 @@ public class RealLeagueController {
             CurrentJourInfoPOJO currentJourInfoPOJO = realLeagueService.getRLeagueCurrentJour(uuid);
 
             return okresponses.getRLeagueCurrentJour(currentJourInfoPOJO.getJour(), currentJourInfoPOJO.isStarted(), currentJourInfoPOJO.getJourlist());
+        } catch (Exception e){
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(value ="/getRLeagueTeams", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRLeagueTeams(@RequestBody String uuid){
+        try{
+            Set<Team> teams = realLeagueService.getRLeagueTeams(uuid);
+
+            return okresponses.getRLeagueTeams(teams);
         } catch (Exception e){
             return koresponses.generateKO(e.getMessage());
         }

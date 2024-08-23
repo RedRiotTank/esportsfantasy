@@ -37,7 +37,14 @@
     <ul class="nav-list" *ngIf="!getLoggedIn()">
       <li><button class="esf-sbutton" (click)="goToHome()">HOME</button></li>
       <li>
-        <button class="esf-sbutton" (click)="goToMarket()">MARKET</button>
+        <button class="esf-sbutton" (click)="goToTeamsPrevisualizer()">
+          TEAMS
+        </button>
+      </li>
+      <li>
+        <button class="esf-sbutton" (click)="goToPlayersPrevisualizer()">
+          PLAYERS
+        </button>
       </li>
       <li><button class="esf-sbutton">CONTACT</button></li>
       <li *ngIf="!getLoggedIn()">

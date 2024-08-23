@@ -1,0 +1,92 @@
+<p (click)="logactiveindex()">logactiveindex</p>
+<div class="flex justify-content-center">
+  <p-accordion [multiple]="false" [activeIndex]="activeIndex">
+    <p-accordionTab header="Select a game">
+      <div *ngFor="let game of games" class="list">
+        <div
+          class="container"
+          (click)="selectGame(game.game)"
+          [class.clicked]="gameType == game.game"
+        >
+          <img src="{{ game.icon }}" alt="{{ game }} image" />
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab
+      [disabled]="getSelectCompetitionDisabled()"
+      header="Select a competition"
+    >
+      <div *ngFor="let league of leagues" class="list">
+        <div
+          class="container"
+          (click)="selectCompetition(league.competition.Uuid)"
+          [class.clicked]="competition == league.competition.Uuid"
+        >
+          <img
+            src="{{ league.icon }}"
+            alt="{{ league.competition.ShortName }} image"
+          />
+          <p>{{ league.competition.ShortName }}</p>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab
+      *ngIf="this.type == 'player' || this.type == 'team'"
+      [disabled]="getSelectCompetitionDisabled()"
+      header="Select a team"
+    >
+      <div *ngFor="let t of teams" class="list">
+        <div
+          class="container"
+          (click)="selectTeam(t.uuid)"
+          [class.clicked]="team == t.uuid"
+        >
+          <img
+            [src]="'data:image/png;base64,' + t.icon"
+            alt="{{ t.ShortName }} image"
+          />
+          <p>{{ t.ShortName }}</p>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab
+      *ngIf="this.type == 'player'"
+      [disabled]="getSelectPlayerDisabled()"
+      header="Select a player"
+    >
+      <div *ngFor="let p of players" class="list">
+        <div
+          class="container"
+          (click)="selectPlayer(p.uuid)"
+          [class.clicked]="player == p.uuid"
+        >
+          <img
+            [src]="'data:image/png;base64,' + p.playerIcon"
+            alt="{{ p.name }} image"
+          />
+          <p>{{ p.name }}</p>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+  <div
+    [ngClass]="{
+      'esf-error-box': errorMessage != null,
+      'esf-error-box-no-display': errorMessage == null
+    }"
+  >
+    <p class="esf-error-text">{{ errorMessage }}</p>
+  </div>
+</div>
+
+<app-teaminfo
+  *ngIf="this.team != null && this.type == 'team'"
+  [teamIdInput]="this.team"
+></app-teaminfo>
+
+<app-playerinfo
+  *ngIf="this.player != null && this.type == 'player'"
+  [playerIdInput]="this.player"
+></app-playerinfo>

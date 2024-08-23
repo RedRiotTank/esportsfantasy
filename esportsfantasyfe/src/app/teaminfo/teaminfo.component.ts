@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppapiService } from '../common/API/appapi.service';
 
@@ -8,6 +8,7 @@ import { AppapiService } from '../common/API/appapi.service';
   styleUrl: './teaminfo.component.scss',
 })
 export class TeaminfoComponent {
+  @Input() teamIdInput: string | null = null;
   teamId: string | null = null;
 
   teamInfo: any = {};
@@ -21,6 +22,10 @@ export class TeaminfoComponent {
 
   ngOnInit(): void {
     this.teamId = this.route.snapshot.paramMap.get('id');
+
+    if (this.teamIdInput) {
+      this.teamId = this.teamIdInput;
+    }
 
     this.appApiService.getTeamInfo(this.teamId).subscribe((response) => {
       this.teamInfo = {

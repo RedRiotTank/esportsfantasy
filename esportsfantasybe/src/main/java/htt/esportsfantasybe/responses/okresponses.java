@@ -7,6 +7,7 @@ import com.nimbusds.jose.shaded.gson.JsonElement;
 import htt.esportsfantasybe.DTO.EventDTO;
 import htt.esportsfantasybe.DTO.GamesDTO;
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.TransferPost;
 import htt.esportsfantasybe.model.pojos.*;
@@ -646,6 +647,27 @@ public class okresponses {
         okjson.addProperty("result", "ok");
         okjson.addProperty("status", "201");
         okjson.addProperty("message", "user left league correctly");
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getRLeagueTeams(Set<Team> teams) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got teams correctly");
+
+        JsonArray teamsArray = new JsonArray();
+        teams.forEach(team -> {
+            JsonObject teamJson = new JsonObject();
+            teamJson.addProperty("uuid", team.getUuid().toString());
+            teamJson.addProperty("name", team.getName());
+            teamJson.addProperty("shortName", team.getShortname());
+            teamJson.addProperty("icon", team.getImage());
+            teamsArray.add(teamJson);
+        });
+
+        okjson.add("teams", teamsArray);
+
         return ResponseEntity.ok(okjson.toString());
     }
 }

@@ -114,6 +114,8 @@ export class LeagueListServiceService {
   }
 
   public getSelectedLeagueUUID() {
+    if (this.leagues.length == 0) return null;
+
     return this.leagues[this.selectedLeague].leagueUUID;
   }
 

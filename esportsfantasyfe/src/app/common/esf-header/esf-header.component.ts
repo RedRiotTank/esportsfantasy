@@ -69,4 +69,16 @@ export class EsfHeaderComponent implements OnInit {
   goToPlayersPage() {
     this.router.navigate(['/players']);
   }
+
+  goToTeamsPrevisualizer() {
+    this.router.navigate(['/visitorprevisualizer'], {
+      queryParams: { type: 'team' },
+    });
+  }
+
+  goToPlayersPrevisualizer() {
+    this.router.navigate(['/visitorprevisualizer'], {
+      queryParams: { type: 'player' },
+    });
+  }
 }

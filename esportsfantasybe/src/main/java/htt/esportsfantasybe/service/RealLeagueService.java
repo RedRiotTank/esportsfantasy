@@ -1,9 +1,11 @@
 package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.RealLeagueDTO;
+import htt.esportsfantasybe.DTO.TeamDTO;
 import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.Team;
 import htt.esportsfantasybe.model.pojos.CurrentJourInfoPOJO;
 import htt.esportsfantasybe.model.pojos.PlayerInfoPOJO;
 import htt.esportsfantasybe.repository.RealLeagueRepository;
@@ -310,6 +312,16 @@ public class RealLeagueService {
 
     public Set<PlayerInfoPOJO> getTeamPlayersInfo(String teamuuid, String leagueuuid){
         return teamService.getTeamPlayersInfo(teamuuid, leagueuuid);
+    }
+
+    public Set<Team> getRLeagueTeams(String uuid) {
+        RealLeague rl = getRLeague(uuid);
+        rl.getTeams().forEach(team -> {
+            byte[] image = teamService.getTeamIcon(team.getUuid());
+            team.setImage(Base64.getEncoder().encodeToString(image));
+        });
+
+        return rl.getTeams();
     }
 
     // ------- UTILS ------- //

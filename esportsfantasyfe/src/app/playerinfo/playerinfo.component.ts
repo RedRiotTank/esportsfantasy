@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppapiService } from '../common/API/appapi.service';
 import { LeagueListServiceService } from '../league-list-service.service';
@@ -12,6 +12,8 @@ import { CredentialsService } from '../credentials/credentials.service';
   styleUrls: ['./playerinfo.component.scss'],
 })
 export class PlayerinfoComponent implements OnInit {
+  @Input() playerIdInput: string | null = null;
+
   playerId: string | null = null;
 
   playerInfo: any = {};
@@ -30,8 +32,14 @@ export class PlayerinfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerId = this.route.snapshot.paramMap.get('id');
+    if (this.playerIdInput) {
+      this.playerId = this.playerIdInput;
+    }
+    console.log('playerId is: ', this.playerId);
 
     let leagueUuid = this.leaguelistService.getSelectedLeagueUUID();
+
+    console.log('leagueUuid is: ', leagueUuid);
 
     this.loadPlayerInfo(this.playerId, leagueUuid);
   }

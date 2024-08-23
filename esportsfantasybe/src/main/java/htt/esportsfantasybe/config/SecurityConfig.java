@@ -74,6 +74,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/user/loginWithToken").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueTotalJours").permitAll()
                 .requestMatchers("/api/realLeague/getRLeagueCurrentJour").permitAll()
+                .requestMatchers("/api/realLeague/getRLeagueTeams").permitAll()
                 .requestMatchers("/api/TransferPost/getLeagueTransferPosts").permitAll()
                 .requestMatchers("")
                 .permitAll()

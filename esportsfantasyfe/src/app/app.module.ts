@@ -47,6 +47,8 @@ import { CurrencyPipe } from '@angular/common';
 import { PlayersComponent } from './players/players.component';
 import { FilterModalComponent } from './players/filter-modal/filter-modal.component';
 import { LeaveLeagueModalComponent } from './userpage/leave-league-modal/leave-league-modal.component';
+import { TeamsVisitorComponent } from './teams-visitor/teams-visitor.component';
+import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-previsualizer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +76,8 @@ import { LeaveLeagueModalComponent } from './userpage/leave-league-modal/leave-l
     PlayersComponent,
     FilterModalComponent,
     LeaveLeagueModalComponent,
+    TeamsVisitorComponent,
+    VisitorPrevisualizerComponent,
   ],
   imports: [
     BrowserModule,

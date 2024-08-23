@@ -16,9 +16,11 @@ import { TeaminfoComponent } from './teaminfo/teaminfo.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { UserpageComponent } from './userpage/userpage.component';
 import { PlayersComponent } from './players/players.component';
+import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-previsualizer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { path: 'visitorprevisualizer', component: VisitorPrevisualizerComponent },
   { path: 'matchs', component: MatchsComponent },
   { path: 'players', component: PlayersComponent },
   { path: 'welcome', component: WelcomeComponent, canActivate: [welcomeGuard] },
