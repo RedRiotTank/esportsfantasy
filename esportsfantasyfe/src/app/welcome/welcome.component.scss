@@ -1,131 +1,95 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    background-color: #F5F7FA;
+body,
+html {
+  height: 100%;
+  margin: 0;
+  background-color: #f5f7fa;
 }
 
-:root{
-    background-color: #F5F7FA;
+:root {
+  background-color: #f5f7fa;
+}
+
+.esf-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #242221;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .showcase {
-    display: flex;
-    height: 100%;
-    margin-left: 0;
-    padding-left: 0;
-    display: hidden;
-    background-color: #F5F7FA;
-
-    
+  display: flex;
+  height: 100%;
+  margin-left: 0;
+  padding-left: 0;
+  background-color: #f5f7fa;
 }
 
-
-.box{
-    background-color: #F5F7FA;
-    text-align: center;
-    flex: 1;
-    overflow: hidden;
-    padding-left: 7%   ;
-    
-    h1 {
-        font-size: 350%;
-        margin-bottom: 0;
-    }
-
-    h2 {
-        font-size: 300%;
-        margin-top: 0;
-        color: #FF5900;
-    }
-
-    p{
-        font-weight: 400;
-        color: #535252;
-        font-size: 130%;
-    }
-
-    button{
-        margin-top: 8%;
-    }
-
+.box {
+  background-color: #f5f7fa;
+  text-align: center;
+  flex: 1;
+  overflow: hidden;
+  padding-left: 7%;
 }
-
 
 .left {
-    padding-top: 4%;
-    font-weight: 800;
-    font-style: normal;
-    flex: 0 0 50%;
+  padding-top: 4%;
+  font-weight: 800;
+  font-style: normal;
+  flex: 0 0 50%;
 }
 
 .right {
-
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    background-color: #F5F7FA;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: #f5f7fa;
 }
-
-
-.register-showcase{
-    margin-left: 20px ;
-}
-
-
-
-
-
-
-
-
 
 .container {
-    text-align: center;
-    margin-top: 50px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 h1 {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .leagues {
-    margin-top: 20px;
-}
-
-.league-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 2%;
+  justify-items: center;
+  align-items: center;
 }
 
 .league-logo {
-    height: 150px;
-    margin: 0 40px;
-    object-fit: contain; /* Esta propiedad asegura que la imagen se ajuste dentro del tamaño especificado sin deformarse */
-    max-width: 100%; /* Esto garantiza que la imagen no se extienda más allá de su tamaño original */
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
 }
 
+.league-logo:hover {
+  transform: scale(1.1);
+}
 
+@import "../../styles.scss";
 
-@import '../../styles.scss';
+@media (max-width: $mobilepx) {
+  .showcase {
+    display: block;
+  }
 
-@media(max-width: $mobilepx) {
-    .showcase{
-        display: block;
+  .left {
+    text-align: center;
+  }
 
-        .left{
-            text-align: center;
-            p{
-                margin-right: 0;
-            }
-            button{
-                z-index: 0;
-            }
-        }
-
-        .right{
-            visibility: hidden;
-            
-        }
-    }
+  .right {
+    visibility: hidden;
+  }
 }
