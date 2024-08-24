@@ -1,98 +1,163 @@
 <div class="flex justify-content-center">
-    <p-accordion [multiple]="false" [activeIndex]="activeIndex" >
-        <p-accordionTab header="Select a league type"  >
-           
-            <div  (click)="selectLeagueType(1)" [class.clicked]="leagueType === 1" class="type">
-                <h4 class="esf-title">Crear mi liga 🚀</h4>
-                <p class="esf-text">Crea tu propia liga pública para competir con los mejores o privada para demostrar a tus amigos quien es el mejor </p>
-            </div>
+  <p-accordion [multiple]="false" [activeIndex]="activeIndex">
+    <p-accordionTab header="Select a league type">
+      <div
+        (click)="selectLeagueType(1)"
+        [class.clicked]="leagueType === 1"
+        class="type"
+      >
+        <h4 class="esf-title">Create my league 🚀</h4>
+        <p class="esf-text">
+          Create your own public league to compete with the best, or a private
+          one to show your friends who's the best.
+        </p>
+      </div>
 
-            <div (click)="selectLeagueType(2)" [class.clicked]="leagueType === 2" class="type">
-                <h4 class="esf-title">Unirme a una liga pública 🌍</h4>
-                <p class="esf-text">Unete a una liga pública para competir con todo el mundo.</p>
-            </div>
+      <div
+        (click)="selectLeagueType(2)"
+        [class.clicked]="leagueType === 2"
+        class="type"
+      >
+        <h4 class="esf-title">Join a public league 🌍</h4>
+        <p class="esf-text">Join a public league to compete with everyone.</p>
+      </div>
 
-            <div (click)="selectLeagueType(3)" [class.clicked]="leagueType === 3" class="type">
-                <h4 class="esf-title">Unirme a una liga de amigos 👨‍👩‍👧‍👦</h4>
-                <p class="esf-text">Unete a la liga de un amigo para demostrar quien es el mejor.</p>
-            </div>
+      <div
+        (click)="selectLeagueType(3)"
+        [class.clicked]="leagueType === 3"
+        class="type"
+      >
+        <h4 class="esf-title">Join a friends' league 👨‍👩‍👧‍👦</h4>
+        <p class="esf-text">Join a friend's league to prove who’s the best.</p>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab [disabled]="getSelectGameDisabled()" header="Select a game">
+      <div *ngFor="let game of games" class="list">
+        <div
+          class="container"
+          (click)="selectGame(game.game)"
+          [class.clicked]="gameType == game.game"
+        >
+          <img src="{{ game.icon }}" alt="{{ game }} image" />
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab
+      [disabled]="getSelectCompetitionDisabled()"
+      header="Select a competition"
+    >
+      <div *ngFor="let league of leagues" class="list">
+        <div
+          class="container"
+          (click)="selectCompetition(league.competition.Uuid)"
+          [class.clicked]="competition == league.competition.Uuid"
+        >
+          <img
+            src="{{ league.icon }}"
+            alt="{{ league.competition.ShortName }} image"
+          />
+          <p>{{ league.competition.ShortName }}</p>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab
+      [disabled]="getSelectConfigurationDisabled()"
+      header="Configuration"
+    >
+      <form>
+        <div class="form-group row mb-4">
+          <label for="leagueName" class="col-sm-3 col-form-label"
+            >League Name:</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              id="leagueName"
+              name="leagueName"
+              [(ngModel)]="leagueName"
+              placeholder="Enter league name"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group row mb-4">
+          <label for="clauseActive" class="col-sm-3 col-form-label"
+            >Activate Clause Option:</label
+          >
+          <div class="col-sm-6">
+            <select
+              class="form-control"
+              id="clauseActive"
+              name="clauseActive"
+              [(ngModel)]="clauseActive"
+            >
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-4">
+          <label for="startType" class="col-sm-3 col-form-label"
+            >Starting Type:</label
+          >
+          <div class="col-sm-6">
+            <select
+              class="form-control"
+              id="startType"
+              name="startType"
+              [(ngModel)]="startType"
+            >
+              <option value="0">Only Money</option>
+              <option value="1">Balance between Players and Money</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-4">
+          <label for="publicleague" class="col-sm-3 col-form-label"
+            >Make public league:</label
+          >
+          <div class="col-sm-6">
+            <select
+              class="form-control"
+              id="publicleague"
+              name="publicleague"
+              [(ngModel)]="publicLeague"
+            >
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </p-accordionTab>
 
-        </p-accordionTab>
-        <p-accordionTab [disabled]="getSelectGameDisabled()" header="Select a game">
-            
-                <div *ngFor="let game of games" class="list">
-                    <div class="container" (click)="selectGame(game.game)" [class.clicked]="gameType == game.game">
-                        <img src="{{game.icon}}" alt="{{game}} image">                    
-                    </div>
+    <p-accordionTab [disabled]="getCodeDisabled()" header="Introduce a code">
+      <p class="esf-text">
+        Introduce here the code your friend gave you to join his league.
 
-                </div>
-                
-            
-        </p-accordionTab>
-        <p-accordionTab [disabled]="getSelectCompetitionDisabled()" header="Select a competition">
-            <div *ngFor="let league of leagues" class="list">
-                <div class="container" (click)="selectCompetition(league.competition.Uuid)" [class.clicked]="competition == league.competition.Uuid">
-                    <img src="{{league.icon}}" alt="{{league.competition.ShortName}} image">    
-                    <p>{{league.competition.ShortName}}</p>                
-                </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Code"
+          [(ngModel)]="code"
+          name="code"
+          required
+        />
+      </p>
+    </p-accordionTab>
+  </p-accordion>
 
-            </div>
-        </p-accordionTab>
-        <p-accordionTab [disabled]="getSelectConfigurationDisabled()" header="Configuration" >
-            <form>
-                <div class="form-group row mb-4">
-                  <label for="leagueName" class="col-sm-3 col-form-label">League Name:</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="leagueName" name="leagueName" [(ngModel)]="leagueName" placeholder="Enter league name" required>
-                  </div>
-                </div>
-                <div class="form-group row mb-4">
-                  <label for="clauseActive" class="col-sm-3 col-form-label">Activate Clause Option:</label>
-                  <div class="col-sm-6">
-                    <select class="form-control" id="clauseActive" name="clauseActive" [(ngModel)]="clauseActive">
-                      <option value=1>Yes</option>
-                      <option value=0>No</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row mb-4">
-                  <label for="startType" class="col-sm-3 col-form-label">Starting Type:</label>
-                  <div class="col-sm-6">
-                    <select class="form-control" id="startType" name="startType" [(ngModel)]="startType">
-                      <option value=0>Only Money</option>
-                      <option value=1>Balance between Players and Money</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row mb-4">
-                  <label for="publicleague" class="col-sm-3 col-form-label">Make public league:</label>
-                  <div class="col-sm-6">
-                    <select class="form-control" id="publicleague" name="publicleague" [(ngModel)]="publicLeague">
-                      <option value=1>Yes</option>
-                      <option value=0>No</option>
-                    </select>
-                  </div>
-                </div>
+  <div class="create-league-button">
+    <button (click)="createLeague()" class="esf-ibutton">Continue</button>
+  </div>
 
-              </form>
-        </p-accordionTab>
-
-        <p-accordionTab [disabled]="getCodeDisabled()" header="Introduce a code">
-            <p class="esf-text">
-                Introduce here the code your friend gave you to join his league.
-
-                <input type="text" class="form-control" placeholder="Code" [(ngModel)]="code" name="code" required>
-            </p>
-        </p-accordionTab>
-    </p-accordion>
-
-    <div class="create-league-button">
-        <button (click)="createLeague()" class="esf-ibutton">Continue</button>
-    </div>
-
-
-    <div [ngClass]="{'esf-error-box': errorMessage != null, 'esf-error-box-no-display' : errorMessage == null}">
-      <p class="esf-error-text">{{errorMessage}}</p>
-    </div>
-    
+  <div
+    [ngClass]="{
+      'esf-error-box': errorMessage != null,
+      'esf-error-box-no-display': errorMessage == null
+    }"
+  >
+    <p class="esf-error-text">{{ errorMessage }}</p>
+  </div>
 </div>
