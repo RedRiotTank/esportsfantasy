@@ -12,6 +12,8 @@ import htt.esportsfantasybe.repository.RealLeagueRepository;
 import htt.esportsfantasybe.service.apicaller.CounterApiCaller;
 import htt.esportsfantasybe.service.apicaller.LolApiCaller;
 import htt.esportsfantasybe.service.complexservices.EventService;
+import htt.esportsfantasybe.service.complexservices.PlayerPointsService;
+import htt.esportsfantasybe.service.complexservices.UserXLeagueService;
 import htt.esportsfantasybe.service.complexservices.UserXLeagueXPlayerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,16 @@ public class RealLeagueService {
     private final UserXLeagueXPlayerService userXLeagueXPlayerService;
 
     private final PlayerService playerService;
+    private final UserXLeagueService userXLeagueService;
+
 
     @Autowired
-    public RealLeagueService(TeamService teamService, EventService eventService, UserXLeagueXPlayerService userXLeagueXPlayerService, PlayerService playerService) {
+    public RealLeagueService(TeamService teamService, EventService eventService, UserXLeagueXPlayerService userXLeagueXPlayerService, PlayerService playerService, UserXLeagueService userXLeagueService) {
         this.teamService = teamService;
         this.eventService = eventService;
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
         this.playerService = playerService;
+        this.userXLeagueService = userXLeagueService;
     }
 
 
@@ -111,6 +116,7 @@ public class RealLeagueService {
 
             if(currentJour == league.getCurrentjour()+1){
                 userXLeagueXPlayerService.playerOwnerJourExtension(league);
+                userXLeagueService.addPointsMoney(league, currentJour);
 
             }
 

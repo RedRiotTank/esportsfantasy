@@ -340,29 +340,25 @@ public class LeagueService {
 
             UserRank userJourRank = new UserRank(user.getUuid(), user.getUsername(), b64Icon);
             UserRank userTotalRank = new UserRank(user.getUuid(), user.getUsername(), b64Icon);
-            userXLeagueXPlayerService.getUserxLeague(user.getUuid(), league.getUuid()).forEach(entry -> {
-                if(entry.getAligned() != 0) {
-                    Player player = playerService.getPlayer(entry.getId().getPlayeruuid());
-                    evs.forEach(ev -> {
-                        if (ev.getId().getJour() == entry.getId().getJour()) {
-                            player.getTeams().forEach(team -> {
-                                if ((team.getUuid().equals(ev.getId().getTeam1uuid()) || team.getUuid().equals(ev.getId().getTeam2uuid()))
-                                && (!ev.getTeam1Score().equals("null")  && !ev.getTeam2Score().equals("null"))) {
-                                    int pp = eventService.getPlayerPoints(player.getUuid(), ev.getMatchid());
-                                    userTotalRank.addPoints(pp);
 
-                                    if (ev.getId().getJour() == rankPOJO.getJour()){
-                                        userJourRank.addPoints(pp);
-                                    }
+            //JourPoints
+            int jourpoints = userXLeagueXPlayerService.getJourLeagueUserPoints(user, league, rankPOJO.getJour());
+            userJourRank.setPoints(jourpoints);
 
-                                }
-                            });
-                        }
-                    });
-                }
+            //TotalPoints
+            Set<Integer> contemplatedJours = new HashSet<>();
+
+            evs.forEach(ev -> {
+                contemplatedJours.add(ev.getId().getJour());
             });
-        insertOrdered(jourRank, userJourRank);
-        insertOrdered(totalRank, userTotalRank);
+
+            contemplatedJours.forEach(jour -> {
+                int points = userXLeagueXPlayerService.getJourLeagueUserPoints(user, league, jour);
+                userTotalRank.addPoints(points);
+            });
+
+            insertOrdered(jourRank, userJourRank);
+            insertOrdered(totalRank, userTotalRank);
 
         });
 

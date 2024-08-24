@@ -3,6 +3,7 @@ package htt.esportsfantasybe.service.complexservices;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.UserXLeagueXPlayer;
 import htt.esportsfantasybe.model.complexkeysmodels.UserXLeagueXPlayerId;
@@ -181,5 +182,17 @@ public class UserXLeagueXPlayerService {
     }
 
 
+    public int getJourLeagueUserPoints(User user, League league, int jour) {
+        AtomicInteger jourtotalpoints = new AtomicInteger();
+
+        getUserXLeagueTeam(user.getUuid(), league.getUuid()).getTeamInfo().forEach(player -> {
+            if(player.getJour() == jour && player.getAligned() != 0){
+                jourtotalpoints.addAndGet(player.getPoints());
+
+            }
+        });
+
+        return jourtotalpoints.get();
+    }
 }
 
