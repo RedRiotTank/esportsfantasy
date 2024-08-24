@@ -126,4 +126,8 @@ export class PlayerinfoComponent implements OnInit {
       );
     });
   }
+
+  activeClause(): boolean {
+    return this.leaguelistService.getSelectedLeague().activeClause;
+  }
 }

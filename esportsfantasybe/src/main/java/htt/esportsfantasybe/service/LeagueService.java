@@ -89,7 +89,15 @@ public class LeagueService {
         userLeagues.forEach(userXLeague -> {
             League league = this.leagueRepository.findById(userXLeague.getId().getLeagueuuid()).orElseThrow(RuntimeException::new);
 
-            if(league != null) userLeagueInfoPOJOS.add(new UserLeagueInfoPOJO(league.getUuid().toString(), league.getName(), userXLeague.isAdmin(),userXLeague.getMoney(), league.getRealLeague().getUuid().toString(), league.getRealLeague().getGame()));
+            if(league != null) userLeagueInfoPOJOS.add(
+                    new UserLeagueInfoPOJO(
+                            league.getUuid().toString(),
+                            league.getName(),
+                            userXLeague.isAdmin(),
+                            userXLeague.getMoney(),
+                            league.getRealLeague().getUuid().toString(),
+                            league.getRealLeague().getGame(),
+                            league.isActiveclause()));
         });
 
         return userLeagueInfoPOJOS;

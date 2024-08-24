@@ -131,6 +131,7 @@ public class okresponses {
             leagueJson.addProperty("money", league.getMoney());
             leagueJson.addProperty("rLeagueUUID", league.getRLeagueUUID());
             leagueJson.addProperty("leagueGame", league.getLeagueGame());
+            leagueJson.addProperty("activeClause", league.getActiveClause());
             leaguesArray.add(leagueJson);
         });
 

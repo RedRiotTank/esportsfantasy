@@ -79,7 +79,8 @@
     *ngIf="
       playerInfo.ownerUsername != 'null' &&
       playerInfo.ownerIcon != 'null' &&
-      playerInfo.ownerUUID != credentialsService.getUserUUID()
+      playerInfo.ownerUUID != credentialsService.getUserUUID() &&
+      activeClause()
     "
     class="clause-option"
   >
@@ -102,7 +103,8 @@
     *ngIf="
       playerInfo.ownerUsername != 'null' &&
       playerInfo.ownerIcon != 'null' &&
-      playerInfo.ownerUUID == credentialsService.getUserUUID()
+      playerInfo.ownerUUID == credentialsService.getUserUUID() &&
+      activeClause()
     "
   >
     <h2>Your cluase for {{ playerInfo.username }}</h2>
