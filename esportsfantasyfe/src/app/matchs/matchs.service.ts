@@ -15,6 +15,7 @@ export class MatchsService {
   ) {}
 
   public loadMatchs() {
+    this.matchs = {};
     this.appApiService
       .getMatchSchedule(this.leaguelistService.getSelectedRLeagueUUID())
       .subscribe((response) => {

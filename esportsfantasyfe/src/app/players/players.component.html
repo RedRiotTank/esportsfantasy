@@ -1,19 +1,25 @@
-<div *ngIf="isLoading" class="loading-spinner">
+<div *ngIf="playersService.isLoading" class="loading-spinner">
   <img src="../../assets/spinner.gif" alt="Loading..." />
 </div>
 
-<div *ngIf="!isLoading" class="filter-section">
+<div *ngIf="!playersService.isLoading" class="filter-section">
   <button (click)="openFilterModal()" class="esf-ibutton">Filters</button>
-  <select [(ngModel)]="sortOrder" (change)="applySort()">
+  <select
+    [(ngModel)]="playersService.sortOrder"
+    (change)="playersService.applySort()"
+  >
     <option value="asc">Ascending Points</option>
     <option value="desc">Descending Points</option>
   </select>
 </div>
 
-<div *ngIf="!isLoading" class="players-list">
-  <div *ngFor="let player of paginatedPlayers" class="player-row">
+<div *ngIf="!playersService.isLoading" class="players-list">
+  <div
+    *ngFor="let player of playersService.paginatedPlayers"
+    class="player-row"
+  >
     <div class="player-score">
-      <h3>{{ getTotalPoints(player) }}</h3>
+      <h3>{{ playersService.getTotalPoints(player) }}</h3>
     </div>
     <div class="player-icon">
       <img
@@ -48,7 +54,7 @@
       <div class="player-points">
         <span
           class="points"
-          *ngFor="let points of getLast5Points(player)"
+          *ngFor="let points of playersService.getLast5Points(player)"
           [ngClass]="getPointsClass(points)"
         >
           {{ points }}
@@ -100,14 +106,20 @@
   </div>
 </div>
 
-<div *ngIf="!isLoading" class="pagination">
-  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+<div *ngIf="!playersService.isLoading" class="pagination">
+  <button
+    (click)="goToPage(playersService.currentPage - 1)"
+    [disabled]="playersService.currentPage === 1"
+  >
     Previous
   </button>
-  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <span
+    >Page {{ playersService.currentPage }} of
+    {{ playersService.totalPages }}</span
+  >
   <button
-    (click)="goToPage(currentPage + 1)"
-    [disabled]="currentPage === totalPages"
+    (click)="goToPage(playersService.currentPage + 1)"
+    [disabled]="playersService.currentPage === playersService.totalPages"
   >
     Next
   </button>

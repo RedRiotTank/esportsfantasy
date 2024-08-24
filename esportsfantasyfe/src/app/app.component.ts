@@ -11,6 +11,8 @@ import { MatchsService } from './matchs/matchs.service';
 import { RankingComponent } from './ranking/ranking.component';
 import { RankingService } from './ranking/ranking.service';
 import { HomeService } from './home/home.service';
+import { PlayersService } from './players/players.service';
+import { PlayersComponent } from './players/players.component';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +32,8 @@ export class AppComponent implements OnInit {
     private moneyService: MoneyService,
     private matchsService: MatchsService,
     private rankingService: RankingService,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private playersService: PlayersService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -95,8 +98,12 @@ export class AppComponent implements OnInit {
           this.teamService.loadTeam();
           this.teamService.selectedJour = this.teamService.currentJour;
           break;
-        case 'matchs':
+        case '/matchs':
           this.matchsService.loadMatchs();
+          break;
+        case '/players':
+          console.log('load players');
+          this.playersService.load();
           break;
       }
     });
