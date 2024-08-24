@@ -28,7 +28,10 @@ export class VisitorPrevisualizerComponent implements OnInit {
   constructor(private route: ActivatedRoute, private appapi: AppapiService) {}
 
   ngOnInit(): void {
-    this.type = this.route.snapshot.queryParamMap.get('type');
+    this.route.queryParams.subscribe((params) => {
+      this.type = this.route.snapshot.queryParamMap.get('type');
+    });
+    //this.type = this.route.snapshot.queryParamMap.get('type');
 
     this.getGames();
   }
