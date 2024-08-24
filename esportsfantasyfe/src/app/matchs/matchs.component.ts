@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatchsService } from './matchs.service';
+import { UtilsService } from '../common/utils.service';
 
 @Component({
   selector: 'app-matchs',
@@ -7,7 +8,10 @@ import { MatchsService } from './matchs.service';
   styleUrl: './matchs.component.scss',
 })
 export class MatchsComponent {
-  constructor(private matchsService: MatchsService) {}
+  constructor(
+    private matchsService: MatchsService,
+    public utilsService: UtilsService
+  ) {}
 
   ngOnInit(): void {
     this.matchsService.loadMatchs();

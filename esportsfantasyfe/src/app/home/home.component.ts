@@ -5,6 +5,7 @@ import { CredentialsService } from '../credentials/credentials.service';
 import { LeagueListServiceService } from '../league-list-service.service';
 import { HomeService } from './home.service';
 import { MatchsService } from '../matchs/matchs.service';
+import { UtilsService } from '../common/utils.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private matchsService: MatchsService,
     private leagueListService: LeagueListServiceService,
-    private homeService: HomeService
+    private homeService: HomeService,
+    public utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {

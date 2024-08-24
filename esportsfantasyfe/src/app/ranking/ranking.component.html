@@ -9,7 +9,7 @@
         *ngFor="let number of getTeamService().jourList"
         [value]="number"
       >
-        {{ "week " + number }}
+        {{ utilsService.jourPOParser(number) }}
       </mat-option>
     </mat-select>
   </mat-form-field>

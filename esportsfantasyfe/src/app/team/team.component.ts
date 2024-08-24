@@ -5,6 +5,7 @@ import { SelectplayerModalComponent } from './selectplayer-modal/selectplayer-mo
 import { MatDialog } from '@angular/material/dialog';
 import { AppapiService } from '../common/API/appapi.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { UtilsService } from '../common/utils.service';
 
 @Component({
   selector: 'app-team',
@@ -16,7 +17,8 @@ export class TeamComponent implements OnInit {
     private teamService: TeamService,
     private leaguelistService: LeagueListServiceService,
     private appApiService: AppapiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {

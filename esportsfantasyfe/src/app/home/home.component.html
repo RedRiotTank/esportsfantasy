@@ -13,7 +13,9 @@
     <div class="versus">
       <span>vs</span>
       <p class="event-date">{{ getClosestEvent().date | date : "medium" }}</p>
-      <p class="event-jour">{{ getClosestEvent().jour }}</p>
+      <p class="event-jour">
+        {{ this.utilsService.jourPOParser(getClosestEvent().jour) }}
+      </p>
     </div>
 
     <div class="team-info" (click)="gotoTeamInfo(getClosestEvent().team2uuid)">
