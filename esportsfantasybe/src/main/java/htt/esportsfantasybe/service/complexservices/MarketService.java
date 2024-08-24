@@ -354,4 +354,14 @@ public class MarketService {
         List<Market> markets = marketRepository.findMarketsById_Leagueuuid(leagueUUID);
         marketRepository.deleteAll(markets);
     }
+
+    public List<Market> getLeagueMarketEntriesWithNoOwner(UUID leagueUUID){
+        return marketRepository.findMarketsById_LeagueuuidAndOwneruuidIsNull(leagueUUID);
+    }
+
+    public void stablishMarketProperty(Market market, UUID userUUID){
+        market.setOwneruuid(userUUID);
+        market.setInsell(false);
+        marketRepository.save(market);
+    }
 }

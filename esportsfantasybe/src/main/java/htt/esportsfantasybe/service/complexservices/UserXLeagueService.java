@@ -59,4 +59,11 @@ public class UserXLeagueService {
             throw new RuntimeException("1022");
         }
     }
+
+    public void setMoney(UUID userUuid, UUID leagueUuid, int money){
+        userXLeagueRepository.findById(new UserXLeagueId(userUuid, leagueUuid)).ifPresent(userXLeague -> {
+            userXLeague.setMoney(money);
+            userXLeagueRepository.save(userXLeague);
+        });
+    }
 }

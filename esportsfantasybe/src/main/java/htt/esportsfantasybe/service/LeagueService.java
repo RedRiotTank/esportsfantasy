@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class LeagueService {
+    private int INITIAL_MONEY = 8000000;
 
     @Autowired
     private LeagueRepository leagueRepository;
@@ -130,7 +131,6 @@ public class LeagueService {
         UserDTO userDTO = userService.getUser(joinLeaguePOJO.getUserMail());
 
         //TODO: modificar dinero en funciónj de opción elegida.
-        int money = 8000000;
 
         switch (joinLeaguePOJO.getLeagueType()) {
             case 1:
@@ -139,9 +139,14 @@ public class LeagueService {
 
                 League league = leagueRepository.save(new League(joinLeaguePOJO.getLeagueName(), joinLeaguePOJO.isClauseActive(), joinLeaguePOJO.getStartType(), rl, joinLeaguePOJO.isPublicLeague()));
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true, money);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), league.getUuid(), true, INITIAL_MONEY);
 
                 marketService.initMarket(new LeagueDTO(league));
+
+                if(joinLeaguePOJO.getStartType() == 1){
+                    int resultmoney = randomPlayerLinking(league, userDTO);
+                    userXLeagueService.setMoney(userDTO.getUuid(), league.getUuid(), resultmoney);
+                }
 
                 System.out.println(generateInvitationCode(league.getUuid()));
 
@@ -161,8 +166,12 @@ public class LeagueService {
 
                 if (trycount == 5) throw new RuntimeException("1011");
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false, money);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), randomLeague.getUuid(), false, INITIAL_MONEY);
 
+                if(randomLeague.getStartingtype() == 1){
+                    int resultmoney = randomPlayerLinking(randomLeague, userDTO);
+                    userXLeagueService.setMoney(userDTO.getUuid(), randomLeague.getUuid(), resultmoney);
+                }
                 break;
 
             case 3:
@@ -178,7 +187,12 @@ public class LeagueService {
                 if (userXLeagueService.isUserInLeague(userDTO.getUuid(), leagueUnionByCode.getUuid()))
                     throw new RuntimeException("1014");
 
-                userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false, money);
+                userXLeagueService.linkUserToLeague(userDTO.getUuid(), leagueUnionByCode.getUuid(), false, INITIAL_MONEY);
+
+                if(leagueUnionByCode.getStartingtype() == 1){
+                    int resultmoney = randomPlayerLinking(leagueUnionByCode, userDTO);
+                    userXLeagueService.setMoney(userDTO.getUuid(), leagueUnionByCode.getUuid(), resultmoney);
+                }
 
                 break;
             default:
@@ -359,5 +373,29 @@ public class LeagueService {
         transferPostService.deleteLeagueTransferPost(leagueuuid);
 
         this.leagueRepository.delete(league);
+    }
+
+    private int randomPlayerLinking(League league, UserDTO userDTO){
+        int totalAmount = 0;
+        int trys = 0;
+        List<Player> playerList = new ArrayList<>();
+
+        List<Market> marketsNoOwner = marketService.getLeagueMarketEntriesWithNoOwner(league.getUuid());
+
+        while(totalAmount < INITIAL_MONEY && trys < 100 && playerList.size() < 5){
+            int randomIndex = (int) (Math.random() * marketsNoOwner.size());
+            Market market = marketsNoOwner.get(randomIndex);
+            Player player = playerService.getPlayer(market.getId().getPlayeruuid());
+
+            if(!playerList.contains(player)){
+                playerList.add(player);
+                userXLeagueXPlayerService.linkUserLeaguePlayer(userDTO.getUuid(), league.getUuid(), player.getUuid(), league.getRealLeague().getCurrentjour());
+                marketService.stablishMarketProperty(market, userDTO.getUuid());
+                totalAmount += player.getValue();
+            }
+            trys++;
+        }
+
+        return totalAmount;
     }
 }
