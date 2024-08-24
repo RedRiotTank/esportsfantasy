@@ -113,6 +113,18 @@ public class LeagueController {
         }
     }
 
+    @CrossOrigin
+    @PostMapping(value ="/getUserLeaguesInvCodes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserLeaguesInvCodes(@RequestBody String useruuid) {
+        try {
+            List<LeagueInvCodePOJO> leagues = leagueService.getInvCodes(UUID.fromString(useruuid));
+
+            return okresponses.getUserLeaguesInvCodes(leagues);
+        } catch(Exception e) {
+            return koresponses.generateKO(e.getMessage());
+        }
+    }
+
 
 
 }

@@ -13,8 +13,9 @@ public class UserLeagueInfoPOJO {
     private int money;
     private String leagueGame;
     private Boolean activeClause;
+    private String code;
 
-    public UserLeagueInfoPOJO(String leagueUUID, String leagueName, Boolean isAdmin, int money, String rLeagueUUID, String leagueGame, Boolean activeClause) {
+    public UserLeagueInfoPOJO(String leagueUUID, String leagueName, Boolean isAdmin, int money, String rLeagueUUID, String leagueGame, Boolean activeClause, String code) {
         this.leagueUUID = leagueUUID;
         this.leagueName = leagueName;
         this.isAdmin = isAdmin;
@@ -22,5 +23,6 @@ public class UserLeagueInfoPOJO {
         this.rLeagueUUID = rLeagueUUID;
         this.leagueGame = leagueGame;
         this.activeClause = activeClause;
+        this.code = code;
     }
 }

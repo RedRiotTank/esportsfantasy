@@ -574,4 +574,14 @@ export class AppapiService {
       })
     );
   }
+
+  public getInvCodes(useruuid: string) {
+    return this.api.sendRequest('League/getUserLeaguesInvCodes', useruuid).pipe(
+      map((response) => response),
+      catchError((error) => {
+        this.sendToErrorPage(error);
+        return of([]);
+      })
+    );
+  }
 }

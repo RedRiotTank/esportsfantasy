@@ -77,6 +77,12 @@
       <img [src]="league.icon" alt="League Icon" />
       <span>{{ league.leagueName }}</span>
     </div>
+
+    <div class="code">
+      <span>{{ league.code }}</span>
+      <span class="sc">Share Code</span>
+    </div>
+
     <button class="delete-button" (click)="leaveLeagueOpenModal(league)">
       <i class="fa fa-trash"></i>
     </button>

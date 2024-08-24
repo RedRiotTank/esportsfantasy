@@ -112,6 +112,8 @@ export class UserpageComponent implements OnInit {
   }
 
   getLeagueList() {
+    let leagues: any[] = this.leagueListService.getLeagues();
+
     return this.leagueListService.getLeagues();
   }
 }

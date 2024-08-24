@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -155,7 +156,7 @@ public class EventService {
             }
         });
 
-        events.removeIf(event -> event.getDate().before(now));
+        events.removeIf(event -> new Date(event.getDate().getTime() + TimeUnit.HOURS.toMillis(3)).before(now));
 
         if (events.isEmpty()) return new CurrentJourInfoPOJO(0,false, null);
 

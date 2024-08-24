@@ -7,6 +7,7 @@ import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
+import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.complexentities.BidUp;
 import htt.esportsfantasybe.model.complexentities.Event;
 import htt.esportsfantasybe.model.complexentities.Market;
@@ -46,6 +47,7 @@ public class LeagueService {
 
     // invitation codes:
     private HashMap<String, UUID> invitationCodes = new HashMap<>();
+    private HashMap<String, String> invitationCodesReverse = new HashMap<>();
     private final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private final int CODE_SIZE = 6;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -98,10 +100,49 @@ public class LeagueService {
                             userXLeague.getMoney(),
                             league.getRealLeague().getUuid().toString(),
                             league.getRealLeague().getGame(),
-                            league.isActiveclause()));
+                            league.isActiveclause(),
+                            invitationCodesReverse.get(league.getUuid().toString())
+            ));
         });
 
         return userLeagueInfoPOJOS;
+    }
+
+    public List<UserLeagueInfoPOJO> getUserLeagues(UUID usruuid){
+        UserDTO user = userService.getUser(usruuid);
+
+        return getUserLeagues(user.getMail());
+    }
+
+    public List<League> getAllLeagues(){
+        return this.leagueRepository.findAll();
+    }
+
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24h
+    public void updateInvCodes(){
+        Utils.esfPrint("Updating invitation codes");
+
+        invitationCodes.clear();
+
+        getAllLeagues().forEach(league -> {
+            generateInvitationCode(league.getUuid());
+        });
+
+        Utils.esfPrint("Invitation codes updated");
+    }
+
+    public List<LeagueInvCodePOJO> getInvCodes(UUID useruuid){
+        List<LeagueInvCodePOJO> leagueInvCodePOJOS = new ArrayList<>();
+
+        getUserLeagues(useruuid).forEach(userLeagueInfoPOJO -> {
+            String uuid = userLeagueInfoPOJO.getLeagueUUID();
+            String code = invitationCodesReverse.get(uuid);
+
+            leagueInvCodePOJOS.add(new LeagueInvCodePOJO(UUID.fromString(uuid), code));
+
+        });
+
+        return leagueInvCodePOJOS;
     }
 
     public String generateInvitationCode(UUID leagueUUID) {
@@ -111,10 +152,7 @@ public class LeagueService {
         } while (invitationCodes.containsKey(code));
 
         invitationCodes.put(code, leagueUUID);
-
-        String finalCode = code;
-        scheduler.schedule(() -> invitationCodes.remove(finalCode), 24, TimeUnit.HOURS);
-
+        invitationCodesReverse.put(leagueUUID.toString(), code);
         return code;
     }
 
@@ -129,8 +167,6 @@ public class LeagueService {
     public void joinLeague(JoinLeaguePOJO joinLeaguePOJO) {
 
         UserDTO userDTO = userService.getUser(joinLeaguePOJO.getUserMail());
-
-        //TODO: modificar dinero en funciónj de opción elegida.
 
         switch (joinLeaguePOJO.getLeagueType()) {
             case 1:
@@ -148,7 +184,7 @@ public class LeagueService {
                     userXLeagueService.setMoney(userDTO.getUuid(), league.getUuid(), resultmoney);
                 }
 
-                System.out.println(generateInvitationCode(league.getUuid()));
+                generateInvitationCode(league.getUuid());
 
                 break;
 

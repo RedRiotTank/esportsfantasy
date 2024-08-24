@@ -132,6 +132,7 @@ public class okresponses {
             leagueJson.addProperty("rLeagueUUID", league.getRLeagueUUID());
             leagueJson.addProperty("leagueGame", league.getLeagueGame());
             leagueJson.addProperty("activeClause", league.getActiveClause());
+            leagueJson.addProperty("code", league.getCode());
             leaguesArray.add(leagueJson);
         });
 
@@ -668,6 +669,25 @@ public class okresponses {
         });
 
         okjson.add("teams", teamsArray);
+
+        return ResponseEntity.ok(okjson.toString());
+    }
+
+    public static ResponseEntity<?> getUserLeaguesInvCodes(List<LeagueInvCodePOJO> invCodes) {
+        JsonObject okjson = new JsonObject();
+        okjson.addProperty("result", "ok");
+        okjson.addProperty("status", "200");
+        okjson.addProperty("message", "got leagues inv codes correctly");
+
+        JsonArray invCodesArray = new JsonArray();
+        invCodes.forEach(invCode -> {
+            JsonObject invCodeJson = new JsonObject();
+            invCodeJson.addProperty("leagueUuid", invCode.getLeagueUuid().toString());
+            invCodeJson.addProperty("code", invCode.getCode());
+            invCodesArray.add(invCodeJson);
+        });
+
+        okjson.add("invCodes", invCodesArray);
 
         return ResponseEntity.ok(okjson.toString());
     }

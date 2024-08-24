@@ -24,8 +24,6 @@ public class League {
     private int startingtype;
     private boolean publicleague;
 
-
-
     @ManyToOne
     @JoinColumn(name = "realleague")
     private RealLeague realLeague;

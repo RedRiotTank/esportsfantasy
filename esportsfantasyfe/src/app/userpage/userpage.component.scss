@@ -110,15 +110,36 @@
 }
 
 .league-info {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 10px;
 }
 
 .league-info img {
+  grid-column: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 15px;
+}
+
+.league-info span {
+  grid-column: 2;
+  white-space: nowrap;
+}
+
+.code {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  grid-column: 3;
+  justify-items: center;
+}
+
+.code .sc {
+  font-size: x-small;
+  color: gray;
 }
 
 .delete-button {
