@@ -432,6 +432,6 @@ public class LeagueService {
             trys++;
         }
 
-        return totalAmount;
+        return INITIAL_MONEY - totalAmount;
     }
 }
