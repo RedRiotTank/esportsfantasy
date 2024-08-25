@@ -89,7 +89,7 @@ public class TeamService {
 
         String url = LolApiCaller.getTableImgurl(op, "Team");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/teams/" + team.getUuid() + ".png");
+        Utils.downloadImage(url,"teams/" + team.getUuid() + ".png");
     }
 
     public byte[] getPlayerTeamIcon(String playeruuid, String leagueuuid){
@@ -115,7 +115,7 @@ public class TeamService {
 
         Path imagePath;
 
-        imagePath = Paths.get("src/main/resources/media/teams/" + teamuuid + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "teams/" + teamuuid + ".png");
 
         byte[] imageBytes;
 
@@ -124,7 +124,7 @@ public class TeamService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }
@@ -135,7 +135,7 @@ public class TeamService {
     public byte[] getTeamIcon(UUID teamuuid){
         Path imagePath;
 
-        imagePath = Paths.get("src/main/resources/media/teams/" + teamuuid.toString() + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "teams/" + teamuuid.toString() + ".png");
 
         byte[] imageBytes;
 
@@ -144,7 +144,7 @@ public class TeamService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }

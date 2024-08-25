@@ -17,6 +17,22 @@ services:
       esportsfantasy:
         ipv4_address: 10.10.10.2
 
+  backend:
+    image: tomcat:9.0.73-jdk11
+    container_name: esportsfantasy-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./proyecto.war:/usr/local/tomcat/webapps/ROOT.war
+      - C:\Users\alber\Desktop\media:/usr/local/tomcat/media
+    environment:
+      JAVA_OPTS: -Xmx512m
+    networks:
+      esportsfantasy:
+        ipv4_address: 10.10.10.3
+    depends_on:
+      - esportsfantasydb
+
 networks:
   esportsfantasy:
     driver: bridge

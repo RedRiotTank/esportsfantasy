@@ -1,6 +1,7 @@
 package htt.esportsfantasybe.service;
 
 import htt.esportsfantasybe.DTO.GamesDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.Games;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.repository.GamesRepository;
@@ -43,7 +44,7 @@ public class GamesService {
     public byte[] getGameIcon(String game) {
 
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/gamesicons/" + game + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "gamesicons/" + game + ".png");
 
         byte[] imageBytes;
 
@@ -52,7 +53,7 @@ public class GamesService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }

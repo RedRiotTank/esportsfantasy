@@ -125,7 +125,7 @@ public class UserService {
             userRepository.save(newUser);
             newSocialUserDTO.setUuid(newUser.getUuid());
 
-            Utils.downloadImage(newSocialUserDTO.getIconLink(), "src/main/resources/media/pfp/" + newUser.getUuid() + ".png");
+            Utils.downloadImage(newSocialUserDTO.getIconLink(), "pfp/" + newUser.getUuid() + ".png");
         } else if (loginUser.get().getPass() != null) throw new RuntimeException("1004");
         else {
             newSocialUserDTO.setUuid(loginUser.get().getUuid());
@@ -206,7 +206,7 @@ public class UserService {
         UUID useruuid = user.get().getUuid();
 
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "pfp/" + useruuid + ".png");
 
         byte[] imageBytes;
 
@@ -215,10 +215,10 @@ public class UserService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/pfp/default.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "pfp/default.png"));
             } catch (IOException ioException) {
                 try {
-                    imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                    imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
                 } catch (IOException exception) {
                     throw new RuntimeException();
                 }
@@ -229,8 +229,8 @@ public class UserService {
 
     public byte[] getUserPfp(UUID useruuid) throws IOException {
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/pfp/" + useruuid + ".png");
-
+        imagePath = Paths.get(Utils.getStoragePath() + "pfp/" + useruuid + ".png");
+        
         byte[] imageBytes;
 
         try {
@@ -238,10 +238,10 @@ public class UserService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/pfp/default.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "pfp/default.png"));
             } catch (IOException ioException) {
                 try {
-                    imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                    imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
                 } catch (IOException exception) {
                     throw new RuntimeException();
                 }
@@ -294,7 +294,7 @@ public class UserService {
         user.setAdmin(userInfoPOJO.isAdmin());
 
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/pfp/" + userInfoPOJO.getUuid() + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "pfp/" + userInfoPOJO.getUuid() + ".png");
 
         try {
             Files.write(imagePath, Base64.getDecoder().decode(userInfoPOJO.getIcon()));

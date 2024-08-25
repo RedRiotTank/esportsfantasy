@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.Getter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-
 public class Utils {
+    //private static final String storagePath = "C:\\Users\\alber\\Desktop\\media\\";
+    private static final String storagePath = "/home/media/";
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_BOLD = "\u001B[1m";
@@ -35,6 +37,10 @@ public class Utils {
 
         return newop;
 
+    }
+
+    public static String getStoragePath() {
+        return storagePath;
     }
 
 
@@ -73,12 +79,6 @@ public class Utils {
         return null;
     }
 
-
-
-
-
-
-
     public static void downloadImage(String imageUrl, String destinationFile) throws IOException {
         URL url = null;
 
@@ -91,7 +91,7 @@ public class Utils {
         if(url != null){
             InputStream inputStream = url.openStream();
 
-            OutputStream outputStream = new FileOutputStream(destinationFile);
+            OutputStream outputStream = new FileOutputStream(storagePath + destinationFile);
 
 
             byte[] buffer = new byte[2048];

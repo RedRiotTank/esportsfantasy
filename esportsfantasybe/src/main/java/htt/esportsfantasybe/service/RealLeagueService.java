@@ -57,7 +57,7 @@ public class RealLeagueService {
     // ------- UPDATE ------- //
 
     @Transactional
-    //@Scheduled(fixedRate = 86400000) //24 hours
+    @Scheduled(fixedRate = 86400000) //24 hours
     public void GeneralCascadeUpdate() throws IOException {
         Utils.esfPrint("Initializing general cascade update");
 
@@ -254,7 +254,7 @@ public class RealLeagueService {
 
         String url = LolApiCaller.getTableImgurl(op, "Tournament");
         op = op.replace("/","_");
-        Utils.downloadImage(url,"src/main/resources/media/leagues/" + rl.getUuid() + ".png");
+        Utils.downloadImage(url,"leagues/" + rl.getUuid() + ".png");
 
     }
 
@@ -301,7 +301,7 @@ public class RealLeagueService {
         RealLeague rl = rlOptional.orElseThrow(() -> new RuntimeException("1017"));
 
         Path imagePath;
-        imagePath = Paths.get("src/main/resources/media/leagues/" + uuid + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "leagues/" + uuid + ".png");
 
         byte[] imageBytes;
 
@@ -310,7 +310,7 @@ public class RealLeagueService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }

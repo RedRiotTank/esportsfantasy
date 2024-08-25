@@ -74,7 +74,8 @@ public class PlayerService {
                 try {
                     downloadPlayerImage(player);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    Utils.esfPrint("Player image not found for " + player.getUsername());
                 }
 
                 teamXPlayerService.linkTeamToPlayer(team.getUuid(),player.getUuid());
@@ -144,7 +145,7 @@ public class PlayerService {
         String url = LolApiCaller.getTableImgurl(op,"Player");
         if(url != null) {
             op = op.replace("/", "_");
-            Utils.downloadImage(url, "src/main/resources/media/players/" + player.getUuid().toString() + ".png");
+            Utils.downloadImage(url, "players/" + player.getUuid().toString() + ".png");
         }
     }
 
@@ -183,7 +184,7 @@ public class PlayerService {
         Path imagePath;
         //TODO: LOL hardcoded. Change to player.getGame()
         //TODO 2: Change to player.getUuid().toString()
-        imagePath = Paths.get("src/main/resources/media/players/" + player.getUuid() + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "players/" + player.getUuid() + ".png");
 
         byte[] imageBytes;
 
@@ -192,7 +193,7 @@ public class PlayerService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }
@@ -203,7 +204,7 @@ public class PlayerService {
     public static byte[] getPlayerIconStatic(String uuid) {
         Path imagePath;
 
-        imagePath = Paths.get("src/main/resources/media/players/" + uuid + ".png");
+        imagePath = Paths.get(Utils.getStoragePath() + "players/" + uuid + ".png");
 
         byte[] imageBytes;
 
@@ -212,7 +213,7 @@ public class PlayerService {
 
         } catch (IOException e) {
             try {
-                imageBytes = Files.readAllBytes(Paths.get("src/main/resources/media/not_found.png"));
+                imageBytes = Files.readAllBytes(Paths.get(Utils.getStoragePath() + "not_found.png"));
             } catch (IOException ioException) {
                 throw new RuntimeException();
             }
