@@ -51,8 +51,6 @@ export class JoinLeagueComponent implements OnInit {
   // DISPLAY-NAVIGATION
 
   activeIndexChange(index: number) {
-    // console.log("i: ", index);
-
     this.activeIndex = index;
   }
 

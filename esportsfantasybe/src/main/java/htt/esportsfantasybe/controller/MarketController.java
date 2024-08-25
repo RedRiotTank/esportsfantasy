@@ -28,7 +28,6 @@ public class MarketController {
     public ResponseEntity<?> bidup(@RequestBody BidupPOJO bidup) {
         try {
             marketService.bidUp(bidup.getPlayeruuid(), bidup.getLeagueuuid(), bidup.getUseruuid(), bidup.getValue());
-            System.out.println("bidup");
 
             return okresponses.bidup();
         } catch(Exception e) {

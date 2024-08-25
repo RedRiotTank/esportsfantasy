@@ -26,7 +26,6 @@ export class RankingService {
   }
 
   changeJour(jour: number) {
-    console.log(jour);
     this.selectedJour = jour;
     this.loadRanking();
   }
@@ -42,9 +41,7 @@ export class RankingService {
           this.jourRanking = response.jourRanking;
           this.totalRanking = response.totalRanking;
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
   }
 }

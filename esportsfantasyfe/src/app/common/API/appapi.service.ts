@@ -35,7 +35,6 @@ export class AppapiService {
   //Match schedule
 
   public getMatchSchedule(leagueuuid: string): Observable<any> {
-    console.log('leagueuuid: ' + leagueuuid);
     return this.api.sendRequest('events/getEvents', leagueuuid).pipe(
       catchError((error) => {
         this.sendToErrorPage(error);
@@ -288,7 +287,6 @@ export class AppapiService {
     playerUUID: string,
     alignment: number
   ): Observable<any> {
-    //console.log("alignment: " + alignment);
     return this.api
       .sendRequest('UserXLeagueXPlayer/SetAligned', {
         useruuid: userUUID,

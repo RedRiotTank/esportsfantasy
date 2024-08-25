@@ -21,7 +21,6 @@ export class LeaveLeagueModalComponent {
   }
 
   leaveLeague(): void {
-    console.log(this.data);
     this.appApiService
       .leaveLeague(
         this.data.league.leagueUUID,

@@ -1,5 +1,6 @@
 package htt.esportsfantasybe.service.complexservices;
 
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.model.League;
 import htt.esportsfantasybe.model.Player;
 import htt.esportsfantasybe.model.RealLeague;
@@ -156,7 +157,7 @@ public class UserXLeagueXPlayerService {
     }
 
     public void playerOwnerJourExtension(RealLeague rLeague){
-        System.out.println("Jour player extension");
+        Utils.esfPrint("Extending players for next jour");
 
         Set<League> leagueset = leagueRepository.findAllByRealLeague(rLeague);
 

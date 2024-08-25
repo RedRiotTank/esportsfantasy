@@ -39,8 +39,6 @@ export class SellplayerModalComponent {
   }
 
   getPlayers() {
-    console.log(this.teamService.getTeamPlayers());
-    console.log(this.lastJour);
     return this.teamService.getTeamPlayers();
   }
 

@@ -102,7 +102,6 @@ export class AppComponent implements OnInit {
           this.matchsService.loadMatchs();
           break;
         case '/players':
-          console.log('load players');
           this.playersService.load();
           break;
       }

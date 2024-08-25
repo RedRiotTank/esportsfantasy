@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
   }
 
   getClosestEvent() {
-    console.log(this.homeService.closestEvent);
     return this.homeService.closestEvent;
   }
 

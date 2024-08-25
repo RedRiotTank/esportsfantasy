@@ -35,11 +35,8 @@ export class PlayerinfoComponent implements OnInit {
     if (this.playerIdInput) {
       this.playerId = this.playerIdInput;
     }
-    console.log('playerId is: ', this.playerId);
 
     let leagueUuid = this.leaguelistService.getSelectedLeagueUUID();
-
-    console.log('leagueUuid is: ', leagueUuid);
 
     this.loadPlayerInfo(this.playerId, leagueUuid);
   }
@@ -66,10 +63,7 @@ export class PlayerinfoComponent implements OnInit {
           ownerIcon: response.ownerIcon,
         };
 
-        console.log(this.playerInfo);
-
         this.playerInfo.teamList.forEach((teamUuid: string) => {
-          console.log('teamuuid is: ', teamUuid);
           this.appApiService.getTeamInfo(teamUuid).subscribe((response) => {
             this.teamListInfo.push({
               uuid: response.uuid,

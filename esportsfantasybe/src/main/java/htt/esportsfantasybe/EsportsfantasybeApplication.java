@@ -25,7 +25,7 @@ public class EsportsfantasybeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EsportsfantasybeApplication.class, args);
-        System.out.println("eSportsFantasy backend is running");
+        Utils.esfPrint("eSportsFantasy backend is running");
 
 
     }

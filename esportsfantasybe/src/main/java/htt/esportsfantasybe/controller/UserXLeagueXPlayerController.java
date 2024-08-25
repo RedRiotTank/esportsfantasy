@@ -30,7 +30,6 @@ public class UserXLeagueXPlayerController {
     @PostMapping(value ="/TeamInfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> TeamInfo(@RequestBody UserLeaguePOJO userLeaguePOJO){
         try{
-            System.out.println("GETTING TEAM INFO");
             TeamAllComponentsPOJO teamAllComponentsPOJO =  userXLeagueXPlayerService.getUserXLeagueTeam(userLeaguePOJO.getUseruuid(), userLeaguePOJO.getLeagueuuid());
 
             return okresponses.teamInfo(teamAllComponentsPOJO);

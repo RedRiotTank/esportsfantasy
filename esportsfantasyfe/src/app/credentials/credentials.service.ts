@@ -96,7 +96,6 @@ export class CredentialsService {
    * This method send a login request to the server with the social user.
    */
   loginSocial() {
-    console.log(this.social_user);
     const data = {
       mail: this.social_user.email,
       idToken: this.social_user.idToken,

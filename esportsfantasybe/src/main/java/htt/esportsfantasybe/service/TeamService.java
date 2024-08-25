@@ -72,8 +72,7 @@ public class TeamService {
             try {
                 downloadTeamImage(team);
             } catch (IOException e) {
-                //e.printStackTrace();
-                System.out.println("Error downloading team image");
+                e.printStackTrace();
             }
 
             teamxrleagueService.linkTeamToLeague(team.getUuid(),rl.getUuid());

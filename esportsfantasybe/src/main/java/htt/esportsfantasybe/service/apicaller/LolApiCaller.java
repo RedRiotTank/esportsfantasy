@@ -154,7 +154,6 @@ public class LolApiCaller extends ApiCaller{
         teamNames.forEach(teamName -> {
             teamName = eliminarParteDerechaConParentesis(teamName);
             TeamDTO team = getTeamData(teamName);
-            //System.out.println("equipo:" + teamName);
             if(team != null)
                 teams.add(team);
         });

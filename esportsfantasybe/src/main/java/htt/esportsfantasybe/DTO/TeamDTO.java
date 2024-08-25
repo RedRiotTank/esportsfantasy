@@ -56,13 +56,4 @@ public class TeamDTO {
                     .collect(Collectors.toSet());
         }
     }
-
-
-    public void printTeam(){
-        System.out.println("============ " + this.name + " ============");
-        System.out.println("OverviewPage: " + this.OverviewPage);
-        System.out.println("ShortName: " + this.shortName);
-        System.out.println("Image: " + this.image);
-        System.out.println("Game: " + this.game);
-    }
 }

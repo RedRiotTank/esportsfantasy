@@ -78,7 +78,6 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value ="/loginWithToken", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginWithToken(@RequestBody String token){
-        System.out.println("Token: " + token);
         try{
             userService.loginWithToken(token);
 
@@ -115,7 +114,6 @@ public class UserController {
     public ResponseEntity<?> getLeagues(UUID useruuid){
         try{
             List<LeagueDTO> playerLeagues = userService.getUserLeagues(useruuid);
-            System.out.println(playerLeagues);
             return okresponses.loginUser("token");
         } catch (Exception e){
             return koresponses.generateKO(e.getMessage());

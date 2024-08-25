@@ -73,9 +73,11 @@ public class RealLeagueService {
     public void updateRLeaguesEvents(){
         this.getRLeaguesDTODB().forEach(eventService::obtainRLeagueEvents);
 
+        Utils.esfPrint("Updating player values...");
         getRLeaguesDB().forEach(league ->{
             updateRLeaguePlayersValue(league.getUuid());
         });
+        Utils.esfPrint("Player values updated");
     }
 
     public void updateRLeaguePlayersValue(UUID leagueuuid){

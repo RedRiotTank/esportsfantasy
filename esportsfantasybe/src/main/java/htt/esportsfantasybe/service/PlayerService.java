@@ -74,8 +74,7 @@ public class PlayerService {
                 try {
                     downloadPlayerImage(player);
                 } catch (IOException e) {
-                    //e.printStackTrace();
-                    System.out.println("Error downloading player image");
+                    e.printStackTrace();
                 }
 
                 teamXPlayerService.linkTeamToPlayer(team.getUuid(),player.getUuid());
@@ -88,9 +87,6 @@ public class PlayerService {
 
         Player player = playerRepository.findById(UUID.fromString(playerLeaguePOJO.getPlayeruuid()))
                 .orElseThrow(() -> new RuntimeException("1008"));
-
-        if(player.getUsername().toLowerCase().equals("care"))
-            System.out.println("care");
 
         String playericonB64 = Base64.getEncoder().encodeToString(this.getPlayerIcon(player.getUuid().toString()));
 
@@ -228,9 +224,7 @@ public class PlayerService {
     }
 
     public void updatePlayerValue(Player player, int median) {
-        System.out.println("Updating player value");
         int ptp = getTotalPoints(player.getUuid());
-        System.out.println("Player total points: " + ptp);
 
         if(median != 0){
             float qualifier = (float) ptp / (float) median;

@@ -25,7 +25,6 @@ export class MarketService {
 
     this.loadOffers().subscribe((offers) => {
       this.offers = offers;
-      console.log(offers);
     });
 
     this.appApiService
@@ -34,7 +33,6 @@ export class MarketService {
         this.credentialsService.getUserUUID()
       )
       .subscribe((players) => {
-        //console.log(players);
         players.forEach((player) => {
           this.appApiService.getPlayerIcon(player.uuid).subscribe((icon) => {
             player.icon = icon;

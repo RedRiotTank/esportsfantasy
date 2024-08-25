@@ -232,7 +232,7 @@ public class LeagueService {
 
                 break;
             default:
-                System.out.println("Invalid league type");
+                throw new RuntimeException("1000");
         }
 
 
@@ -314,10 +314,6 @@ public class LeagueService {
 
     public League getLeague(UUID leagueuuid){
         return this.leagueRepository.findById(leagueuuid).orElseThrow(RuntimeException::new);
-    }
-
-    public void getInvitationCodes() {
-        invitationCodes.forEach((key, value) -> System.out.println(key + " -> " + value));
     }
 
     public RankingPOJO getRankings(RankPOJO rankPOJO){

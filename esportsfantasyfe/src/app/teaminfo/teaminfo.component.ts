@@ -36,7 +36,6 @@ export class TeaminfoComponent {
         icon: response.icon,
         players: response.players,
       };
-      console.log(this.teamInfo);
     });
   }
 

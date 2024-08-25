@@ -92,10 +92,6 @@ public class EventService {
 
             if(team1 == null || team2 == null) return;
 
-            if(ev.getJour().isEmpty())
-                System.out.println("Jour is empty");
-
-
             int jour = 0;
 
             if(ev.getMatchId().toLowerCase().contains("play-in")){
