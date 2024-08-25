@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppapiService } from '../API/appapi.service';
 import { HeaderService } from './header.service';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { LeagueListServiceService } from '../../league-list-service.service';
 
 /**
  * This component is responsible for managing the header of the application.
@@ -15,7 +16,11 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 export class EsfHeaderComponent implements OnInit {
   openHam: boolean = false;
 
-  constructor(private headerService: HeaderService, private router: Router) {}
+  constructor(
+    private headerService: HeaderService,
+    private router: Router,
+    private leagueListService: LeagueListServiceService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -40,21 +45,26 @@ export class EsfHeaderComponent implements OnInit {
   }
 
   goToMarket() {
-    if (this.getLoggedIn()) this.router.navigate(['/market']);
+    if (this.getLoggedIn() && this.leagueListService.getLeagues().length > 0)
+      this.router.navigate(['/market']);
     else this.router.navigate(['/welcome']);
   }
 
   goToRanking() {
-    if (this.getLoggedIn()) this.router.navigate(['/ranking']);
+    if (this.getLoggedIn() && this.leagueListService.getLeagues().length > 0)
+      this.router.navigate(['/ranking']);
     else this.router.navigate(['/welcome']);
   }
 
   goToMatchs() {
-    this.router.navigate(['/matchs']);
+    if (this.getLoggedIn() && this.leagueListService.getLeagues().length > 0)
+      this.router.navigate(['/matchs']);
+    else this.router.navigate(['/welcome']);
   }
 
   goToTeam() {
-    if (this.getLoggedIn()) this.router.navigate(['/team']);
+    if (this.getLoggedIn() && this.leagueListService.getLeagues().length > 0)
+      this.router.navigate(['/team']);
     else this.router.navigate(['/welcome']);
   }
 
@@ -67,7 +77,9 @@ export class EsfHeaderComponent implements OnInit {
   }
 
   goToPlayersPage() {
-    this.router.navigate(['/players']);
+    if (this.getLoggedIn() && this.leagueListService.getLeagues().length > 0)
+      this.router.navigate(['/players']);
+    else this.router.navigate(['/welcome']);
   }
 
   goToTeamsPrevisualizer() {
