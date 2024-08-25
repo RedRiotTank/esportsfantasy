@@ -3,6 +3,7 @@ package htt.esportsfantasybe.service;
 import htt.esportsfantasybe.DTO.LeagueDTO;
 import htt.esportsfantasybe.DTO.SocialUserDTO;
 import htt.esportsfantasybe.DTO.UserDTO;
+import htt.esportsfantasybe.Utils;
 import htt.esportsfantasybe.config.JwtService;
 import htt.esportsfantasybe.model.User;
 import htt.esportsfantasybe.model.pojos.UserInfoPOJO;
@@ -109,7 +110,7 @@ public class UserService {
      * @param newSocialUserDTO The user to be logged in.
      * @return The JWT token of the user.
      */
-    public String googleLogin(SocialUserDTO newSocialUserDTO) {
+    public String googleLogin(SocialUserDTO newSocialUserDTO) throws IOException {
         String credentialMail = newSocialUserDTO.getMail();
         String credentialToken = newSocialUserDTO.getIdToken();
 
@@ -120,8 +121,16 @@ public class UserService {
 
         if (loginUser.isEmpty()) {
             User newUser = new User(new UserDTO(newSocialUserDTO));
+            newUser.setUuid(UUID.randomUUID());
             userRepository.save(newUser);
+            newSocialUserDTO.setUuid(newUser.getUuid());
+
+            Utils.downloadImage(newSocialUserDTO.getIconLink(), "src/main/resources/media/pfp/" + newUser.getUuid() + ".png");
         } else if (loginUser.get().getPass() != null) throw new RuntimeException("1004");
+        else {
+            newSocialUserDTO.setUuid(loginUser.get().getUuid());
+        }
+
 
         return jwtService.generateToken(newSocialUserDTO);
     }

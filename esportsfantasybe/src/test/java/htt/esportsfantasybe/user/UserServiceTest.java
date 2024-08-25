@@ -218,7 +218,7 @@ public class UserServiceTest {
         when(jwtService.verifyGoogleToken(any())).thenReturn(false);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-            userService.googleLogin(new SocialUserDTO("test@mail.com", "idToken", "name"));
+            userService.googleLogin(new SocialUserDTO("test@mail.com", "idToken", "name",null));
         });
 
         assertEquals("1003", thrown.getMessage(), "Exception message should be '1003'");

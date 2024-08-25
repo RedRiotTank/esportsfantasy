@@ -57,6 +57,7 @@ public class JwtService {
     public String generateToken(SocialUserDTO socialUserDTO){
 
         UserDTO userDTO = new UserDTO(socialUserDTO);
+        userDTO.setUuid(socialUserDTO.getUuid());
 
         return generateToken(new HashMap<>(),userDTO);
     }

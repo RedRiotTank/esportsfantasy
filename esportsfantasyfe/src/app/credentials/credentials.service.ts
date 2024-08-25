@@ -6,6 +6,7 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { jwtDecode } from 'jwt-decode';
 import { AppapiService } from '../common/API/appapi.service';
 import { HeaderService } from '../common/esf-header/header.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class CredentialsService {
     private socialAuthService: SocialAuthService,
     private headerService: HeaderService,
     private appapiService: AppapiService,
-    private api: ApiService
+    private api: ApiService,
+    private router: Router
   ) {}
 
   // --- KO MANAGEMENT ---
@@ -94,14 +96,21 @@ export class CredentialsService {
    * This method send a login request to the server with the social user.
    */
   loginSocial() {
+    console.log(this.social_user);
     const data = {
       mail: this.social_user.email,
       idToken: this.social_user.idToken,
       name: this.social_user.name,
+      iconLink: this.social_user.photoUrl,
     };
 
     this.api.sendRequest('user/googleLogin', data).subscribe(
-      (response) => {},
+      (response) => {
+        localStorage.setItem('token', response.token);
+
+        this.updateLoginCredentials();
+        this.router.navigate(['/home']);
+      },
       (error) => {}
     );
   }

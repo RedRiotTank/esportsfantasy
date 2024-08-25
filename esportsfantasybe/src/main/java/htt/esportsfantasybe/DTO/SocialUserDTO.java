@@ -1,7 +1,10 @@
 package htt.esportsfantasybe.DTO;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 /**
  * Data Transfer Object for SocialUser.
@@ -13,6 +16,11 @@ public class SocialUserDTO {
     private String mail;
     private String idToken;
     private String name;
+    private UUID uuid;
+    private String iconLink;
+
+    SocialUserDTO() {
+    }
 
     /**
      * Constructor for SocialUserDTO.
@@ -20,10 +28,11 @@ public class SocialUserDTO {
      * @param idToken idToken of the user (if social login).
      * @param name name of the user.
      */
-    public SocialUserDTO(String mail, String idToken, String name) {
+    public SocialUserDTO(String mail, String idToken, String name, String iconLink) {
         this.mail = mail;
         this.idToken = idToken;
         this.name = name;
+        this.iconLink = iconLink;
     }
 
     /**
