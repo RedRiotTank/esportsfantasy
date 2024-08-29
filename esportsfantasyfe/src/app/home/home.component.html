@@ -31,7 +31,7 @@
 
 <div *ngIf="getLeagues().length === 0" class="no-league">
   <h2 class="esf-title">You're not in any league right now</h2>
-  <button class="esf-ibutton" (click)="goToCreateLeague()">
+  <button mat-raised-button color="primary" style="color: white;" (click)="goToCreateLeague()">
     Create a league
   </button>
 </div>

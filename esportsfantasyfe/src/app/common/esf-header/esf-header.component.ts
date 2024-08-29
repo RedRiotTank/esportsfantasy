@@ -39,6 +39,10 @@ export class EsfHeaderComponent implements OnInit {
     this.openHam = !this.openHam;
   }
 
+  getLeagues() {
+    return this.leagueListService.getLeagues();
+  }
+
   goToHome() {
     if (this.getLoggedIn()) this.router.navigate(['/home']);
     else this.router.navigate(['/welcome']);

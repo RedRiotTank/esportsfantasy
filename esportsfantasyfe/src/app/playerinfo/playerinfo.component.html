@@ -93,7 +93,7 @@
       />
       <span class="owner-username">{{ playerInfo.ownerUsername }}</span>
     </div>
-    <button class="esf-ibutton" (click)="clausePlayerOpenModal(false)">
+    <button mat-raised-button color="primary" style="color: white;" (click)="clausePlayerOpenModal(false)">
       {{ playerInfo.clause }}
     </button>
   </div>
@@ -110,7 +110,7 @@
     <h2>Your cluase for {{ playerInfo.username }}</h2>
     <h3>{{ playerInfo.clause }}</h3>
 
-    <button class="esf-ibutton" (click)="clausePlayerOpenModal(true)">
+    <button mat-raised-button color="primary" style="color: white;" (click)="clausePlayerOpenModal(true)">
       UPDATE
     </button>
   </div>

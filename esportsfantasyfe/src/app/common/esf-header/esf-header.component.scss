@@ -17,29 +17,18 @@ header {
     align-items: center;
     padding-right: 3%;
     margin: 1vw 0;
+    background-color: white;
+    padding: 10px;
 
     .ham-close {
       display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #000;
     }
 
-    .nav-list {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-
-      li {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 1rem;
-      }
-
-      img {
-        width: 4vw;
-        height: 4vw;
-        border-radius: 50%;
-      }
-    }
-
+    .nav-list,
     .nav-list-logged {
       list-style-type: none;
       margin: 0;
@@ -50,22 +39,31 @@ header {
         vertical-align: middle;
         margin-right: 1rem;
         text-align: center;
+      }
 
-        a {
-          cursor: pointer;
-          text-decoration: none;
-          color: black;
-          span {
-            display: block;
-          }
-        }
+      button {
+        width: 100%;
+        text-align: left;
+        color: #000;
+      }
+
+      .mat-button {
+        color: #000;
+      }
+
+      .mat-raised-button {
+        color: #fff;
+        background-color: #3f51b5;
+      }
+
+      .mat-icon {
+        color: #000;
       }
 
       img {
         width: 4vw;
         height: 4vw;
         border-radius: 50%;
-        cursor: pointer;
       }
     }
   }
@@ -111,7 +109,7 @@ header {
       position: absolute;
       top: 0;
       right: 0;
-      background-color: #1c1c1c; //color x determinar
+      background-color: #1c1c1c;
       padding: 2rem;
       bottom: 0;
 

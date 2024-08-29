@@ -50,6 +50,11 @@ import { LeaveLeagueModalComponent } from './userpage/leave-league-modal/leave-l
 import { TeamsVisitorComponent } from './teams-visitor/teams-visitor.component';
 import { VisitorPrevisualizerComponent } from './visitor-previsualizer/visitor-previsualizer.component';
 import { ContactComponent } from './contact/contact.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +95,8 @@ import { ContactComponent } from './contact/contact.component';
     SocialLoginModule,
     GoogleSigninButtonModule,
     BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
     CarouselModule,
     AccordionModule,
     MatDialogModule,
@@ -98,6 +105,7 @@ import { ContactComponent } from './contact/contact.component';
     MatSelectModule,
     MatInputModule,
     FormsModule,
+    MatCardModule
   ],
   providers: [
     {

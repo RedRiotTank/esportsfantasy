@@ -1,3 +1,10 @@
+::ng-deep .mat-mdc-text-field-wrapper {
+  height: 40px;
+}
+::ng-deep .mat-mdc-select-trigger {
+  top: -5px;
+}
+
 .loading-spinner {
   display: flex;
   justify-content: center;

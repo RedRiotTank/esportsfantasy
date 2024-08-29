@@ -1,5 +1,7 @@
 <header>
-  <img class="logo" src="../../assets/logo.png" alt="Logo" />
+  <a class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <img src="../../assets/logo.png" alt="Logo" />
+  </a>
 
   <button class="ham" (click)="toggleHam()">
     <svg
@@ -35,56 +37,51 @@
     </button>
 
     <ul class="nav-list" *ngIf="!getLoggedIn()">
-      <li><button class="esf-sbutton" (click)="goToHome()">HOME</button></li>
+      <li><button mat-button (click)="goToHome()">HOME</button></li>
       <li>
-        <button class="esf-sbutton" (click)="goToTeamsPrevisualizer()">
-          TEAMS
-        </button>
+        <button mat-button (click)="goToTeamsPrevisualizer()">TEAMS</button>
       </li>
       <li>
-        <button class="esf-sbutton" (click)="goToPlayersPrevisualizer()">
-          PLAYERS
-        </button>
+        <button mat-button (click)="goToPlayersPrevisualizer()">PLAYERS</button>
       </li>
       <li>
-        <button class="esf-sbutton" (click)="goToContact()">CONTACT</button>
+        <button mat-button (click)="goToContact()">CONTACT</button>
       </li>
       <li *ngIf="!getLoggedIn()">
-        <button class="esf-ibutton" (click)="goToLogin()">LOGIN</button>
+        <button mat-raised-button color="primary" style="color: white;" (click)="goToLogin()">LOGIN</button>
       </li>
     </ul>
 
     <ul class="nav-list-logged" *ngIf="getLoggedIn()">
       <li>
-        <a (click)="goToHome()"
-          ><i class="fa-solid fa-house"></i> <span>HOME</span></a
-        >
+        <button mat-button (click)="goToHome()">
+          <i class="fa-solid fa-house"></i> <span>HOME</span>
+        </button>
       </li>
-      <li>
-        <a (click)="goToTeam()"
-          ><i class="fa-solid fa-users"></i> <span>TEAM</span></a
-        >
+      <li *ngIf="getLeagues().length !== 0">
+        <button mat-button (click)="goToTeam()">
+          <i class="fa-solid fa-users"></i> <span>TEAM</span>
+        </button>
       </li>
-      <li>
-        <a (click)="goToPlayersPage()"
-          ><i class="fa-solid fa-user-plus"></i> <span>PLAYERS</span></a
-        >
+      <li *ngIf="getLeagues().length !== 0">
+        <button mat-button (click)="goToPlayersPage()">
+          <i class="fa-solid fa-user-plus"></i> <span>PLAYERS</span>
+        </button>
       </li>
-      <li>
-        <a (click)="goToMatchs()"
-          ><i class="fa-regular fa-calendar"></i> <span>MATCHS</span></a
-        >
+      <li *ngIf="getLeagues().length !== 0">
+        <button mat-button (click)="goToMatchs()">
+          <i class="fa-regular fa-calendar"></i> <span>MATCHS</span>
+        </button>
       </li>
-      <li>
-        <a (click)="goToMarket()"
-          ><i class="fa-solid fa-money-bill-transfer"></i>
-          <span>MARKET</span></a
-        >
+      <li *ngIf="getLeagues().length !== 0">
+        <button mat-button (click)="goToMarket()">
+          <i class="fa-solid fa-money-bill-transfer"></i> <span>MARKET</span>
+        </button>
       </li>
-      <li>
-        <a (click)="goToRanking()"
-          ><i class="fa-solid fa-trophy"></i> <span>RANKING</span></a
-        >
+      <li *ngIf="getLeagues().length !== 0">
+        <button mat-button (click)="goToRanking()">
+          <i class="fa-solid fa-trophy"></i> <span>RANKING</span>
+        </button>
       </li>
 
       <img

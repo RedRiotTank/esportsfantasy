@@ -3,14 +3,23 @@
 </div>
 
 <div *ngIf="!playersService.isLoading" class="filter-section">
-  <button (click)="openFilterModal()" class="esf-ibutton">Filters</button>
-  <select
+  <button (click)="openFilterModal()" mat-raised-button color="primary" style="color: white;">Filters</button>
+  <!-- <select
     [(ngModel)]="playersService.sortOrder"
     (change)="playersService.applySort()"
   >
     <option value="asc">Ascending Points</option>
     <option value="desc">Descending Points</option>
-  </select>
+  </select> -->
+  <mat-form-field
+  style
+  appearance="outline">
+    <mat-label>Sort Order</mat-label>
+    <mat-select [(value)]="playersService.sortOrder" (selectionChange)="playersService.applySort()">
+      <mat-option value="asc">Ascending Points</mat-option>
+      <mat-option value="desc">Descending Points</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 
 <div *ngIf="!playersService.isLoading" class="players-list">
