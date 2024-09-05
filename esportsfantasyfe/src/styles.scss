@@ -8,9 +8,16 @@
 
 // styles.scss
 
-@import 'custom-theme.scss';
+@import "custom-theme.scss";
+
+html,
+body {
+  min-width: 1600px;
+  min-height: 600px;
+}
 
 body {
+  overflow-x: auto;
   margin: 0;
 }
 

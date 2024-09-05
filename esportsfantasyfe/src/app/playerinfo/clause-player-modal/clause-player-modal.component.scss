@@ -49,24 +49,6 @@
     cursor: none;
   }
 
-  button {
-    background-color: rgb(229, 80, 0);
-    color: white;
-    border-radius: 20px;
-    border: none;
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 auto;
-    padding: 0.5rem 4rem;
-  }
-
-  button:hover {
-    background-color: rgb(255, 80, 0);
-  }
-
   .clausesIncrease-options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

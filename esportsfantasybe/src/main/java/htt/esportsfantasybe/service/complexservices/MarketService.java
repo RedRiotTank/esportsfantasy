@@ -313,20 +313,20 @@ public class MarketService {
 
         switch (increaseClausePOJO.getIncreaseType()) {
             case 1:
-                playermarket.setClause((int) (playermarket.getClause() + ( (float) playermarket.getClause() * (1.0f / 4.0f))));
-                cost = (int) ( (float) playermarket.getClause() * (1.0f / 4.0f) * (5.0f / 6.0f));
+                playermarket.setClause((int) (playermarket.getClause() * 1.25f));
+                cost = (int) (playermarket.getClause() * 0.20f);
                 break;
             case 2:
-                playermarket.setClause((int) (playermarket.getClause() + ((float) playermarket.getClause() * (1.0f / 3.0f))));
-                cost = (int) ( (float) playermarket.getClause() * (1.0f / 3.0f) * (4.0f / 6.0f));
+                playermarket.setClause((int) (playermarket.getClause() * 1.3333f));
+                cost = (int) (playermarket.getClause() * 0.28f);
                 break;
             case 3:
-                playermarket.setClause((int) (playermarket.getClause() + ((float) playermarket.getClause() * (1.0f / 2.0f))));
-                cost = (int) ( (float) playermarket.getClause() * (1.0f / 2.0f) * (3.0f / 6.0f));
+                playermarket.setClause((int) (playermarket.getClause() * 1.50f));
+                cost = (int) (playermarket.getClause() * 0.42f);
                 break;
             case 4:
-                playermarket.setClause(playermarket.getClause() * 2);
-                cost = (int) ( (float) playermarket.getClause() * (1.0f / 2.0f) * (3.0f / 6.0f));
+                playermarket.setClause((int) (playermarket.getClause() * 2.0f));
+                cost = (int) (playermarket.getClause() * 0.75f);
                 break;
         }
 

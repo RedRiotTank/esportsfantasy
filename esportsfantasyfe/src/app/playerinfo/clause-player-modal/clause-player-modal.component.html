@@ -68,15 +68,32 @@
       </div>
 
       <div class="increase-results">
-        <p>Currennt clause: {{ data.clause }}</p>
-        <p>New clause: {{ calculatePlayerClauseIncrease() }}</p>
-        <p>Costs: {{ calculatePlayerClauseIncreaseCost() }}</p>
+        <p>
+          Current clause:
+          {{ data.clause | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US" }}
+        </p>
+        <p>
+          New clause:
+          {{
+            calculatePlayerClauseIncrease()
+              | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </p>
+        <p>
+          Costs:
+          {{
+            calculatePlayerClauseIncreaseCost()
+              | esfcurrency : "USD" : "symbol" : "1.2-2" : "en-US"
+          }}
+        </p>
       </div>
     </div>
 
-    <div mat-dialog-actions>
+    <div mat-dialog-actions style="display: flex; justify-content: center">
       <button
-        mat-button
+        mat-raised-button
+        color="primary"
+        style="color: white; display: flex; justify-content: center"
         (click)="increaseClause()"
         [disabled]="selectedClauseIncrease == 0"
         [class.disabled]="selectedClauseIncrease == 0"
