@@ -25,8 +25,9 @@ public class UserXLeagueService {
     private final UserXLeagueXPlayerService userXLeagueXPlayerService;
 
     @Autowired
-    public UserXLeagueService(UserXLeagueXPlayerService userXLeagueXPlayerService) {
+    public UserXLeagueService(UserXLeagueXPlayerService userXLeagueXPlayerService, LeagueRepository leagueRepository) {
         this.userXLeagueXPlayerService = userXLeagueXPlayerService;
+        this.leagueRepository = leagueRepository;
     }
 
 
